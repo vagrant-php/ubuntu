@@ -1,0 +1,7 @@
+- name: copy drush install script
+  copy:
+    src=drush.sh
+    dest=/tmp/drush.sh
+
+- name: drush install
+  script: /tmp/drush.sh

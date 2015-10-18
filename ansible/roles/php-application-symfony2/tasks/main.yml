@@ -1,0 +1,101 @@
+# user vagrant
+
+- name: alias sf for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sf='./app/console'"
+    regexp='^alias sf='
+    state=present
+
+- name: alias sfcc for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfcc='sf cache:clear'"
+    regexp='^alias sfcc='
+    state=present
+
+- name: alias sfai for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfai='sf assets:install --symlink'"
+    regexp='^alias sfai='
+    state=present
+
+- name: alias sfad for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfad='sf assetic:dump'"
+    regexp='^alias sfad='
+    state=present
+
+- name: alias sfaw for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfaw='sf assetic:watch'"
+    regexp='^alias sfaw='
+    state=present
+
+- name: alias sfdsu for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfdsu='sf doctrine:schema:update --force --complete'"
+    regexp='^alias sfdsu='
+    state=present
+
+- name: alias sfdsv for user vagrant
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line="alias sfdsu='sf doctrine:schema:validate'"
+    regexp='^alias sfdsu='
+    state=present
+
+# user root
+    
+- name: alias sf for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sf='./app/console'"
+    regexp='^alias sf='
+    state=present
+
+- name: alias sfcc for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfcc='sf cache:clear'"
+    regexp='^alias sfcc='
+    state=present
+
+- name: alias sfai for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfai='sf assets:install --symlink'"
+    regexp='^alias sfai='
+    state=present
+
+- name: alias sfad for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfad='sf assetic:dump'"
+    regexp='^alias sfad='
+    state=present
+
+- name: alias sfaw for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfaw='sf assetic:watch'"
+    regexp='^alias sfaw='
+    state=present
+
+- name: alias sfdsu for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfdsu='sf doctrine:schema:update --force --complete'"
+    regexp='^alias sfdsu='
+    state=present
+
+- name: alias sfdsv for user root
+  lineinfile:
+    dest=/root/.bashrc
+    line="alias sfdsu='sf doctrine:schema:validate'"
+    regexp='^alias sfdsu='
+    state=present    

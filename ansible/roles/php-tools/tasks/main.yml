@@ -1,0 +1,6 @@
+---
+- name: composer install
+  shell: curl -LsS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+
+- name: php-cs-fixer install
+  shell: curl -LsS http://get.sensiolabs.org/php-cs-fixer.phar -o /usr/local/bin/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer.phar

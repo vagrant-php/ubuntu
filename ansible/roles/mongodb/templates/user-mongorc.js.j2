@@ -1,0 +1,11 @@
+// remember the current database
+var currentDb = db.getName();
+
+// temporary switch to admin database
+db = db.getSiblingDB('admin');
+
+// authenticate
+db.auth('{{ mongodb.username }}', '{{ mongodb.password }}');
+
+// switch back to the current database
+db = db.getSiblingDB(currentDb);

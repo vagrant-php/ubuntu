@@ -1,0 +1,10 @@
+---
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - freetds-bin
+
+- name: configure freetds.conf
+  template:
+    src=freetds.conf.j2
+    dest=/etc/freetds/freetds.conf

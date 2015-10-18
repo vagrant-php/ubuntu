@@ -1,0 +1,3 @@
+---
+- name: restart php55-original-fpm
+  service: name=php5-fpm state=restarted

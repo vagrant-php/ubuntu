@@ -1,0 +1,57 @@
+user vagrant vagrant;
+worker_processes 4;
+error_log {{ nginx.config.error_log }};
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include mime.types;
+
+    charset {{ nginx.config.charset }};
+    gzip on;
+    sendfile off;
+    client_max_body_size {{ php.config.fpm.php.post_max_size }};
+
+    server {
+        listen 80;
+        listen 443 ssl;
+
+        ssl_certificate /etc/nginx/certificate;
+        ssl_certificate_key /etc/nginx/privatekey;
+
+        {% if application %}
+            include application.conf;
+        {% else %}
+            root /vagrant;
+
+            index index.php;
+        {% endif %}
+
+        location ~ ^(.+\.php)(.*)$ {
+            fastcgi_split_path_info ^(.+\.php)(.*)$;
+            try_files $fastcgi_script_name =404;
+            set $wtf $fastcgi_path_info;
+            fastcgi_param PATH_INFO $wtf;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
+            fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
+            include fastcgi_params;
+        }
+
+        {% if phpversion == 'hhvm' %}
+            location ~ ^(.+\.hh)(.*)$ {
+                fastcgi_split_path_info ^(.+\.hh)(.*)$;
+                try_files $fastcgi_script_name =404;
+                set $wtf $fastcgi_path_info;
+                fastcgi_param PATH_INFO $wtf;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
+                fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
+                include fastcgi_params;
+            }
+        {% endif %}
+    }
+}

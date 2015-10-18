@@ -1,0 +1,80 @@
+---
+- name: apt | upgrade
+  apt: update_cache=yes upgrade=full
+
+- name: apt | install packages
+  apt: name={{ item }} state=present
+  with_items: general.packages
+
+- name: locale | install
+  apt: name={{ item }} state=present
+  with_items:
+    - locales
+
+- name: locale | Generate {{ general.config.locale }}
+  command: /usr/sbin/locale-gen {{ general.config.locale }}
+
+- name: locale | Set locale to {{ general.config.locale }}
+  command: /usr/sbin/update-locale LANG={{ general.config.locale }} LC_ALL={{ general.config.locale }}
+
+- name: timezone | Set /etc/localtime to {{ general.config.timezone }}
+  command: /bin/cp /usr/share/zoneinfo/{{ general.config.timezone }} /etc/localtime
+
+- name: timezone | Update tzdata
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+
+- name: bash | copy .bash_vagrant for user vagrant
+  template:
+    src=bash_vagrant.j2
+    dest=/home/vagrant/.bash_vagrant
+    owner=vagrant
+    group=vagrant
+
+- name: bash | register .bash_vagrant for user vagrant
+  lineinfile: dest=/home/vagrant/.bashrc line='. ~/.bash_vagrant'
+
+- name: bash | copy .bash_vagrant for user root
+  template:
+    src=bash_vagrant.j2
+    dest=/root/.bash_vagrant
+    owner=root
+    group=root
+
+- name: bash | register .bash_vagrant for user root
+  lineinfile: dest=/root/.bashrc line='. ~/.bash_vagrant'
+
+- name: grub | fix boot hidden timeout
+  lineinfile:
+    dest=/etc/default/grub
+    line='#GRUB_HIDDEN_TIMEOUT=0'
+    regexp='^(|#)GRUB_HIDDEN_TIMEOUT\='
+    state=present
+  register: fixbootparameter
+
+- name: grub | fix boot hidden timeput quiet
+  lineinfile:
+    dest=/etc/default/grub
+    line='GRUB_HIDDEN_TIMEOUT_QUIET=true'
+    regexp='^GRUB_HIDDEN_TIMEOUT_QUIET\='
+    state=present
+  register: fixbootparameter
+
+- name: grub | fix boot timeout
+  lineinfile:
+    dest=/etc/default/grub
+    line='GRUB_TIMEOUT=3'
+    regexp='^GRUB_TIMEOUT\='
+    state=present
+  register: fixbootparameter
+
+- name: grub | fix boot parameter
+  lineinfile:
+    dest=/etc/default/grub
+    line='GRUB_CMDLINE_LINUX_DEFAULT="quiet transparent_hugepage=never"'
+    regexp='^GRUB_CMDLINE_LINUX_DEFAULT\='
+    state=present
+  register: fixbootparameter
+
+- name: grub | update
+  command: update-grub
+  when: fixbootparameter.changed

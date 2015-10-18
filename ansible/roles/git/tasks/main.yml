@@ -1,0 +1,10 @@
+---
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - git
+
+- name: copy .gitconfig
+  template:
+    src=gitconfig.j2
+    dest=/home/vagrant/.gitconfig

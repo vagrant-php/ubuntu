@@ -1,0 +1,31 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=00A6F0A3C300EE8C state=present
+
+- name: app repository
+  apt_repository: repo='deb http://ppa.launchpad.net/nginx/stable/ubuntu trusty main' state=present
+
+- name: app src repository
+  apt_repository: repo='deb-src http://ppa.launchpad.net/nginx/stable/ubuntu trusty main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - nginx-light
+
+- name: copy privatekey
+  copy:
+    src=privatekey
+    dest=/etc/nginx/privatekey
+
+- name: copy certificate
+  copy:
+    src=certificate
+    dest=/etc/nginx/certificate
+
+- name: nginx.conf
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/nginx.conf
+  notify:
+    - restart nginx

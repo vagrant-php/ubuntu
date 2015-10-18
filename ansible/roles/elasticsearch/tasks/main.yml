@@ -1,0 +1,68 @@
+---
+- name: add apt key
+  apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch state=present
+
+- name: app repository
+  apt_repository: repo='deb http://packages.elastic.co/elasticsearch/1.7/debian stable main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - elasticsearch
+
+- name: link elasticsearch rc0.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc0.d/K01elasticsearch
+    state=link
+
+- name: link elasticsearch rc1.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc1.d/K01elasticsearch
+    state=link
+
+- name: link elasticsearch rc2.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc2.d/S01elasticsearch
+    state=link
+
+- name: link elasticsearch rc3.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc3.d/S01elasticsearch
+    state=link
+
+- name: link elasticsearch rc4.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc4.d/S01elasticsearch
+    state=link
+
+- name: link elasticsearch rc5.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc5.d/S01elasticsearch
+    state=link
+
+- name: link elasticsearch rc6.d
+  file:
+    src=/etc/init.d/elasticsearch
+    dest=/etc/rc6.d/K01elasticsearch
+    state=link
+
+- name: configure elasticsearch.yml
+  template:
+    src=elasticsearch.yml.j2
+    dest=/etc/elasticsearch/elasticsearch.yml
+  notify:
+      - restart elasticsearch
+
+- name: uninstall all modules (there is no update support)
+  command: "{{ elasticsearch.config['path.home'] }}/bin/plugin --remove {{ item }}"
+  with_items: elasticsearch.plugins
+
+- name: install all modules
+  command: "{{ elasticsearch.config['path.home'] }}/bin/plugin --install {{ item }}"
+  with_items: elasticsearch.plugins

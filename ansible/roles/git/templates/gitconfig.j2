@@ -1,0 +1,7 @@
+{% for groupname, group in git.config.iteritems() %}
+[{{ groupname }}]
+{% for option, value in group.iteritems() %}
+{{ option }} = {{ value|replace("'", '"') }}
+{% endfor %}
+
+{% endfor %}

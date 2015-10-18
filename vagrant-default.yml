@@ -1,0 +1,285 @@
+---
+hostname: projectname.dev
+application: ~
+sharetype: nfs
+phpversion: 5.6
+memory: 1024
+
+nfsoptions:
+    udp: false
+    bsd: ['alldirs']
+    linux: ['rw','no_subtree_check','all_squash','async']
+
+role:
+    elasticsearch: false
+    freetds: false
+    mariadb: true
+    memcached: false
+    mongodb: false
+    nodejs: false
+    postgresql: false
+    redis: false
+    ruby: false
+
+# ----------------------------------------------------------------------------------------------------
+
+elasticsearch:
+    config:
+        path.home: /usr/share/elasticsearch
+        path.data: /var/lib/elasticsearch
+        path.work: /tmp/elasticsearch
+        path.logs: /var/log/elasticsearch
+        pidfile: /var/run/elasticsearch/elasticsearch.pid
+        http.port: 9200
+    plugins:
+        - mobz/elasticsearch-head
+        - elasticsearch/marvel/latest
+
+freetds:
+    config:
+#        sampledomain.tld:
+#            host: sampledomain.tld
+#            port: 60655
+#            tds version: 7.0
+#            client charset: UTF-8
+#            text size: 20971520
+
+general:
+    config:
+        editor: &editor vim
+        history_length: 5000
+        locale: &locale de_CH.UTF-8
+        timezone: &timezone Europe/Zurich
+    packages:
+        - build-essential
+        - htop
+        - openjdk-7-jre-headless
+        - vim
+
+git:
+    config:
+        alias:
+            pp: "!'git pull -v; git push -v'"
+            ppt: "!'git pull -v; git push -v; git push --tags -v'"
+        core:
+            editor: *editor
+        push:
+            default: current
+#        user:
+#            name: Firstname Lastname
+#            email: firstname.lastname@domain.tld
+
+hhvm:
+    config:
+        php:
+            short_open_tag: Off
+            safe_mode: Off
+            max_execution_time: 600
+            max_input_time: 600
+            memory_limit: 256M
+            error_reporting: E_ALL
+            display_errors: On
+            display_startup_errors: On
+            log_errors: On
+            error_log: /var/log/hhvm.err.log
+            post_max_size: 50M
+            magic_quotes_gpc: Off
+            magic_quotes_runtime: Off
+            default_charset: utf-8
+            cgi.fix_pathinfo: Off
+            upload_max_filesize: 50M
+            allow_url_fopen: On
+            allow_url_include: Off
+        date:
+            date.timezone: *timezone
+        intl:
+            intl.default_locale: *locale
+        mysql:
+            mysql.default_port: &mariadbport 3306
+            mysql.default_socket: &mariadbsocket /var/run/mysqld/mysqld.sock
+        mysqli:
+            mysqli.default_port: *mariadbport
+            mysqli.default_socket: *mariadbsocket
+        pdo_mysql:
+            pdo_mysql.default_socket: *mariadbsocket
+        hhvm:
+            hhvm.libxml.ext_entity_whitelist: file,http
+    server:
+        log: /var/log/hhvm-server.log
+        socket: &phpserversocket /tmp/php-server-socket
+
+mariadb:
+    username: root
+    password: root
+    config:
+        client:
+            default-character-set: utf8
+            port: *mariadbport
+            socket: *mariadbsocket
+        mysqld:
+            character-set-server: utf8
+            datadir: /var/lib/mysql
+            log_error: /var/log/mysql/error.log
+            pid-file: /var/run/mysqld/mysqld.pid
+            port: *mariadbport
+            socket: *mariadbsocket
+
+memcached:
+    config:
+        -d: ''
+        logfile: /var/log/memcached.log
+        -m: 64
+        -p: 11211
+        -s: /tmp/memcached.sock
+        -u: memcache
+
+mongodb:
+    username: root
+    password: root
+    config:
+        net:
+            port: 27017
+            unixDomainSocket:
+                enabled: true
+                pathPrefix: /tmp
+        security:
+            authorization: enabled
+        storage:
+           dbPath: /var/lib/mongodb
+        systemLog:
+           destination: file
+           path: /var/log/mongodb/mongodb.log
+           logAppend: true
+
+nginx:
+    config:
+        charset: utf-8
+        fastcgi_read_timeout: 600
+        fastcgi_socket: *phpserversocket
+        error_log: /var/log/nginx/error.log
+
+nodejs:
+    npm:
+        - bower
+        - gulp
+        - less
+
+php:
+    config:
+        cli:
+            php:
+                short_open_tag: Off
+                safe_mode: Off
+                max_execution_time: 0
+                memory_limit: -1
+                error_reporting: E_ALL
+                display_errors: On
+                display_startup_errors: On
+                log_errors: On
+                error_log: /var/log/php-cli.err.log
+                magic_quotes_runtime: Off
+                default_charset: utf-8
+                allow_url_fopen: On
+                allow_url_include: Off
+            date:
+                date.timezone: *timezone
+            intl:
+                intl.default_locale: *locale
+            mysql:
+                mysql.default_port: *mariadbport
+                mysql.default_socket: *mariadbsocket
+            mysqli:
+                mysqli.default_port: *mariadbport
+                mysqli.default_socket: *mariadbsocket
+            pdo_mysql:
+                pdo_mysql.default_socket: *mariadbsocket
+            xdebug:
+                xdebug.max_nesting_level: 256
+        fpm:
+            php:
+                short_open_tag: Off
+                safe_mode: Off
+                max_execution_time: 600
+                max_input_time: 600
+                memory_limit: 256M
+                error_reporting: E_ALL
+                display_errors: On
+                display_startup_errors: On
+                log_errors: On
+                error_log: /var/log/php-fpm.err.log
+                post_max_size: 50M
+                magic_quotes_gpc: Off
+                magic_quotes_runtime: Off
+                default_charset: utf-8
+                cgi.fix_pathinfo: Off
+                upload_max_filesize: 50M
+                allow_url_fopen: On
+                allow_url_include: Off
+            date:
+                date.timezone: *timezone
+            intl:
+                intl.default_locale: *locale
+            mysql:
+                mysql.default_port: *mariadbport
+                mysql.default_socket: *mariadbsocket
+            mysqli:
+                mysqli.default_port: *mariadbport
+                mysqli.default_socket: *mariadbsocket
+            pdo_mysql:
+                pdo_mysql.default_socket: *mariadbsocket
+            xdebug:
+                xdebug.max_nesting_level: 256
+    server:
+        socket: *phpserversocket
+
+    modules:
+        - apcu
+        - curl
+        - gd
+        - imagick
+        - intl
+        - mcrypt
+        - sqlite
+        - xdebug
+
+postgresql:
+    username: root
+    password: root
+    config:
+        data_directory: /var/lib/postgresql/9.4/main
+        external_pid_file: /var/run/postgresql/9.4-main.pid
+        hba_file: /etc/postgresql/9.4/main/pg_hba.conf
+        ident_file: /etc/postgresql/9.4/main/pg_ident.conf
+        lc_messages: *locale
+        lc_monetary: *locale
+        lc_numeric: *locale
+        lc_time: *locale
+        log_directory: /var/log/postgresql
+        log_timezone: *timezone
+        port: 5432
+        shared_buffers: 128MB
+        timezone: *timezone
+        unix_socket_directories: /var/run/postgresql
+
+redis:
+    config:
+        daemonize: yes
+        pidfile: /var/run/redis/redis-server.pid
+        port: 6379
+        unixsocket: /var/run/redis/redis.sock
+        loglevel: notice
+        logfile: /var/log/redis/redis-server.log
+        dir: /var/lib/redis
+        #save:
+            #900: 1
+            #300: 10
+            #60: 10000
+
+ruby:
+    gems:
+        - compass
+        - compass-normalize
+        - compass-rgbapng
+        - sass
+        - sass-globbing
+        - toolkit

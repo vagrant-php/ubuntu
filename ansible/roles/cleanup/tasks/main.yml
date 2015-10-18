@@ -1,0 +1,3 @@
+---
+- name: cleanup cached apt packages
+  command: apt-get clean
