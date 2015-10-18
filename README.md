@@ -41,7 +41,7 @@ vagrant plugin install vagrant-hostmanager
 
 ```{.sh}
 cd /path/to/my/project
-git submodule add -b trusty https://github.com/vagrant-php/ubuntu.git
+git submodule add -b 14.04 https://github.com/vagrant-php/ubuntu.git
 ```
 
 #### install
