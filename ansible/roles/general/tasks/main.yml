@@ -3,11 +3,11 @@
   apt: update_cache=yes upgrade=full
 
 - name: apt | install packages
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=latest
   with_items: general.packages
 
 - name: locale | install
-  apt: name={{ item }} state=present
+  apt: name={{ item }} state=latest
   with_items:
     - locales
 
@@ -76,5 +76,5 @@
   register: fixbootparameter
 
 - name: grub | update
-  command: update-grub
+  command: /usr/sbin/update-grub
   when: fixbootparameter.changed
