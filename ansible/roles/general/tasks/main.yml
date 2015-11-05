@@ -91,4 +91,4 @@
     mode=755
 
 - name: disable-transparent-hugepages | register init script disable-transparent-hugepages
-  command: /usr/sbin/chkconfig --add disable-transparent-hugepages
+  command: /usr/sbin/update-rc.d disable-transparent-hugepages defaults
