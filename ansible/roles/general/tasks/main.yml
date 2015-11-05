@@ -92,16 +92,3 @@
 
 - name: disable-transparent-hugepages | register init script disable-transparent-hugepages
   command: /usr/sbin/chkconfig --add disable-transparent-hugepages
-
-- name: disable-transparent-hugepages | add config directory /etc/tuned/no-thp
-  file: path=/etc/tuned/no-thp state=directory
-
-- name: disable-transparent-hugepages | add config /etc/tuned/no-thp/tuned.conf
-  copy:
-    src=tuned.conf
-    dest=/etc/tuned/no-thp/tuned.conf
-    owner=root
-    group=root
-
-- name: disable-transparent-hugepages | register config /etc/tuned/no-thp/tuned.conf
-  command: /usr/sbin/tuned-adm profile no-thp
