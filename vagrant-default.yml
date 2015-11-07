@@ -142,6 +142,9 @@ mongodb:
             unixDomainSocket:
                 enabled: true
                 pathPrefix: /tmp
+        processManagement:
+            pidFilePath: /var/run/mongodb/mongod.pid
+            fork: true
         security:
             authorization: enabled
         storage:
