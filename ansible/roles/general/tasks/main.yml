@@ -30,8 +30,15 @@
 
 ### keymap
 
-- name: timezone | Set keymap to {{ general.config.keymap }}
-  command: /usr/bin/localectl set-keymap {{ general.config.keymap }}
+- name: keymap | copy keyboard config
+  template:
+    src=keyboard.j2
+    dest=/etc/default/keyboard
+    owner=root
+    group=root
+
+- name: keymap | setupcon
+  command: /bin/setupcon
 
 ### bash
 
