@@ -49,6 +49,7 @@ general:
         editor: &editor vim
         history_length: 5000
         locale: &locale de_CH.UTF-8
+        keymap: ch-de_nodeadkeys
         timezone: &timezone Europe/Zurich
     packages:
         - build-essential

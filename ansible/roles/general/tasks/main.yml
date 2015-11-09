@@ -28,6 +28,11 @@
 - name: timezone | Update tzdata
   command: dpkg-reconfigure --frontend noninteractive tzdata
 
+### keymap
+
+- name: timezone | Set keymap to {{ general.config.keymap }}
+  command: /usr/bin/localectl set-keymap {{ general.config.keymap }}
+
 ### bash
 
 - name: bash | copy .bash_vagrant for user vagrant
