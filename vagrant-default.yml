@@ -50,10 +50,8 @@ general:
         history_length: 5000
         locale: &locale de_CH.UTF-8
         keyboard:
-            model: pc105
             layout: ch
             variant: de_nodeadkeys
-            options: ""
         timezone: &timezone Europe/Zurich
     packages:
         - build-essential
