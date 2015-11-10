@@ -30,6 +30,10 @@ http {
             index index.php;
         {% endif %}
 
+        proxy_buffer_size {{ nginx.config.proxy_buffer_size }};
+        proxy_buffers {{ nginx.config.proxy_buffers }};
+        proxy_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
+
         location ~ ^(.+\.php)(.*)$ {
             fastcgi_split_path_info ^(.+\.php)(.*)$;
             try_files $fastcgi_script_name =404;
@@ -38,6 +42,9 @@ http {
             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
             fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
             fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
+            fastcgi_buffer_size {{ nginx.config.proxy_buffer_size }};
+            fastcgi_buffers {{ nginx.config.proxy_buffers }};
+            fastcgi_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
             include fastcgi_params;
         }
 
@@ -50,6 +57,9 @@ http {
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                 fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
                 fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
+                fastcgi_buffer_size {{ nginx.config.proxy_buffer_size }};
+                fastcgi_buffers {{ nginx.config.proxy_buffers }};
+                fastcgi_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
                 include fastcgi_params;
             }
         {% endif %}

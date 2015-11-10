@@ -157,9 +157,12 @@ mongodb:
 nginx:
     config:
         charset: utf-8
+        error_log: /var/log/nginx/error.log
         fastcgi_read_timeout: 600
         fastcgi_socket: *phpserversocket
-        error_log: /var/log/nginx/error.log
+        proxy_buffer_size: 128k
+        proxy_buffers: 4 256k
+        proxy_busy_buffers_size: 256k
 
 nodejs:
     npm:
