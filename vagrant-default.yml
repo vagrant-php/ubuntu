@@ -3,6 +3,7 @@ hostname: projectname.dev
 application: ~
 sharetype: nfs
 phpversion: 5.6
+cpus: ~
 memory: 1024
 
 nfsoptions:

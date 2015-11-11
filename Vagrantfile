@@ -99,14 +99,29 @@ Vagrant.configure(2) do |config|
         print "no valid sharetype, please take a look into README.md!\n"
     end
 
+
+
     # Resources of our box
     # --------------------------------------------------------------------------
+
+    # define cpu count
+    if setupConfig['cpus']
+        cpus = setupConfig['cpus']
+    else
+        if Vagrant::Util::Platform.darwin? || Vagrant::Util::Platform.bsd?
+            cpus = `sysctl -n hw.ncpu`.to_i
+        elsif Vagrant::Util::Platform.linux?
+            cpus = `nproc`.to_i
+        else
+            cpus = 2
+        end
+    end
 
     # for virtualbox
     config.vm.provider 'virtualbox' do |v|
         v.name = setupConfig['hostname']
         v.memory = setupConfig['memory']
-        v.cpus = 1
+        v.cpus = cpus
         v.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
         v.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
 
@@ -121,7 +136,7 @@ Vagrant.configure(2) do |config|
     config.vm.provider "vmware_fusion" do |v|
         v.vmx['displayname'] = setupConfig['hostname']
         v.vmx['memsize'] = setupConfig['memory']
-        v.vmx['numvcpus'] = '1'
+        v.vmx['numvcpus'] = cpus
         v.vmx['vhv.enable'] = 'TRUE'
     end
 
@@ -129,7 +144,7 @@ Vagrant.configure(2) do |config|
     config.vm.provider "vmware_workstation" do |v|
         v.vmx['displayname'] = setupConfig['hostname']
         v.vmx['memsize'] = setupConfig['memory']
-        v.vmx['numvcpus'] = '1'
+        v.vmx['numvcpus'] = cpus
         v.vmx['vhv.enable'] = 'TRUE'
     end
 
