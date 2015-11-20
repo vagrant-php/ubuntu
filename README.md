@@ -67,6 +67,7 @@ for advanced configuration see the [default configuration][2]
  * bolt2
  * contao3
  * drupal7
+ * drupal8
  * lavarel5
  * symfony2
  * wordpress4

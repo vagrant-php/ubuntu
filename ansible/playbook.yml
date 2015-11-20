@@ -13,6 +13,7 @@
     - { role: nginx-application-bolt2, when: application == 'bolt2' }
     - { role: nginx-application-contao3, when: application == 'contao3' }
     - { role: nginx-application-drupal7, when: application == 'drupal7' }
+    - { role: nginx-application-drupal8, when: application == 'drupal8' }
     - { role: nginx-application-lavarel5, when: application == 'lavarel5' }
     - { role: nginx-application-symfony2, when: application == 'symfony2' }
     - { role: nginx-application-wordpress4, when: application == 'wordpress4' }
@@ -24,6 +25,7 @@
     - { role: php70, when: phpversion == 7.0 }
     - php-tools
     - { role: php-application-drupal7, when: application == 'drupal7' }
+    - { role: php-application-drupal8, when: application == 'drupal8' }
     - { role: php-application-symfony2, when: application == 'symfony2' }
     - { role: php-application-wordpress4, when: application == 'wordpress4' }
     - { role: postgresql, when: role.postgresql }
