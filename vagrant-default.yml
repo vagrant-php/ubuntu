@@ -6,6 +6,18 @@ phpversion: 5.6
 cpus: ~
 memory: 1024
 
+network:
+    forwarded_ports:
+        ssh:
+            host: ephemeral
+            guest: 22
+#        http:
+#            host: 8080
+#            guest: 80
+#        https:
+#            host: 8443
+#            guest: 443
+
 nfsoptions:
     udp: false
     bsd: ['alldirs']

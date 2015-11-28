@@ -40,10 +40,6 @@ if File.file?(userConfigPath)
     setupConfig = setupConfig.deep_merge(userConfig)
 end
 
-# define ssh port
-# --------------------------------------------------------------------------
-sshForwardPort = Random.rand(49152..65535)
-
 Vagrant.configure(2) do |config|
 
     # Vagrant box
@@ -57,7 +53,13 @@ Vagrant.configure(2) do |config|
     # Network
     # --------------------------------------------------------------------------
     config.vm.network 'private_network', type: 'dhcp'
-    config.vm.network :forwarded_port, guest: 22, host: sshForwardPort, id: 'ssh', auto_correct: true
+
+    setupConfig['network']['forwarded_ports'].each do |id, options|
+        if options['host'] == 'ephemeral'
+            options['host'] = Random.rand(49152..65535)
+        end
+        config.vm.network :forwarded_port, id: id, guest: options['guest'], host: options['host'], auto_correct: true
+    end
 
     # SSH stuff
     # --------------------------------------------------------------------------
