@@ -17,6 +17,7 @@
     - { role: nginx-application-lavarel5, when: application == 'lavarel5' }
     - { role: nginx-application-symfony1, when: application == 'symfony1' }
     - { role: nginx-application-symfony2, when: application == 'symfony2' }
+    - { role: nginx-application-symfony3, when: application == 'symfony3' }
     - { role: nginx-application-wordpress4, when: application == 'wordpress4' }
     - nginx
     - { role: nodejs, when: role.nodejs }

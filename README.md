@@ -71,6 +71,7 @@ for advanced configuration see the [default configuration][2]
  * lavarel5
  * symfony1
  * symfony2
+ * symfony3
  * wordpress4
 
 #### supported sharetype
