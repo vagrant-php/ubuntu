@@ -46,6 +46,7 @@ bash:
             histfilesize: &histfilesize 100000
         alias:
             cls: "base64:cHJpbnRmICJcMDMzYyI="
+            psh: "ps -p $$"
 
 elasticsearch:
     config:
@@ -323,3 +324,4 @@ zsh:
             histfilesize: *histfilesize
         alias:
             cls: "base64:cHJpbnRmICJcMDMzYyI="
+            psh: "ps -p $$"
