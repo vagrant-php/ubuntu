@@ -36,6 +36,17 @@ role:
 
 # ----------------------------------------------------------------------------------------------------
 
+bash:
+    config:
+        export:
+            clicolor: 1
+            editor: &editor vim
+            ps1: "base64:XFtcZVsxOzMybVxdXGhcW1xlWzBtXF0gXFtcZVsxOzM3bVxdXHdcW1xlWzBtXF0gXFtcZVsxOzMybVxdXHVcW1xlWzBtXF0gXFtcZVsxOzM3bVxdXCRcW1xlWzBtXF0g"
+            histsize: &histsize 5000
+            histfilesize: &histfilesize 100000
+        alias:
+            cls: "base64:cHJpbnRmICJcMDMzYyI="
+
 elasticsearch:
     config:
         path.home: /usr/share/elasticsearch
@@ -59,12 +70,11 @@ freetds:
 
 general:
     config:
-        editor: &editor vim
-        history_length: 5000
         locale: &locale de_CH.UTF-8
         keyboard:
             layout: ch
             variant: de_nodeadkeys
+        shell: /bin/bash #/usr/bin/zsh
         timezone: &timezone Europe/Zurich
     packages:
         - build-essential
@@ -302,3 +312,14 @@ ruby:
         - sass
         - sass-globbing
         - toolkit
+
+zsh:
+    config:
+        export:
+            clicolor: 1
+            editor: *editor
+            ps1: "base64:JXskZmdfYm9sZFtncmVlbl0lfSVNJXskcmVzZXRfY29sb3IlfSAleyRmZ19ib2xkW3doaXRlXSV9JX4leyRyZXNldF9jb2xvciV9ICV7JGZnX2JvbGRbZ3JlZW5dJX0lbiV7JHJlc2V0X2NvbG9yJX0gJSA="
+            histsize: *histsize
+            histfilesize: *histfilesize
+        alias:
+            cls: "base64:cHJpbnRmICJcMDMzYyI="

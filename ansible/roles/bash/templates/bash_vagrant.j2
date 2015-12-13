@@ -1,0 +1,23 @@
+{% for export, value in bash.config.export.iteritems() %}
+{% if value is string %}
+{% if value[:6] == 'base64' %}
+{% set value = value[6:]|b64decode %}
+{% endif %}
+export {{ export|upper }}="{{ value }}"
+{% else %}
+export {{ export|upper }}={{ value }}
+{% endif %}
+{% endfor %}
+
+{% for alias, value in bash.config.alias.iteritems() %}
+{% if value is string %}
+{% if value[:6] == 'base64' %}
+{% set value = value[6:]|b64decode %}
+{% endif %}
+alias {{ alias }}='{{ value }}'
+{% else %}
+alias {{ alias }}={{ value }}
+{% endif %}
+{% endfor %}
+
+cd /vagrant

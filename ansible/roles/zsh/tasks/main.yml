@@ -1,0 +1,24 @@
+- name: install zsh
+  apt: name={{ item }} state=present
+  with_items:
+    - zsh
+
+- name: copy .zsh_vagrant for user vagrant
+  template:
+    src=zsh_vagrant.j2
+    dest=/home/vagrant/.zsh_vagrant
+    owner=vagrant
+    group=vagrant
+
+- name: register .zsh_vagrant for user vagrant
+  lineinfile: dest=/home/vagrant/.zshrc line='. ~/.zsh_vagrant' create=yes
+
+- name: copy .zsh_vagrant for user root
+  template:
+    src=zsh_vagrant.j2
+    dest=/root/.zsh_vagrant
+    owner=root
+    group=root
+
+- name: register .zsh_vagrant for user root
+  lineinfile: dest=/root/.zshrc line='. ~/.zsh_vagrant' create=yes

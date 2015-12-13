@@ -40,28 +40,6 @@
 - name: keymap | setupcon
   command: /bin/setupcon
 
-### bash
-
-- name: bash | copy .bash_vagrant for user vagrant
-  template:
-    src=bash_vagrant.j2
-    dest=/home/vagrant/.bash_vagrant
-    owner=vagrant
-    group=vagrant
-
-- name: bash | register .bash_vagrant for user vagrant
-  lineinfile: dest=/home/vagrant/.bashrc line='. ~/.bash_vagrant'
-
-- name: bash | copy .bash_vagrant for user root
-  template:
-    src=bash_vagrant.j2
-    dest=/root/.bash_vagrant
-    owner=root
-    group=root
-
-- name: bash | register .bash_vagrant for user root
-  lineinfile: dest=/root/.bashrc line='. ~/.bash_vagrant'
-
 ### grub
 
 - name: grub | fix boot hidden timeout
@@ -104,3 +82,11 @@
 
 - name: disable-transparent-hugepages | register init script disable-transparent-hugepages
   command: /usr/sbin/update-rc.d disable-transparent-hugepages defaults
+
+### change default shell
+
+- name: shell | change default shell to {{ general.config.shell }} for user vagrant
+  command: /usr/bin/chsh -s {{ general.config.shell }} vagrant
+
+- name: shell | change default shell to {{ general.config.shell }} for user root
+  command: /usr/bin/chsh -s {{ general.config.shell }} root

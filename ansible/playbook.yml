@@ -3,6 +3,8 @@
   sudo: true
   roles:
     - general
+    - { role: bash }
+    - { role: zsh }
     - { role: elasticsearch, when: role.elasticsearch }
     - { role: freetds, when: role.freetds }
     - git
