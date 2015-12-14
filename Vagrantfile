@@ -101,8 +101,6 @@ Vagrant.configure(2) do |config|
         print "no valid sharetype, please take a look into README.md!\n"
     end
 
-
-
     # Resources of our box
     # --------------------------------------------------------------------------
 
