@@ -30,6 +30,7 @@
     - { role: php-application-drupal7, when: application == 'drupal7' }
     - { role: php-application-drupal8, when: application == 'drupal8' }
     - { role: php-application-symfony2, when: application == 'symfony2' }
+    - { role: php-application-symfony3, when: application == 'symfony3' }
     - { role: php-application-wordpress4, when: application == 'wordpress4' }
     - { role: postgresql, when: role.postgresql }
     - { role: redis, when: role.redis }
