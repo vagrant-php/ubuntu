@@ -1,24 +1,51 @@
+# install
+
 - name: install zsh
   apt: name={{ item }} state=present
   with_items:
     - zsh
 
-- name: copy .zsh_vagrant for user vagrant
+# oh my zsh
+
+- stat: path=/tmp/ohmyzsh-installer
+  register: ohmyzsh_installer
+
+- name: download ohmyzsh installer
+  get_url:
+    url=https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest=/tmp/ohmyzsh-installer
+    owner=vagrant
+    group=vagrant
+    mode=0777
+  when: zsh.ohmyzsh == true and ohmyzsh_installer.stat.exists == false
+
+- stat: path=/home/vagrant/.oh-my-zsh
+  register: vagrant_ohmyzsh_installed
+
+- name: install ohmyzsh for user vagrant
+  command: '/bin/sh /tmp/ohmyzsh-installer'
+  sudo_user: vagrant
+  when: zsh.ohmyzsh == true and vagrant_ohmyzsh_installed.stat.exists == false
+
+- stat: path=/root/.oh-my-zsh
+  register: root_ohmyzsh_installed
+
+- name: install ohmyzsh for user root
+  command: '/bin/sh /tmp/ohmyzsh-installer'
+  when: zsh.ohmyzsh == true and root_ohmyzsh_installed.stat.exists == false
+
+# config
+
+- name: copy .zshrc for user vagrant
   template:
-    src=zsh_vagrant.j2
-    dest=/home/vagrant/.zsh_vagrant
+    src=zshrc.j2
+    dest=/home/vagrant/.zshrc
     owner=vagrant
     group=vagrant
 
-- name: register .zsh_vagrant for user vagrant
-  lineinfile: dest=/home/vagrant/.zshrc line='. ~/.zsh_vagrant' create=yes
-
-- name: copy .zsh_vagrant for user root
+- name: copy .zshrc for user root
   template:
-    src=zsh_vagrant.j2
-    dest=/root/.zsh_vagrant
+    src=zshrc.j2
+    dest=/root/.zshrc
     owner=root
     group=root
-
-- name: register .zsh_vagrant for user root
-  lineinfile: dest=/root/.zshrc line='. ~/.zsh_vagrant' create=yes

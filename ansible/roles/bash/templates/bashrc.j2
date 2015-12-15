@@ -1,0 +1,19 @@
+shopt -s histappend
+shopt -s checkwinsize
+
+{% macro row(key, value, prefix) -%}
+{% if value is string and value[:6] == 'base64' %}
+{% set value = value[6:]|b64decode %}
+{% endif %}
+{% if prefix %}{{ prefix }} {% endif %}{{ key }}={{ value }}
+{%- endmacro %}
+
+{% for alias, value in bash.config.alias.iteritems() %}
+{{ row(alias, value, 'alias') }}
+{% endfor %}
+
+{% for export, value in bash.config.export.iteritems() %}
+{{ row(export, value, 'export') }}
+{% endfor %}
+
+cd /vagrant

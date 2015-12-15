@@ -4,7 +4,6 @@
   roles:
     - general
     - { role: bash }
-    - { role: zsh }
     - { role: elasticsearch, when: role.elasticsearch }
     - { role: freetds, when: role.freetds }
     - git
@@ -35,4 +34,5 @@
     - { role: postgresql, when: role.postgresql }
     - { role: redis, when: role.redis }
     - { role: ruby, when: role.ruby }
+    - { role: zsh }
     - cleanup
