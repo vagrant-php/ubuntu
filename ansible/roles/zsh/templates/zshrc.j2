@@ -1,6 +1,11 @@
 autoload -U colors && colors
 
-{% if zsh.ohmyzsh %}ZSH=$HOME/.oh-my-zsh{% endif %}
+{% if zsh.ohmyzsh.enable == true %}
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME={{ zsh.ohmyzsh.theme }}
+
+plugins=({{ zsh.ohmyzsh.plugins|join(' ') }})
+{% endif %}
 
 {% macro row(key, value, prefix) -%}
 {% if value is string and value[:6] == 'base64' %}
@@ -17,6 +22,6 @@ autoload -U colors && colors
 {{ row(export, value, 'export') }}
 {% endfor %}
 
-{% if zsh.ohmyzsh %}source $ZSH/oh-my-zsh.sh{% endif %}
+{% if zsh.ohmyzsh.enable == true %}source $ZSH/oh-my-zsh.sh{% endif %}
 
 cd /vagrant

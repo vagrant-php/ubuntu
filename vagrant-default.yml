@@ -316,7 +316,11 @@ ruby:
         - toolkit
 
 zsh:
-    ohmyzsh: false
+    ohmyzsh:
+        enable: false
+        plugins:
+            - git
+        theme: geoffgarside
     config:
         alias:
             cls: *cls

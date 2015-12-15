@@ -17,7 +17,7 @@
     owner=vagrant
     group=vagrant
     mode=0777
-  when: zsh.ohmyzsh == true and ohmyzsh_installer.stat.exists == false
+  when: zsh.ohmyzsh.enable == true and ohmyzsh_installer.stat.exists == false
 
 - stat: path=/home/vagrant/.oh-my-zsh
   register: vagrant_ohmyzsh_installed
@@ -25,14 +25,14 @@
 - name: install ohmyzsh for user vagrant
   command: '/bin/sh /tmp/ohmyzsh-installer'
   sudo_user: vagrant
-  when: zsh.ohmyzsh == true and vagrant_ohmyzsh_installed.stat.exists == false
+  when: zsh.ohmyzsh.enable == true and vagrant_ohmyzsh_installed.stat.exists == false
 
 - stat: path=/root/.oh-my-zsh
   register: root_ohmyzsh_installed
 
 - name: install ohmyzsh for user root
   command: '/bin/sh /tmp/ohmyzsh-installer'
-  when: zsh.ohmyzsh == true and root_ohmyzsh_installed.stat.exists == false
+  when: zsh.ohmyzsh.enable == true and root_ohmyzsh_installed.stat.exists == false
 
 # config
 
