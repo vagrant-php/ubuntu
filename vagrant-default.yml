@@ -316,11 +316,6 @@ ruby:
         - toolkit
 
 zsh:
-    ohmyzsh:
-        enable: false
-        plugins:
-            - git
-        theme: geoffgarside
     config:
         alias:
             cls: *cls
@@ -331,3 +326,8 @@ zsh:
             HISTFILE: ~/.zsh_history
             PS1: "base64:IiV7JGZnX2JvbGRbZ3JlZW5dJX0lTSV7JHJlc2V0X2NvbG9yJX0gJXskZmdfYm9sZFt3aGl0ZV0lfSV+JXskcmVzZXRfY29sb3IlfSAleyRmZ19ib2xkW2dyZWVuXSV9JW4leyRyZXNldF9jb2xvciV9ICUgIg==" # "%{$fg_bold[green]%}%M%{$reset_color%} %{$fg_bold[white]%}%~%{$reset_color%} %{$fg_bold[green]%}%n%{$reset_color%} % "
             SAVEHIST: *histfilesize
+    ohmyzsh:
+        enable: false
+        plugins:
+            - git
+        theme: geoffgarside
