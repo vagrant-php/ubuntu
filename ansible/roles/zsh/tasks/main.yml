@@ -1,11 +1,19 @@
-# install
+### install
 
 - name: install zsh
   apt: name={{ item }} state=present
   with_items:
     - zsh
 
-# oh my zsh
+### change default shell
+
+- name: shell | change default shell to zsh for user vagrant
+  command: /usr/bin/chsh -s /usr/bin/zsh vagrant
+
+- name: shell | change default shell to zsh for user root
+  command: /usr/bin/chsh -s /usr/bin/zsh root
+
+### oh my zsh
 
 - stat: path=/tmp/ohmyzsh-installer
   register: ohmyzsh_installer
@@ -34,7 +42,7 @@
   command: '/bin/sh /tmp/ohmyzsh-installer'
   when: zsh.ohmyzsh.enable == true and root_ohmyzsh_installed.stat.exists == false
 
-# config
+### config
 
 - name: copy .zshrc for user vagrant
   template:
@@ -49,13 +57,3 @@
     dest=/root/.zshrc
     owner=root
     group=root
-
-### change default shell
-
-- name: shell | change default shell to zsh for user vagrant
-  command: /usr/bin/chsh -s /usr/bin/zsh vagrant
-  when: general.config.shell == 'zsh'
-
-- name: shell | change default shell to zsh for user root
-  command: /usr/bin/chsh -s /usr/bin/zsh root
-  when: general.config.shell == 'zsh'

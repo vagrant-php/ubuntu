@@ -1,4 +1,12 @@
-# config
+### change default shell
+
+- name: shell | change default shell to bash for user vagrant
+  command: /usr/bin/chsh -s /bin/bash vagrant
+
+- name: shell | change default shell to bash for user root
+  command: /usr/bin/chsh -s /bin/bash root
+
+### config
 
 - name: copy .bashrc for user vagrant
   template:
@@ -13,13 +21,3 @@
     dest=/root/.bashrc
     owner=root
     group=root
-
-### change default shell
-
-- name: shell | change default shell to bash for user vagrant
-  command: /usr/bin/chsh -s /bin/bash vagrant
-  when: general.config.shell == 'bash'
-
-- name: shell | change default shell to bash for user root
-  command: /usr/bin/chsh -s /bin/bash root
-  when: general.config.shell == 'bash'
