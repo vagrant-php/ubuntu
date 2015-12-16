@@ -1,4 +1,4 @@
-# user vagrant
+### user vagrant
 
 - name: alias sf for user vagrant
   lineinfile:
@@ -98,7 +98,7 @@
     regexp='^alias sfdsu='
     state=present
 
-# user root
+### user root
     
 - name: alias sf for user root
   lineinfile:
