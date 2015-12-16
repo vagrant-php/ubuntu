@@ -86,7 +86,7 @@
 ### change default shell
 
 - name: shell | change default shell to {{ general.config.shell }} for user vagrant
-  command: /usr/bin/chsh -s {{ general.config.shell }} vagrant
+  command: /usr/bin/chsh -s {% if general.config.shell == 'zsh' %}/usr/bin/zsh{% else %}/bin/bash{% endif %} vagrant
 
 - name: shell | change default shell to {{ general.config.shell }} for user root
-  command: /usr/bin/chsh -s {{ general.config.shell }} root
+  command: /usr/bin/chsh -s {% if general.config.shell == 'zsh' %}/usr/bin/zsh{% else %}/bin/bash{% endif %} root

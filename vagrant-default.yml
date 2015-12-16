@@ -76,7 +76,7 @@ general:
         keyboard:
             layout: ch
             variant: de_nodeadkeys
-        shell: /bin/bash #/usr/bin/zsh
+        shell: bash # bash or zsh
         timezone: &timezone Europe/Zurich
     packages:
         - build-essential
