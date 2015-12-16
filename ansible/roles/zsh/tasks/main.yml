@@ -49,3 +49,13 @@
     dest=/root/.zshrc
     owner=root
     group=root
+
+### change default shell
+
+- name: shell | change default shell to zsh for user vagrant
+  command: /usr/bin/chsh -s /usr/bin/zsh vagrant
+  when: general.config.shell == 'zsh'
+
+- name: shell | change default shell to zsh for user root
+  command: /usr/bin/chsh -s /usr/bin/zsh root
+  when: general.config.shell == 'zsh'
