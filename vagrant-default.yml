@@ -40,7 +40,7 @@ bash:
     config:
         alias:
             cls: &cls "base64:J3ByaW50ZiAiXDAzM2MiJw==" # 'ps -p $$'
-            psh: &psh "base64:J3BzIC1wICQkJw==" # 'printf "\033c"'
+            whichshell: &whichshell "base64:J3BzIC1wICQkJw==" # 'printf "\033c"'
         export:
             CLICOLOR: 1
             EDITOR: &editor vim
@@ -324,7 +324,7 @@ zsh:
     config:
         alias:
             cls: *cls
-            psh: *psh
+            whichshell: *whichshell
         export:
             EDITOR: *editor
             HISTSIZE: *histsize
