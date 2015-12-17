@@ -45,8 +45,9 @@ bash:
             CLICOLOR: 1
             EDITOR: &editor vim
             HISTCONTROL: "ignoreboth:erasedups"
-            HISTSIZE: &histsize 5000
+            HISTFILE: ~/.bash_history
             HISTFILESIZE: &histfilesize 100000
+            HISTSIZE: &histsize 5000
             PS1: "base64:IlxbXGVbMTszMm1cXVxoXFtcZVswbVxdIFxbXGVbMTszN21cXVx3XFtcZVswbVxdIFxbXGVbMTszMm1cXVx1XFtcZVswbVxdIFxbXGVbMTszN21cXVwkXFtcZVswbVxdICI=" # "\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] "
         shopt:
             checkwinsize: true
@@ -329,8 +330,8 @@ zsh:
             whichshell: *whichshell
         export:
             EDITOR: *editor
-            HISTSIZE: *histsize
             HISTFILE: ~/.zsh_history
+            HISTSIZE: *histsize
             PS1: "base64:IiV7JGZnX2JvbGRbZ3JlZW5dJX0lTSV7JHJlc2V0X2NvbG9yJX0gJXskZmdfYm9sZFt3aGl0ZV0lfSV+JXskcmVzZXRfY29sb3IlfSAleyRmZ19ib2xkW2dyZWVuXSV9JW4leyRyZXNldF9jb2xvciV9ICUgIg==" # "%{$fg_bold[green]%}%M%{$reset_color%} %{$fg_bold[white]%}%~%{$reset_color%} %{$fg_bold[green]%}%n%{$reset_color%} % "
             SAVEHIST: *histfilesize
         setopt:
