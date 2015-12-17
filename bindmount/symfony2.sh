@@ -1,10 +1,10 @@
 echo "Executing bindmount for symfony2 ..."
-mkdir -p /tmp/cache/
-mkdir -p /tmp/logs/
-chown -Rf vagrant:vagrant /tmp/cache/
-chown -Rf vagrant:vagrant /tmp/logs/
+mkdir -p /tmp/symfony2/cache/
+mkdir -p /tmp/symfony2/logs/
+chown -Rf vagrant:vagrant /tmp/symfony2/cache/
+chown -Rf vagrant:vagrant /tmp/symfony2/logs/
 mkdir -p /vagrant/app/cache/
 mkdir -p /vagrant/app/logs/
-mount -o bind /tmp/cache/ /vagrant/app/cache/
-mount -o bind /tmp/logs/ /vagrant/app/logs/
+mount -o bind /tmp/symfony2/cache/ /vagrant/app/cache/
+mount -o bind /tmp/symfony2/logs/ /vagrant/app/logs/
 echo "... done!"

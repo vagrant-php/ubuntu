@@ -1,14 +1,14 @@
 echo "Executing bindmount for contao3 ..."
-mkdir -p /tmp/cache/
-mkdir -p /tmp/logs/
-mkdir -p /tmp/tmp/
-chown -Rf vagrant:vagrant /tmp/cache/
-chown -Rf vagrant:vagrant /tmp/logs/
-chown -Rf vagrant:vagrant /tmp/tmp/
+mkdir -p /tmp/contao3/cache/
+mkdir -p /tmp/contao3/logs/
+mkdir -p /tmp/contao3/tmp/
+chown -Rf vagrant:vagrant /tmp/contao3/cache/
+chown -Rf vagrant:vagrant /tmp/contao3/logs/
+chown -Rf vagrant:vagrant /tmp/contao3/tmp/
 mkdir -p /vagrant/system/cache/
 mkdir -p /vagrant/system/logs/
 mkdir -p /vagrant/system/tmp/
-mount -o bind /tmp/cache/ /vagrant/system/cache/
-mount -o bind /tmp/logs/ /vagrant/system/logs/
-mount -o bind /tmp/tmp/ /vagrant/system/tmp/
+mount -o bind /tmp/contao3/cache/ /vagrant/system/cache/
+mount -o bind /tmp/contao3/logs/ /vagrant/system/logs/
+mount -o bind /tmp/contao3/tmp/ /vagrant/system/tmp/
 echo "... done!"
