@@ -1,5 +1,8 @@
-shopt -s histappend
-shopt -s checkwinsize
+{% for shopt, active in bash.config.shopt.iteritems() %}
+{% if active %}
+shopt -s {{ shopt }}
+{% endif %}
+{% endfor %}
 
 {% macro row(key, value, prefix) -%}
 {% if value is string and value[:6] == 'base64' %}
