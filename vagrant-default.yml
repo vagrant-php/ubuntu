@@ -224,6 +224,8 @@ php:
                 mysqli.default_socket: *mariadbsocket
             pdo_mysql:
                 pdo_mysql.default_socket: *mariadbsocket
+            session:
+                session.gc_probability: 0
             xdebug:
                 xdebug.max_nesting_level: 256
         fpm:
@@ -258,6 +260,8 @@ php:
                 mysqli.default_socket: *mariadbsocket
             pdo_mysql:
                 pdo_mysql.default_socket: *mariadbsocket
+            session:
+                session.gc_probability: 0
             xdebug:
                 xdebug.max_nesting_level: 256
     server:
