@@ -1,4 +1,4 @@
-echo "Executing bindmount for symfony1 ..."
+echo "Executing bindmount for $1 ..."
 mkdir -p /tmp/$1/cache/
 mkdir -p /tmp/$1/log/
 chown -Rf vagrant:vagrant /tmp/$1/cache/

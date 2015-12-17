@@ -1,4 +1,4 @@
-echo "Executing bindmount for contao3 ..."
+echo "Executing bindmount for $1 ..."
 mkdir -p /tmp/$1/cache/
 mkdir -p /tmp/$1/logs/
 mkdir -p /tmp/$1/tmp/
