@@ -158,6 +158,7 @@ Vagrant.configure(2) do |config|
     if setupConfig['application']
         config.vm.provision 'shell', run: "always" do |sh|
             sh.path = "bindmount/" + setupConfig['application'] + ".sh"
+            sh.args = [setupConfig['application']]
         end
     end
 end
