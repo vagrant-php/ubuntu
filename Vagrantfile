@@ -52,7 +52,11 @@ Vagrant.configure(2) do |config|
 
     # Network
     # --------------------------------------------------------------------------
-    config.vm.network 'private_network', type: 'dhcp'
+    if setupConfig['network']['ip'] == 'dhcp'
+        config.vm.network 'private_network', type: 'dhcp'
+    else
+        config.vm.network 'private_network', ip: setupConfig['network']['ip']
+    end
 
     setupConfig['network']['forwarded_ports'].each do |id, options|
         if options['host'] == 'ephemeral'

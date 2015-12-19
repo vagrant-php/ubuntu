@@ -17,6 +17,7 @@ network:
 #        https:
 #            host: 8443
 #            guest: 443
+    ip: dhcp
 
 nfsoptions:
     udp: false
