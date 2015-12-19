@@ -40,6 +40,20 @@ if File.file?(userConfigPath)
     setupConfig = setupConfig.deep_merge(userConfig)
 end
 
+# hostos
+# --------------------------------------------------------------------------
+if Vagrant::Util::Platform.bsd?
+    hostos = 'bsd'
+elsif Vagrant::Util::Platform.darwin?
+    hostos = 'darwin'
+elsif Vagrant::Util::Platform.linux?
+    hostos = 'linux'
+elsif Vagrant::Util::Platform.windows?
+    hostos = 'windows'
+else
+    hostos = 'unknown'
+end
+
 Vagrant.configure(2) do |config|
 
     # Vagrant box
@@ -112,9 +126,9 @@ Vagrant.configure(2) do |config|
     if setupConfig['cpus']
         cpus = setupConfig['cpus']
     else
-        if Vagrant::Util::Platform.darwin? || Vagrant::Util::Platform.bsd?
+        if hostos == 'bsd' || hostos == 'darwin'
             cpus = `sysctl -n hw.ncpu`.to_i
-        elsif Vagrant::Util::Platform.linux?
+        elsif hostos == 'linux'
             cpus = `nproc`.to_i
         else
             cpus = 2
@@ -126,13 +140,11 @@ Vagrant.configure(2) do |config|
         v.name = setupConfig['hostname']
         v.memory = setupConfig['memory']
         v.cpus = cpus
-        v.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
-        v.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
 
-        if not Vagrant::Util::Platform.windows?
-            # use virtio networkcards on unix hosts
-            v.customize ['modifyvm', :id, '--nictype1', 'virtio']
-            v.customize ['modifyvm', :id, '--nictype2', 'virtio']
+        if setupConfig['virtualbox'].key?(hostos)
+            setupConfig['virtualbox'][hostos].each do |key, value|
+                v.customize ['modifyvm', :id, '--' + key, value]
+            end
         end
     end
 

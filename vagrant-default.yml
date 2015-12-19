@@ -24,6 +24,28 @@ nfsoptions:
     bsd: ['alldirs']
     linux: ['rw','no_subtree_check','all_squash','async']
 
+virtualbox:
+    bsd:
+        natdnshostresolver1: 'off'
+        natdnsproxy1: 'off'
+        nictype1: 'virtio'
+        nictype2: 'virtio'
+    darwin:
+        natdnshostresolver1: 'off'
+        natdnsproxy1: 'off'
+        nictype1: 'virtio'
+        nictype2: 'virtio'
+    linux:
+        natdnshostresolver1: 'off'
+        natdnsproxy1: 'off'
+        nictype1: 'virtio'
+        nictype2: 'virtio'
+    windows:
+        natdnshostresolver1: 'off'
+        natdnsproxy1: 'off'
+
+# ----------------------------------------------------------------------------------------------------
+
 role:
     elasticsearch: false
     freetds: false
