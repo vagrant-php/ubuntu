@@ -84,7 +84,15 @@ http {
             ssl_certificate /etc/nginx/certificate;
             ssl_certificate_key /etc/nginx/privatekey;
 
-            return 200 'multihost system, use: subhostname.hostname';
+            add_header Content-Type text/html;
+
+            return 200 '
+            <h1>multihost system</h1>
+            <ul>
+            {% for subhostname in subhostnames %}
+                <li><a target="_blank" href="//{{ subhostname + '.' + hostname }}">{{ subhostname + '.' + hostname }}</a></li>
+            {% endfor %}
+            </ul>';
         }
 
         {% for subhostname in subhostnames %}
