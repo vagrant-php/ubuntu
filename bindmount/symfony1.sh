@@ -1,10 +1,10 @@
-echo "Executing bindmount for $1 ..."
-mkdir -p /tmp/$1/cache/
-mkdir -p /tmp/$1/log/
-chown -Rf vagrant:vagrant /tmp/$1/cache/
-chown -Rf vagrant:vagrant /tmp/$1/log/
-mkdir -p /vagrant/cache/
-mkdir -p /vagrant/log/
-mount -o bind /tmp/$1/cache/ /vagrant/cache/
-mount -o bind /tmp/$1/log/ /vagrant/log/
+echo "Executing bindmount for $1, $2, $3 ..."
+mkdir -p $2/cache/
+mkdir -p $2/log/
+chown -Rf vagrant:vagrant $2/cache/
+chown -Rf vagrant:vagrant $2/log/
+mkdir -p $3/cache/
+mkdir -p $3/log/
+mount -o bind $2/cache/ $3/cache/
+mount -o bind $2/log/ $3/log/
 echo "... done!"

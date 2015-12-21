@@ -180,9 +180,26 @@ Vagrant.configure(2) do |config|
     end
 
     if setupConfig['application']
-        config.vm.provision 'shell', run: "always" do |sh|
-            sh.path = "bindmount/" + setupConfig['application'] + ".sh"
-            sh.args = [setupConfig['application']]
+        if setupConfig['subhostnames'].empty?
+            config.vm.provision 'shell', run: "always" do |sh|
+                sh.path = "bindmount/" + setupConfig['application'] + ".sh"
+                sh.args = [
+                    setupConfig['application'],
+                    '/tmp/' + setupConfig['application'],
+                    '/vagrant',
+                ]
+            end
+        else
+            setupConfig['subhostnames'].each do |subhostname|
+                config.vm.provision 'shell', run: "always" do |sh|
+                    sh.path = "bindmount/" + setupConfig['application'] + ".sh"
+                    sh.args = [
+                        setupConfig['application'],
+                        '/tmp/' + subhostname + '/' + setupConfig['application'],
+                        '/vagrant/' + subhostname,
+                    ]
+                end
+            end
         end
     end
 end
