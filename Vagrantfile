@@ -93,6 +93,14 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    if not setupConfig['subhostnames'].empty?
+        aliases = []
+        setupConfig['subhostnames'].each do |subhostname|
+            aliases.push(subhostname + '.' + setupConfig['hostname'])
+        end
+        config.hostmanager.aliases = aliases.join(' ')
+    end
+
     # Synced folder
     # --------------------------------------------------------------------------
     config.vm.synced_folder '.', '/vagrant', disabled: true
