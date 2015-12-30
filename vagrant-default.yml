@@ -63,6 +63,7 @@ bash:
     config:
         alias:
             cls: &cls "base64:J3ByaW50ZiAiXDAzM2MiJw==" # 'ps -p $$'
+            showdns: &showdns "base64:J2RpZyAkMSBhbnkgK25vY21kICttdWx0aWxpbmUgK25vYWxsICthbnN3ZXIn" # 'dig $1 any +nocmd +multiline +noall +answer'
             whichshell: &whichshell "base64:J3BzIC1wICQkJw==" # 'printf "\033c"'
         export:
             CLICOLOR: 1
@@ -350,6 +351,7 @@ zsh:
     config:
         alias:
             cls: *cls
+            showdns: *showdns
             whichshell: *whichshell
         export:
             EDITOR: *editor
