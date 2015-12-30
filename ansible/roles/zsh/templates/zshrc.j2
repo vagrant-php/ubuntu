@@ -30,4 +30,8 @@ plugins=({{ zsh.ohmyzsh.plugins|join(' ') }})
 
 {% if zsh.ohmyzsh.enable == true %}source $ZSH/oh-my-zsh.sh{% endif %}
 
+if [ -f ~/.zsh_aliases ]; then
+    . ~/.zsh_aliases
+fi
+
 cd /vagrant
