@@ -18,6 +18,22 @@
   notify:
     - restart php7.0-fpm
 
+- name: install memcached
+  apt: name={{ item }} state=present
+  with_items:
+    - php-memcached
+  notify:
+    - restart php7.0-fpm
+  when: role.memcached
+  
+- name: install mongodb
+  apt: name={{ item }} state=present
+  with_items:
+    - php-mongodb
+  notify:
+    - restart php7.0-fpm
+  when: role.mongodb
+
 - name: install mysql
   apt: name={{ item }} state=present
   with_items:
@@ -34,6 +50,14 @@
     - restart php7.0-fpm
   when: role.postgresql
 
+- name: install redis
+  apt: name={{ item }} state=present
+  with_items:
+    - php-redis
+  notify:
+    - restart php7.0-fpm
+  when: role.redis
+
 - name: install sybase
   apt: name={{ item }} state=present
   with_items:
@@ -43,13 +67,7 @@
   when: role.freetds
 
 - name: install modules
-  apt: name={{ item }} state=present
-  with_items:
-    - php-curl
-    - php-gd
-    - php-intl
-    - php-opcache
-    - php-sqlite3
+  apt: name="php-{{ php.modules|join(',php-')|replace('sqlite', 'sqlite3') }}" state=present
   notify:
     - restart php7.0-fpm
 
