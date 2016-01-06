@@ -93,6 +93,14 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    if not setupConfig['subhostnames'].empty?
+        aliases = []
+        setupConfig['subhostnames'].each do |subhostname|
+            aliases.push(subhostname + '.' + setupConfig['hostname'])
+        end
+        config.hostmanager.aliases = aliases.join(' ')
+    end
+
     # Synced folder
     # --------------------------------------------------------------------------
     config.vm.synced_folder '.', '/vagrant', disabled: true
@@ -172,9 +180,26 @@ Vagrant.configure(2) do |config|
     end
 
     if setupConfig['application']
-        config.vm.provision 'shell', run: "always" do |sh|
-            sh.path = "bindmount/" + setupConfig['application'] + ".sh"
-            sh.args = [setupConfig['application']]
+        if setupConfig['subhostnames'].empty?
+            config.vm.provision 'shell', run: "always" do |sh|
+                sh.path = "bindmount/" + setupConfig['application'] + ".sh"
+                sh.args = [
+                    setupConfig['application'],
+                    '/tmp/' + setupConfig['application'],
+                    '/vagrant',
+                ]
+            end
+        else
+            setupConfig['subhostnames'].each do |subhostname|
+                config.vm.provision 'shell', run: "always" do |sh|
+                    sh.path = "bindmount/" + setupConfig['application'] + ".sh"
+                    sh.args = [
+                        setupConfig['application'],
+                        '/tmp/' + subhostname + '/' + setupConfig['application'],
+                        '/vagrant/' + subhostname,
+                    ]
+                end
+            end
         end
     end
 end

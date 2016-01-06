@@ -1,5 +1,6 @@
 ---
 hostname: projectname.dev
+subhostnames: []
 application: ~
 sharetype: nfs
 phpversion: 5.6

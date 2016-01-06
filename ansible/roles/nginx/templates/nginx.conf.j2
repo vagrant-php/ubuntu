@@ -1,31 +1,19 @@
-user vagrant vagrant;
-worker_processes 4;
-error_log {{ nginx.config.error_log }};
-pid /var/run/nginx.pid;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    include mime.types;
-
-    charset {{ nginx.config.charset }};
-    gzip on;
-    sendfile off;
-    client_max_body_size {{ php.config.fpm.php.post_max_size }};
-
+{% macro server(servername, baseRootDir) %}
     server {
         listen 80;
         listen 443 ssl;
 
+        server_name {{ servername }};
+
         ssl_certificate /etc/nginx/certificate;
         ssl_certificate_key /etc/nginx/privatekey;
+
+        set $baseRootDir {{ baseRootDir }};
 
         {% if application %}
             include application.conf;
         {% else %}
-            root /vagrant;
+            root $baseRootDir;
 
             index index.php;
         {% endif %}
@@ -64,4 +52,51 @@ http {
             }
         {% endif %}
     }
+{% endmacro %}
+
+user vagrant vagrant;
+worker_processes 4;
+error_log {{ nginx.config.error_log }};
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include mime.types;
+
+    charset {{ nginx.config.charset }};
+    gzip on;
+    sendfile off;
+    client_max_body_size {{ php.config.fpm.php.post_max_size }};
+
+    {% if not subhostnames %}
+        {{ server(hostname, '/vagrant') }}
+    {% else %}
+
+        server {
+            listen 80;
+            listen 443 ssl;
+
+            server_name {{ hostname }};
+
+            ssl_certificate /etc/nginx/certificate;
+            ssl_certificate_key /etc/nginx/privatekey;
+
+            add_header Content-Type text/html;
+
+            return 200 '
+            <h1>multihost system</h1>
+            <ul>
+            {% for subhostname in subhostnames %}
+                <li><a target="_blank" href="//{{ subhostname + '.' + hostname }}">{{ subhostname + '.' + hostname }}</a></li>
+            {% endfor %}
+            </ul>';
+        }
+
+        {% for subhostname in subhostnames %}
+            {{ server(subhostname + '.' + hostname, '/vagrant/' + subhostname) }}
+        {% endfor %}
+    {% endif %}
 }
