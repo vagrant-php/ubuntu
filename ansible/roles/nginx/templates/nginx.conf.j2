@@ -71,7 +71,7 @@ http {
     sendfile off;
     client_max_body_size {{ php.config.fpm.php.post_max_size }};
 
-    {% if not subhostnames %}
+    {% if not subhosts %}
         {{ server(hostname, '/vagrant') }}
     {% else %}
 
@@ -89,13 +89,13 @@ http {
             return 200 '
             <h1>multihost system</h1>
             <ul>
-            {% for subhostname in subhostnames %}
+            {% for subhostname in subhosts %}
                 <li><a target="_blank" href="//{{ subhostname + '.' + hostname }}">{{ subhostname + '.' + hostname }}</a></li>
             {% endfor %}
             </ul>';
         }
 
-        {% for subhostname in subhostnames %}
+        {% for subhostname in subhosts %}
             {{ server(subhostname + '.' + hostname, '/vagrant/' + subhostname) }}
         {% endfor %}
     {% endif %}
