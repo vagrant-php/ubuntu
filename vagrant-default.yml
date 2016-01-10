@@ -1,9 +1,7 @@
 ---
 hostname: projectname.dev
 application: ~
-subhosts:
-  - { "subhostname": "project1", "application": ~ }
-
+subhosts: []
 sharetype: nfs
 phpversion: 5.6
 cpus: ~

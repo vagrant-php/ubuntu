@@ -56,14 +56,14 @@ end
 
 # applications
 # --------------------------------------------------------------------------
-applications = []
+setupConfig['applications'] = []
 if not setupConfig['application'].nil?
-    applications.push(setupConfig['application'])
+    setupConfig['applications'].push(setupConfig['application'])
 end
 setupConfig['subhosts'].each do |subhost|
     subhost['application'] = !subhost['application'].nil? ? subhost['application'] : setupConfig['application']
     if not subhost['application'].nil?
-        applications.push(subhost['application'])
+        setupConfig['applications'].push(subhost['application'])
     end
 end
 
@@ -209,7 +209,7 @@ Vagrant.configure(2) do |config|
                 config.vm.provision 'shell', run: "always" do |sh|
                     sh.path = "bindmount/" + subhost['application'] + ".sh"
                     sh.args = [
-                        setupConfig['application'],
+                        subhost['application'],
                         '/tmp/' + subhost['subhostname'] + '/' + subhost['application'],
                         '/vagrant/' + subhost['subhostname'],
                     ]
