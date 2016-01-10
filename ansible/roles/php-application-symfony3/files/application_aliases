@@ -1,7 +1,0 @@
-alias sf='./app/console'
-alias sfcc='sf cache:clear'
-alias sfad='sf assetic:dump'
-alias sfai='sf assets:install --symlink'
-alias sfaw='sf assetic:watch'
-alias sfdsu='sf doctrine:schema:update --force --complete'
-alias sfdsu='sf doctrine:schema:validate'

@@ -1,0 +1,7 @@
+alias sf2='./app/console'
+alias sf2cc='sf2 cache:clear'
+alias sf2ad='sf2 assetic:dump'
+alias sf2ai='sf2 assets:install --symlink'
+alias sf2aw='sf2 assetic:watch'
+alias sf2dsu='sf2 doctrine:schema:update --force --complete'
+alias sf2dsu='sf2 doctrine:schema:validate'

@@ -30,8 +30,8 @@ plugins=({{ zsh.ohmyzsh.plugins|join(' ') }})
 
 {% if zsh.ohmyzsh.enable == true %}source $ZSH/oh-my-zsh.sh{% endif %}
 
-if [ -f ~/.application_aliases ]; then
-    . ~/.application_aliases
-fi
+for filename in ~/.application_aliases/*; do
+    . $filename
+done
 
 cd /vagrant

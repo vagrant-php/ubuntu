@@ -1,4 +1,4 @@
-{% macro server(servername, baseRootDir) %}
+{% macro server(servername, baseRootDir, application) %}
     server {
         listen 80;
         listen 443 ssl;
@@ -72,7 +72,7 @@ http {
     client_max_body_size {{ php.config.fpm.php.post_max_size }};
 
     {% if not subhosts %}
-        {{ server(hostname, '/vagrant') }}
+        {{ server(hostname, '/vagrant', application) }}
     {% else %}
 
         server {
@@ -95,8 +95,8 @@ http {
             </ul>';
         }
 
-        {% for subhostname in subhosts %}
-            {{ server(subhostname + '.' + hostname, '/vagrant/' + subhostname) }}
+        {% for subhost in subhosts %}
+            {{ server(subhost['subhostname'] + '.' + hostname, '/vagrant/' + subhost['subhostname'], subhost['application']) }}
         {% endfor %}
     {% endif %}
 }

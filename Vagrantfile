@@ -61,6 +61,7 @@ if not setupConfig['application'].nil?
     applications.push(setupConfig['application'])
 end
 setupConfig['subhosts'].each do |subhost|
+    subhost['application'] = !subhost['application'].nil? ? subhost['application'] : setupConfig['application']
     if not subhost['application'].nil?
         applications.push(subhost['application'])
     end
@@ -204,13 +205,12 @@ Vagrant.configure(2) do |config|
         end
     else
         setupConfig['subhosts'].each do |subhost|
-            subhostApplication = !subhost['application'].nil? ? subhost['application'] : setupConfig['application']
-            if subhostApplication
+            if subhost['application']
                 config.vm.provision 'shell', run: "always" do |sh|
-                    sh.path = "bindmount/" + subhostApplication + ".sh"
+                    sh.path = "bindmount/" + subhost['application'] + ".sh"
                     sh.args = [
                         setupConfig['application'],
-                        '/tmp/' + subhost['subhostname'] + '/' + subhostApplication,
+                        '/tmp/' + subhost['subhostname'] + '/' + subhost['application'],
                         '/vagrant/' + subhost['subhostname'],
                     ]
                 end

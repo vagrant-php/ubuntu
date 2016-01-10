@@ -1,0 +1,7 @@
+alias sf3='./app/console'
+alias sf3cc='sf3 cache:clear'
+alias sf3ad='sf3 assetic:dump'
+alias sf3ai='sf3 assets:install --symlink'
+alias sf3aw='sf3 assetic:watch'
+alias sf3dsu='sf3 doctrine:schema:update --force --complete'
+alias sf3dsu='sf3 doctrine:schema:validate'
