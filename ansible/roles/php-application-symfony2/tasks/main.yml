@@ -1,6 +1,3 @@
-- name: add .application_aliases directory for user vagrant if not exists
-  file: path=/home/vagrant/.application_aliases state=directory
-
 - name: copy .application_aliases for user vagrant
   copy:
     src=symfony2
