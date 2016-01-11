@@ -1,0 +1,11 @@
+- name: remove .application_aliases directory for user vagrant
+  file: path=/home/vagrant/.application_aliases state=absent
+
+- name: add .application_aliases directory for user vagrant
+  file: path=/home/vagrant/.application_aliases state=directory
+
+- name: remove .application_aliases directory for user root
+  file: path=/root/.application_aliases state=absent
+
+- name: add .application_aliases directory for user root
+  file: path=/root/.application_aliases state=directory

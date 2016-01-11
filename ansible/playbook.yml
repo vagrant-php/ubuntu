@@ -11,15 +11,15 @@
     - { role: mariadb, when: role.mariadb }
     - { role: memcached, when: role.memcached }
     - { role: mongodb, when: role.mongodb }
-    - { role: nginx-application-bolt2, when: application == 'bolt2' }
-    - { role: nginx-application-contao3, when: application == 'contao3' }
-    - { role: nginx-application-drupal7, when: application == 'drupal7' }
-    - { role: nginx-application-drupal8, when: application == 'drupal8' }
-    - { role: nginx-application-lavarel5, when: application == 'lavarel5' }
-    - { role: nginx-application-symfony1, when: application == 'symfony1' }
-    - { role: nginx-application-symfony2, when: application == 'symfony2' }
-    - { role: nginx-application-symfony3, when: application == 'symfony3' }
-    - { role: nginx-application-wordpress4, when: application == 'wordpress4' }
+    - { role: nginx-application-bolt2, when: "'bolt2' in applications" }
+    - { role: nginx-application-contao3, when: "'contao3' in applications" }
+    - { role: nginx-application-drupal7, when: "'drupal7' in applications" }
+    - { role: nginx-application-drupal8, when: "'drupal8' in applications" }
+    - { role: nginx-application-lavarel5, when: "'lavarel5' in applications" }
+    - { role: nginx-application-symfony1, when: "'symfony1' in applications" }
+    - { role: nginx-application-symfony2, when: "'symfony2' in applications" }
+    - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
+    - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
     - nginx
     - { role: nodejs, when: role.nodejs }
     - { role: php55-original, when: phpversion == '5.5-original' }
@@ -27,11 +27,12 @@
     - { role: php56, when: phpversion == 5.6 }
     - { role: php70, when: phpversion == 7.0 }
     - php-tools
-    - { role: php-application-drupal7, when: application == 'drupal7' }
-    - { role: php-application-drupal8, when: application == 'drupal8' }
-    - { role: php-application-symfony2, when: application == 'symfony2' }
-    - { role: php-application-symfony3, when: application == 'symfony3' }
-    - { role: php-application-wordpress4, when: application == 'wordpress4' }
+    - php-application
+    - { role: php-application-drupal7, when: "'drupal7' in applications" }
+    - { role: php-application-drupal8, when: "'drupal8' in applications" }
+    - { role: php-application-symfony2, when: "'symfony2' in applications" }
+    - { role: php-application-symfony3, when: "'symfony3' in applications" }
+    - { role: php-application-wordpress4, when: "'wordpress4' in applications" }
     - { role: postgresql, when: role.postgresql }
     - { role: redis, when: role.redis }
     - { role: ruby, when: role.ruby }

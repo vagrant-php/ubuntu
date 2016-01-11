@@ -1,4 +1,4 @@
-{% macro server(servername, baseRootDir) %}
+{% macro server(servername, baseRootDir, application) %}
     server {
         listen 80;
         listen 443 ssl;
@@ -11,7 +11,7 @@
         set $baseRootDir {{ baseRootDir }};
 
         {% if application %}
-            include application.conf;
+            include application/{{ application }}.conf;
         {% else %}
             root $baseRootDir;
 
@@ -71,8 +71,8 @@ http {
     sendfile off;
     client_max_body_size {{ php.config.fpm.php.post_max_size }};
 
-    {% if not subhostnames %}
-        {{ server(hostname, '/vagrant') }}
+    {% if not subhosts %}
+        {{ server(hostname, '/vagrant', application) }}
     {% else %}
 
         server {
@@ -89,14 +89,14 @@ http {
             return 200 '
             <h1>multihost system</h1>
             <ul>
-            {% for subhostname in subhostnames %}
-                <li><a target="_blank" href="//{{ subhostname + '.' + hostname }}">{{ subhostname + '.' + hostname }}</a></li>
+            {% for subhost in subhosts %}
+                <li><a target="_blank" href="//{{ subhost['subhostname'] + '.' + hostname }}">{{ subhost['subhostname'] + '.' + hostname }}</a></li>
             {% endfor %}
             </ul>';
         }
 
-        {% for subhostname in subhostnames %}
-            {{ server(subhostname + '.' + hostname, '/vagrant/' + subhostname) }}
+        {% for subhost in subhosts %}
+            {{ server(subhost['subhostname'] + '.' + hostname, '/vagrant/' + subhost['subhostname'], subhost['application']) }}
         {% endfor %}
     {% endif %}
 }

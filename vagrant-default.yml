@@ -1,7 +1,9 @@
 ---
 hostname: projectname.dev
-subhostnames: []
 application: ~
+subhosts: []
+#  - { subhostname: "project1", application: "symfony2" }
+
 sharetype: nfs
 phpversion: 5.6
 cpus: ~
@@ -63,9 +65,9 @@ role:
 bash:
     config:
         alias:
-            cls: &cls "base64:J3ByaW50ZiAiXDAzM2MiJw==" # 'ps -p $$'
+            cls: &cls "base64:J3ByaW50ZiAiXDAzM2MiJw==" # 'printf "\033c"'
             showdns: &showdns "base64:J2RpZyAkMSBhbnkgK25vY21kICttdWx0aWxpbmUgK25vYWxsICthbnN3ZXIn" # 'dig $1 any +nocmd +multiline +noall +answer'
-            whichshell: &whichshell "base64:J3BzIC1wICQkJw==" # 'printf "\033c"'
+            whichshell: &whichshell "base64:J3BzIC1wICQkJw==" # 'ps -p $$'
         export:
             CLICOLOR: 1
             EDITOR: &editor vim

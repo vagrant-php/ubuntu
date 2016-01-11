@@ -1,13 +1,16 @@
 - name: copy .application_aliases for user vagrant
   copy:
-    src=application_aliases
-    dest=/home/vagrant/.application_aliases
+    src=symfony2
+    dest=/home/vagrant/.application_aliases/symfony2
     owner=vagrant
     group=vagrant
 
+- name: add .application_aliases directory for user root if not exists
+  file: path=/root/.application_aliases state=directory
+
 - name: copy .application_aliases for user root
   copy:
-    src=application_aliases
-    dest=/root/.application_aliases
+    src=symfony2
+    dest=/root/.application_aliases/symfony2
     owner=root
     group=root

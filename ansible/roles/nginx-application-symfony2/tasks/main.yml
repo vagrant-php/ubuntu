@@ -1,9 +1,9 @@
 - name: add config directory if not exists
-  file: path=/etc/nginx/ state=directory
+  file: path=/etc/nginx/application state=directory
 
 - name: copy application config
   copy:
-    src=application.conf
-    dest=/etc/nginx/application.conf
+    src=symfony2.conf
+    dest=/etc/nginx/application/symfony2.conf
     owner=root
     group=root
