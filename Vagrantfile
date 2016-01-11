@@ -61,7 +61,6 @@ if not setupConfig['application'].nil?
     setupConfig['applications'].push(setupConfig['application'])
 end
 setupConfig['subhosts'].each do |subhost|
-    subhost['application'] = !subhost['application'].nil? ? subhost['application'] : setupConfig['application']
     if not subhost['application'].nil?
         setupConfig['applications'].push(subhost['application'])
     end
