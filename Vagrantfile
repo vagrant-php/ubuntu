@@ -26,6 +26,7 @@ setupPath = File.dirname(File.expand_path(__FILE__))
 
 defaultConfigPath = setupPath + '/vagrant-default.yml'
 projectConfigPath = setupPath + '/../vagrant.yml'
+systemUserConfigPath = File.expand_path('~/.vagrant-php/vagrant.yml')
 userConfigPath = setupPath + '/../vagrant-user.yml'
 
 setupConfig = YAML.load_file(defaultConfigPath)
@@ -33,6 +34,11 @@ setupConfig = YAML.load_file(defaultConfigPath)
 if File.file?(projectConfigPath)
     projectConfig = YAML.load_file(projectConfigPath)
     setupConfig = setupConfig.deep_merge(projectConfig)
+end
+
+if File.file?(systemUserConfigPath)
+    systemUserConfig = YAML.load_file(systemUserConfigPath)
+    setupConfig = setupConfig.deep_merge(systemUserConfig)
 end
 
 if File.file?(userConfigPath)
