@@ -22,7 +22,7 @@
   wait_for: port={{postgresql.config.port}}
 
 - name: change default user to {{ postgresql.username }} / {{ postgresql.password }}
-  sudo_user: postgres
+  become_user: postgres
   postgresql_user: name={{ postgresql.username }} password={{ postgresql.password }} role_attr_flags=SUPERUSER
 
 - name: copy .pgpass for postgres

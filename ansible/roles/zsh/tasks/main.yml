@@ -32,7 +32,7 @@
 
 - name: install ohmyzsh for user vagrant
   command: '/bin/sh /tmp/ohmyzsh-installer'
-  sudo_user: vagrant
+  become_user: vagrant
   when: zsh.ohmyzsh.enable == true and vagrant_ohmyzsh_installed.stat.exists == false
 
 - stat: path=/root/.oh-my-zsh

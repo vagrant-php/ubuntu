@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  sudo: true
+  become: true
   roles:
     - general
     - { role: bash, when: general.config.shell == 'bash' }
