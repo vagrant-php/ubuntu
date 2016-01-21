@@ -90,6 +90,10 @@ If you d'like to change the php version, you need to run `vagrant destroy and va
  * 7.0
  * hhvm
 
+### .vagrant-default-user.yml (within your home directory)
+
+This yaml is for global user overrides.
+
 ### vagrant-user.yml (within your project dir)
 
 This yaml is for user overrides, *do not* commit this file within your project.
