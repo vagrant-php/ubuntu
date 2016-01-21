@@ -26,13 +26,13 @@
     - restart php7.0-fpm
   when: role.memcached
   
-- name: install mongodb
-  apt: name={{ item }} state=present
-  with_items:
-    - php-mongodb
-  notify:
-    - restart php7.0-fpm
-  when: role.mongodb
+#- name: install mongodb
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php-mongodb
+#  notify:
+#    - restart php7.0-fpm
+#  when: role.mongodb
 
 - name: install mysql
   apt: name={{ item }} state=present
