@@ -19,8 +19,10 @@ shopt -s {{ shopt }}
 {{ row(export, value, 'export') }}
 {% endfor %}
 
-for filename in ~/.application_aliases/*; do
-    . $filename
-done
+if [ -d ~/.application_aliases ]; then
+    for filename in ~/.application_aliases/*; do
+        . $filename
+    done
+fi
 
 cd /vagrant
