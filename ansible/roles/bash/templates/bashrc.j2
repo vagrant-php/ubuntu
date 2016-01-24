@@ -21,7 +21,9 @@ shopt -s {{ shopt }}
 
 if [ -d ~/.application_aliases ]; then
     for filename in ~/.application_aliases/*; do
-        . $filename
+        if [ -f $filename ]; then
+            . $filename
+        fi
     done
 fi
 

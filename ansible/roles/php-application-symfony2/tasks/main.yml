@@ -5,9 +5,6 @@
     owner=vagrant
     group=vagrant
 
-- name: add .application_aliases directory for user root if not exists
-  file: path=/root/.application_aliases state=directory
-
 - name: copy .application_aliases for user root
   copy:
     src=symfony2
