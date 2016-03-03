@@ -3,10 +3,10 @@
   apt_key: keyserver=keyserver.ubuntu.com id=4F4EA0AAE5267A6C state=present
 
 - name: app repository
-  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/php-7.0/ubuntu trusty main' state=present
+  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
 
 - name: app src repository
-  apt_repository: repo='deb-src http://ppa.launchpad.net/ondrej/php-7.0/ubuntu trusty main' state=present
+  apt_repository: repo='deb-src http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
 
 - name: install core, common, cli, fpm
   apt: name={{ item }} state=present
@@ -67,7 +67,7 @@
   when: role.freetds
 
 - name: install modules
-  apt: name="php-{{ php.modules|join(',php-')|replace('sqlite', 'sqlite3') }}" state=present
+  apt: name="php7.0-{{ php.modules|join(',php7.0-')|replace('sqlite', 'sqlite3') }}" state=present
   notify:
     - restart php7.0-fpm
 
