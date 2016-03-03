@@ -15,6 +15,7 @@
     - php7.0-common
     - php7.0-cli
     - php7.0-fpm
+    - php-apcu
   notify:
     - restart php7.0-fpm
 
@@ -67,7 +68,7 @@
   when: role.freetds
 
 - name: install modules
-  apt: name="php7.0-{{ php.modules|join(',php7.0-')|replace('sqlite', 'sqlite3') }}" state=present
+  apt: name="php-{{ php.modules|join(',php-')|replace('sqlite', 'sqlite3') }}" state=present
   notify:
     - restart php7.0-fpm
 

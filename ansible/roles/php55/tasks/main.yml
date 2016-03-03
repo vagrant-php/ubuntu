@@ -15,6 +15,7 @@
     - php5-common
     - php5-cli
     - php5-fpm
+    - php5-apcu
   notify:
     - restart php55-fpm
 

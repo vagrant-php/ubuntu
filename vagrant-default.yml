@@ -299,7 +299,6 @@ php:
         socket: *phpserversocket
 
     modules:
-        - apcu
         - curl
         - gd
         - imagick
