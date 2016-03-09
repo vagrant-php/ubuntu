@@ -69,6 +69,7 @@ for advanced configuration see the [default configuration][2]
  * drupal7
  * drupal8
  * lavarel5
+ * magento1
  * symfony1
  * symfony2
  * symfony3
