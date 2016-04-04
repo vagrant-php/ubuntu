@@ -108,6 +108,7 @@ general:
             layout: ch
             variant: de_nodeadkeys
         shell: bash # bash or zsh
+        webserver: nginx # nginx or apache
         timezone: &timezone Europe/Zurich
     packages:
         - build-essential

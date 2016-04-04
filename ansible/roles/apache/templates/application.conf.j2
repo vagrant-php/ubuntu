@@ -1,0 +1,67 @@
+{% macro server(servername, baseRootDir, application = '') %}
+
+<VirtualHost *:80>
+    ServerName {{ servername }}
+
+    <FilesMatch \.php$>
+        SetHandler proxy:unix:{{ nginx.config.fastcgi_socket }}|fcgi://localhost
+    </FilesMatch>
+
+    Define baseRootDir {{ baseRootDir }}
+
+    {% if application %}
+    include application/{{ application }}.conf
+    {% else %}
+    DocumentRoot ${baseRootDir}
+    <Directory ${baseRootDir}>
+        Options FollowSymLinks Indexes
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    DirectoryIndex index.php index.html
+    {% endif %}
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ servername }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ servername }}_access.log combined
+</VirtualHost>
+<VirtualHost *:443>
+    ServerName {{ servername }}
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/certificate
+    SSLCertificateKeyFile /etc/apache2/privatekey
+
+    <FilesMatch \.php$>
+        SetHandler proxy:unix:{{ nginx.config.fastcgi_socket }}|fcgi://localhost
+    </FilesMatch>
+
+    Define baseRootDir {{ baseRootDir }}
+
+    {% if application %}
+    include application/{{ application }}.conf
+    {% else %}
+    DocumentRoot ${baseRootDir}
+    <Directory ${baseRootDir}>
+        Options FollowSymLinks Indexes
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    DirectoryIndex index.php index.html
+    {% endif %}
+
+    ErrorLog ${APACHE_LOG_DIR}/{{ servername }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ servername }}_access.log combined
+</VirtualHost>
+{% endmacro %}
+
+{% if not subhosts %}
+    {{ server(hostname, '/vagrant', application) }}
+{% else %}
+    {{ server(hostname, '/var/www/multihost') }}
+
+    {% for subhost in subhosts %}
+    {{ server(subhost['subhostname'] + '.' + hostname, '/vagrant/' + subhost['subhostname'], subhost['application']) }}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,9 @@
+- name: add config directory if not exists
+  file: path=/etc/apache2/application state=directory
+
+- name: copy application config
+  copy:
+    src=contao3.conf
+    dest=/etc/apache2/application/contao3.conf
+    owner=root
+    group=root

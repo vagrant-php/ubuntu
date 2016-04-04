@@ -11,17 +11,28 @@
     - { role: mariadb, when: role.mariadb }
     - { role: memcached, when: role.memcached }
     - { role: mongodb, when: role.mongodb }
-    - { role: nginx-application-bolt2, when: "'bolt2' in applications" }
-    - { role: nginx-application-contao3, when: "'contao3' in applications" }
-    - { role: nginx-application-drupal7, when: "'drupal7' in applications" }
-    - { role: nginx-application-drupal8, when: "'drupal8' in applications" }
-    - { role: nginx-application-lavarel5, when: "'lavarel5' in applications" }
-    - { role: nginx-application-magento1, when: "'magento1' in applications" }
-    - { role: nginx-application-symfony1, when: "'symfony1' in applications" }
-    - { role: nginx-application-symfony2, when: "'symfony2' in applications" }
-    - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
-    - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
-    - nginx
+    - { role: nginx-application-bolt2, when: "general.config.webserver == 'nginx' and 'bolt2' in applications" }
+    - { role: nginx-application-contao3, when: "general.config.webserver == 'nginx' and 'contao3' in applications" }
+    - { role: nginx-application-drupal7, when: "general.config.webserver == 'nginx' and 'drupal7' in applications" }
+    - { role: nginx-application-drupal8, when: "general.config.webserver == 'nginx' and 'drupal8' in applications" }
+    - { role: nginx-application-lavarel5, when: "general.config.webserver == 'nginx' and 'lavarel5' in applications" }
+    - { role: nginx-application-magento1, when: "general.config.webserver == 'nginx' and 'magento1' in applications" }
+    - { role: nginx-application-symfony1, when: "general.config.webserver == 'nginx' and 'symfony1' in applications" }
+    - { role: nginx-application-symfony2, when: "general.config.webserver == 'nginx' and 'symfony2' in applications" }
+    - { role: nginx-application-symfony3, when: "general.config.webserver == 'nginx' and 'symfony3' in applications" }
+    - { role: nginx-application-wordpress4, when: "general.config.webserver == 'nginx' and 'wordpress4' in applications" }
+    - { role: nginx, when: general.config.webserver == 'nginx' }
+    - { role: apache-application-bolt2, when: "general.config.webserver == 'apache' and 'bolt2' in applications" }
+    - { role: apache-application-contao3, when: "general.config.webserver == 'apache' and 'contao3' in applications" }
+    - { role: apache-application-drupal7, when: "general.config.webserver == 'apache' and 'drupal7' in applications" }
+    - { role: apache-application-drupal8, when: "general.config.webserver == 'apache' and 'drupal8' in applications" }
+    - { role: apache-application-lavarel5, when: "general.config.webserver == 'apache' and 'lavarel5' in applications" }
+    - { role: apache-application-magento1, when: "general.config.webserver == 'apache' and 'magento1' in applications" }
+    - { role: apache-application-symfony1, when: "general.config.webserver == 'apache' and 'symfony1' in applications" }
+    - { role: apache-application-symfony2, when: "general.config.webserver == 'apache' and 'symfony2' in applications" }
+    - { role: apache-application-symfony3, when: "general.config.webserver == 'apache' and 'symfony3' in applications" }
+    - { role: apache-application-wordpress4, when: "general.config.webserver == 'apache' and 'wordpress4' in applications" }
+    - { role: apache, when: general.config.webserver == 'apache' }
     - { role: nodejs, when: role.nodejs }
     - { role: php55-original, when: phpversion == '5.5-original' }
     - { role: php55, when: phpversion == 5.5 }

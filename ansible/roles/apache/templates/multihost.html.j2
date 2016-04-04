@@ -1,0 +1,6 @@
+<h1>multihost system</h1>
+<ul>
+{% for subhost in subhosts %}
+    <li><a target="_blank" href="//{{ subhost['subhostname'] + '.' + hostname }}">{{ subhost['subhostname'] + '.' + hostname }}</a></li>
+{% endfor %}
+</ul>
