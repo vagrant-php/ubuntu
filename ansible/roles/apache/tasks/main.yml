@@ -1,0 +1,70 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=4F4EA0AAE5267A6C state=present
+
+- name: app repository
+  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/apache2/ubuntu trusty main' state=present
+
+- name: app src repository
+  apt_repository: repo='deb-src http://ppa.launchpad.net/ondrej/apache2/ubuntu trusty main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - apache2
+    - libapache2-mod-fastcgi
+
+- name: copy privatekey
+  copy:
+    src=privatekey
+    dest=/etc/apache2/privatekey
+
+- name: copy certificate
+  copy:
+    src=certificate
+    dest=/etc/apache2/certificate
+
+- name: enable modules
+  apache2_module: name={{ item}} state=present
+  with_items:
+    - actions
+    - fastcgi
+    - alias
+    - rewrite
+    - proxy
+    - proxy_fcgi
+    - ssl
+  notify:
+    - restart apache2
+
+- name: set permissions for fastcgi
+  file: path=/var/lib/apache2/fastcgi state=directory recurse=yes owner=vagrant group=vagrant
+  notify:
+    - restart apache2
+
+- name: add multihost directory if not exists
+  file: path=/var/www/multihost state=directory
+
+- name: copy multihost html
+  template:
+    src=multihost.html.j2
+    dest=/var/www/multihost/index.html
+
+- name: remove default host
+  file: path=/etc/apache2/sites-enabled/000-default.conf state=absent
+  notify:
+    - restart apache2
+
+- name: copy apache configuration
+  template:
+    src=apache2.conf.j2
+    dest=/etc/apache2/apache2.conf
+  notify:
+    - restart apache2
+
+- name: copy application configuration
+  template:
+    src=application.conf.j2
+    dest=/etc/apache2/application.conf
+  notify:
+    - restart apache2
