@@ -21,6 +21,7 @@
     - { role: nginx-application-symfony2, when: "'symfony2' in applications" }
     - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
     - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
+    - { role: nginx-application-shopware, when: "'shopware' in applications" }
     - nginx
     - { role: nodejs, when: role.nodejs }
     - { role: php55-original, when: phpversion == '5.5-original' }

@@ -1,0 +1,9 @@
+- name: add config directory if not exists
+  file: path=/etc/nginx/application state=directory
+
+- name: copy application config
+  copy:
+    src=shopware.conf
+    dest=/etc/nginx/application/shopware.conf
+    owner=root
+    group=root
