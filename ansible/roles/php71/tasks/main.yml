@@ -1,0 +1,92 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=4F4EA0AAE5267A6C state=present
+
+- name: app repository
+  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
+
+- name: app src repository
+  apt_repository: repo='deb-src http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
+
+- name: install core, common, cli, fpm
+  apt: name={{ item }} state=present
+  with_items:
+    - php7.1
+    - php7.1-common
+    - php7.1-cli
+    - php7.1-fpm
+    - php-apcu
+  notify:
+    - restart php7.1-fpm
+
+- name: install memcached
+  apt: name={{ item }} state=present
+  with_items:
+    - php-memcached
+  notify:
+    - restart php7.1-fpm
+  when: role.memcached
+
+#- name: install mongodb
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php-mongodb
+#  notify:
+#    - restart php7.1-fpm
+#  when: role.mongodb
+
+- name: install mysql
+  apt: name={{ item }} state=present
+  with_items:
+    - php-mysql
+  notify:
+    - restart php7.1-fpm
+  when: role.mariadb
+
+- name: install pgsql
+  apt: name={{ item }} state=present
+  with_items:
+    - php-pgsql
+  notify:
+    - restart php7.1-fpm
+  when: role.postgresql
+
+- name: install redis
+  apt: name={{ item }} state=present
+  with_items:
+    - php-redis
+  notify:
+    - restart php7.1-fpm
+  when: role.redis
+
+- name: install sybase
+  apt: name={{ item }} state=present
+  with_items:
+    - php-sybase
+  notify:
+    - restart php7.1-fpm
+  when: role.freetds
+
+- name: install modules
+  apt: name="php-{{ php.modules|join(',php-')|replace('sqlite', 'sqlite3') }}" state=present
+  notify:
+    - restart php7.1-fpm
+
+- name: configure cli php.ini
+  template:
+    src=cli.php.ini.j2
+    dest=/etc/php/7.1/cli/php.ini
+
+- name: configure fpm php.ini
+  template:
+    src=fpm.php.ini.j2
+    dest=/etc/php/7.1/fpm/php.ini
+  notify:
+    - restart php7.1-fpm
+
+- name: fpm config
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/7.1/fpm/php-fpm.conf
+  notify:
+    - restart php7.1-fpm
