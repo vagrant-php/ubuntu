@@ -307,6 +307,7 @@ php:
         - mcrypt
         - sqlite
         - xdebug
+        - xml
 
 postgresql:
     username: root
