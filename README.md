@@ -74,6 +74,7 @@ for advanced configuration see the [default configuration][2]
  * symfony2
  * symfony3
  * wordpress4
+ * shopware
 
 #### supported sharetype
 
