@@ -7,4 +7,4 @@
 
 - name: install gems
   gem: name={{ item }} state=present user_install=no
-  with_items: ruby.gems
+  with_items: "{{ ruby.gems }}"
