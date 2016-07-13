@@ -70,11 +70,11 @@ for advanced configuration see the [default configuration][2]
  * drupal8
  * lavarel5
  * magento1
+ * shopware
  * symfony1
  * symfony2
  * symfony3
  * wordpress4
- * shopware
 
 #### supported sharetype
 
