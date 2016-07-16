@@ -22,15 +22,15 @@
 - name: install memcached
   apt: name={{ item }} state=present
   with_items:
-    - php-memcached
+    - php7.0-memcached
   notify:
     - restart php7.0-fpm
   when: role.memcached
-  
+
 #- name: install mongodb
 #  apt: name={{ item }} state=present
 #  with_items:
-#    - php-mongodb
+#    - php7.0-mongodb
 #  notify:
 #    - restart php7.0-fpm
 #  when: role.mongodb
@@ -38,7 +38,7 @@
 - name: install mysql
   apt: name={{ item }} state=present
   with_items:
-    - php-mysql
+    - php7.0-mysql
   notify:
     - restart php7.0-fpm
   when: role.mariadb
@@ -46,7 +46,7 @@
 - name: install pgsql
   apt: name={{ item }} state=present
   with_items:
-    - php-pgsql
+    - php7.0-pgsql
   notify:
     - restart php7.0-fpm
   when: role.postgresql
@@ -54,7 +54,7 @@
 - name: install redis
   apt: name={{ item }} state=present
   with_items:
-    - php-redis
+    - php7.0-redis
   notify:
     - restart php7.0-fpm
   when: role.redis
@@ -62,13 +62,13 @@
 - name: install sybase
   apt: name={{ item }} state=present
   with_items:
-    - php-sybase
+    - php7.0-sybase
   notify:
     - restart php7.0-fpm
   when: role.freetds
 
 - name: install modules
-  apt: name="php-{{ php.modules|join(',php-')|replace('sqlite', 'sqlite3') }}" state=present
+  apt: name="php7.0-{{ php.modules|join(',php7.0-')|replace('sqlite', 'sqlite3') }}" state=present
   notify:
     - restart php7.0-fpm
 
