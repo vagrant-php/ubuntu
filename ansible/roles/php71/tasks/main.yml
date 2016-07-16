@@ -15,17 +15,17 @@
     - php7.1-common
     - php7.1-cli
     - php7.1-fpm
-    - php-apcu
+#    - php-apcu
   notify:
     - restart php7.1-fpm
 
-- name: install memcached
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.1-memcached
-  notify:
-    - restart php7.1-fpm
-  when: role.memcached
+#- name: install memcached
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php7.1-memcached
+#  notify:
+#    - restart php7.1-fpm
+#  when: role.memcached
 
 #- name: install mongodb
 #  apt: name={{ item }} state=present
@@ -51,26 +51,26 @@
     - restart php7.1-fpm
   when: role.postgresql
 
-- name: install redis
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.1-redis
-  notify:
-    - restart php7.1-fpm
-  when: role.redis
+#- name: install redis
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php7.1-redis
+#  notify:
+#    - restart php7.1-fpm
+#  when: role.redis
 
-- name: install sybase
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.1-sybase
-  notify:
-    - restart php7.1-fpm
-  when: role.freetds
+#- name: install sybase
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php7.1-sybase
+#  notify:
+#    - restart php7.1-fpm
+#  when: role.freetds
 
-- name: install modules
-  apt: name="php7.1-{{ php.modules|join(',php7.1-')|replace('sqlite', 'sqlite3') }}" state=present
-  notify:
-    - restart php7.1-fpm
+#- name: install modules
+#  apt: name="php7.1-{{ php.modules|join(',php7.1-')|replace('sqlite', 'sqlite3') }}" state=present
+#  notify:
+#    - restart php7.1-fpm
 
 - name: configure cli php.ini
   template:
