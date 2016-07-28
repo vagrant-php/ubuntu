@@ -304,6 +304,7 @@ php:
         - gd
         - imagick
         - intl
+        - mbstring
         - mcrypt
         - sqlite
         - xdebug
