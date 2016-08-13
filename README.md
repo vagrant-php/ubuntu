@@ -65,6 +65,7 @@ for advanced configuration see the [default configuration][2]
 #### supported application
 
  * bolt2
+ * bolt3
  * contao3
  * drupal7
  * drupal8
