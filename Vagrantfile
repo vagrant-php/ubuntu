@@ -77,6 +77,7 @@ Vagrant.configure(2) do |config|
     # Vagrant box
     # --------------------------------------------------------------------------
     config.vm.box = 'boxcutter/ubuntu1404'
+    config.vm.guest = 'trusty'
 
     # General settings
     # --------------------------------------------------------------------------
