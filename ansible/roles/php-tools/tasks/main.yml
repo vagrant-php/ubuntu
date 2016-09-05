@@ -6,9 +6,9 @@
   shell: curl -LsS http://get.sensiolabs.org/php-cs-fixer.phar -o /usr/local/bin/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer.phar
 
 - name: phpunit-4.8 install
-  shell: curl -LsS https://phar.phpunit.de/phpunit-4.8.9.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
+  shell: curl -LsS https://phar.phpunit.de/phpunit-4.8.27.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
   when: phpversion == 5.5 or phpversion == '5.5-original'
 
-- name: phpunit-5.1 install
-  shell: curl -LsS https://phar.phpunit.de/phpunit-5.1.3.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
+- name: phpunit-5.5 install
+  shell: curl -LsS https://phar.phpunit.de/phpunit-5.5.4.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
   when: phpversion != 5.5 and phpversion != '5.5-original'
