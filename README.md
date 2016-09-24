@@ -72,6 +72,7 @@ for advanced configuration see the [default configuration][2]
  * lavarel5
  * magento1
  * shopware
+ * slim3
  * symfony1
  * symfony2
  * symfony3

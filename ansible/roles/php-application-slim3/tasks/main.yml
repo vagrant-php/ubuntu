@@ -1,0 +1,13 @@
+- name: copy .application_aliases for user vagrant
+  copy:
+    src=slim3
+    dest=/home/vagrant/.application_aliases/slim3
+    owner=vagrant
+    group=vagrant
+
+- name: copy .application_aliases for user root
+  copy:
+    src=slim3
+    dest=/root/.application_aliases/slim3
+    owner=root
+    group=root
