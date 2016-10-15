@@ -1,4 +1,4 @@
-echo "Executing bindmount for $1, $2, $3 ..."
+echo "Executing bindmount for $1"
 mkdir -p $2/cache/
 mkdir -p $2/log/
 mkdir -p $2/session/
@@ -11,8 +11,12 @@ mkdir -p $3/var/cache/
 mkdir -p $3/var/log/
 mkdir -p $3/var/session/
 mkdir -p $3/var/tmp/
+echo "mount -o bind $2/cache/ $3/var/cache/"
 mount -o bind $2/cache/ $3/var/cache/
+echo "mount -o bind $2/log/ $3/var/log/"
 mount -o bind $2/log/ $3/var/log/
+echo "mount -o bind $2/session/ $3/var/session/"
 mount -o bind $2/session/ $3/var/session/
+echo "mount -o bind $2/tmp/ $3/var/tmp/"
 mount -o bind $2/tmp/ $3/var/tmp/
 echo "... done!"
