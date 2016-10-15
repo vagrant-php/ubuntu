@@ -5,8 +5,11 @@ subhosts: []
 #  - { subhostname: "project1", application: "symfony2" }
 
 sharetype: nfs
-phpversion: 5.6
+
+elasticsearchversion: 1.7
 nodeversion: 0.12
+phpversion: 5.6
+
 cpus: ~
 memory: 1024
 

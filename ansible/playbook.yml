@@ -4,7 +4,7 @@
   roles:
     - general
     - { role: bash, when: general.config.shell == 'bash' }
-    - { role: elasticsearch, when: role.elasticsearch }
+    - { role: elasticsearch17, when: role.elasticsearch and elasticsearchversion == 1.7 }
     - { role: freetds, when: role.freetds }
     - git
     - { role: hhvm, when: phpversion == 'hhvm' }
