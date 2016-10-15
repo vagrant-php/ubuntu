@@ -25,7 +25,10 @@
     - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
     - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
     - nginx
-    - { role: nodejs, when: role.nodejs }
+    - { role: nodejs012, when: role.nodejs and nodeversion == 0.12 }
+    - { role: nodejs4, when: role.nodejs and nodeversion == 4 }
+    - { role: nodejs5, when: role.nodejs and nodeversion == 5 }
+    - { role: nodejs6, when: role.nodejs and nodeversion == 6 }
     - { role: php55-original, when: phpversion == '5.5-original' }
     - { role: php55, when: phpversion == 5.5 }
     - { role: php56, when: phpversion == 5.6 }

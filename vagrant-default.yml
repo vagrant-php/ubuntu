@@ -6,6 +6,7 @@ subhosts: []
 
 sharetype: nfs
 phpversion: 5.6
+nodeversion: 0.12
 cpus: ~
 memory: 1024
 
