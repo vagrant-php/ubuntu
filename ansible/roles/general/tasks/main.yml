@@ -83,6 +83,20 @@
 - name: disable-transparent-hugepages | register init script disable-transparent-hugepages
   command: /usr/sbin/update-rc.d disable-transparent-hugepages defaults
 
+### swap
+
+- name: additional_swap | image
+  command: /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count={{ swap }}
+  when: additional_swap != 0
+
+- name: additional_swap | mkswap
+  command: /sbin/mkswap /var/swap.1
+  when: additional_swap != 0
+
+- name: additional_swap | swapon
+  command: /sbin/swapon /var/swap.1
+  when: additional_swap != 0
+
 ### python
 - name: python | add key for ppa python repository
   apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present

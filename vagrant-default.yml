@@ -12,6 +12,7 @@ phpversion: 5.6
 
 cpus: ~
 memory: 1024
+additional_swap: 0
 
 network:
     forwarded_ports:
