@@ -84,13 +84,13 @@
   command: /usr/sbin/update-rc.d disable-transparent-hugepages defaults
 
 ### python
-- name: add key for ppa python repository
+- name: python | add key for ppa python repository
   apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
 
-- name: Add ppa python repository
+- name: python | Add ppa python repository
   apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty main' state=present update_cache=yes
 
-- name: ensure python2.7 tatest is installed
+- name: python | ensure python2.7 tatest is installed
   apt:
     pkg: python2.7
     state: latest
