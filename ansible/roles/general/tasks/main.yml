@@ -86,7 +86,7 @@
 ### swap
 
 - name: additional_swap | image
-  command: /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count={{ swap }}
+  command: /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count={{ additional_swap }}
   when: additional_swap != 0
 
 - name: additional_swap | mkswap
