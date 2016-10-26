@@ -85,13 +85,17 @@
 
 ### swap
 
+- name: additional_swap | check file exists
+  stat: path=/var/swap.1
+  register: additional_swap_file_exists
+
 - name: additional_swap | image
   command: /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count={{ additional_swap }}
-  when: additional_swap != 0
+  when: additional_swap != 0 and additional_swap_file_exists.stat.exists == False
 
 - name: additional_swap | mkswap
   command: /sbin/mkswap /var/swap.1
-  when: additional_swap != 0
+  when: additional_swap != 0 and additional_swap_file_exists.stat.exists == False
 
 - name: additional_swap | swapon
   command: /sbin/swapon /var/swap.1
