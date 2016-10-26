@@ -85,7 +85,7 @@
 
 ### swap
 
-- name: additional_swap | check file exists
+- name: additional_swap | check swap image exists
   stat: path=/var/swap.1
   register: additional_swap_file_exists
 
@@ -100,6 +100,7 @@
 - name: additional_swap | swapon
   command: /sbin/swapon /var/swap.1
   when: additional_swap != 0
+  ignore_errors: yes
 
 ### python
 - name: python | add key for ppa python repository
