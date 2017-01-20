@@ -205,7 +205,7 @@ Vagrant.configure(2) do |config|
                 sh.path = "bindmount/" + setupConfig['application'] + ".sh"
                 sh.args = [
                     setupConfig['application'],
-                    '/tmp/' + setupConfig['application'],
+                    '/var/' + setupConfig['hostname'],
                     '/vagrant',
                 ]
             end
@@ -217,7 +217,7 @@ Vagrant.configure(2) do |config|
                     sh.path = "bindmount/" + subhost['application'] + ".sh"
                     sh.args = [
                         subhost['application'],
-                        '/tmp/' + subhost['subhostname'] + '/' + subhost['application'],
+                        '/var/' + subhost['subhostname'],
                         '/vagrant/' + subhost['subhostname'],
                     ]
                 end
