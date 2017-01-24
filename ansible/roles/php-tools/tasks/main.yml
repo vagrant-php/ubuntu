@@ -3,13 +3,19 @@
   shell: curl -LsS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
 - name: composer symlink
-  shell: ln -sf /usr/local/bin/composer.phar /usr/local/bin/composer
+  file:
+    src: /usr/local/bin/composer.phar
+    dest: /usr/local/bin/composer
+    state: link
 
 - name: php-cs-fixer install
   shell: curl -LsS http://get.sensiolabs.org/php-cs-fixer.phar -o /usr/local/bin/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer.phar
 
 - name: php-cs-fixer symlink
-  shell: ln -sf /usr/local/bin/php-cs-fixer.phar /usr/local/bin/php-cs-fixer
+  file:
+    src: /usr/local/bin/php-cs-fixer.phar
+    dest: /usr/local/bin/php-cs-fixer
+    state: link
 
 - name: phpunit-4.8 install
   shell: curl -LsS https://phar.phpunit.de/phpunit-4.8.27.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
@@ -20,4 +26,7 @@
   when: phpversion != 5.5 and phpversion != '5.5-original'
 
 - name: phpunit symlink
-  shell: ln -sf /usr/local/bin/phpunit.phar /usr/local/bin/phpunit
+  file:
+    src: /usr/local/bin/phpunit.phar
+    dest: /usr/local/bin/phpunit
+    state: link
