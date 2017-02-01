@@ -83,6 +83,7 @@ for advanced configuration see the [default configuration][2]
  * native
  * nfs
  * nfs-bindfs
+ * sshfs
 
 #### supported php versions
 

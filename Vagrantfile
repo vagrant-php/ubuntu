@@ -143,6 +143,8 @@ Vagrant.configure(2) do |config|
         else
             config.vm.synced_folder './..', '/vagrant', nfsoptions
         end
+    elsif setupConfig['sharetype'] == 'sshfs'
+        config.vm.synced_folder './..', '/vagrant', type: 'sshfs'
     else
         print "no valid sharetype, please take a look into README.md!\n"
     end
