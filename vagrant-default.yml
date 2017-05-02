@@ -266,7 +266,7 @@ php:
             session:
                 session.gc_probability: 0
             xdebug:
-                xdebug.max_nesting_level: 256
+                xdebug.max_nesting_level: 1024
         fpm:
             php:
                 short_open_tag: Off
@@ -302,7 +302,7 @@ php:
             session:
                 session.gc_probability: 0
             xdebug:
-                xdebug.max_nesting_level: 256
+                xdebug.max_nesting_level: 1024
     server:
         socket: *phpserversocket
 
