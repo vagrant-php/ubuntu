@@ -16,17 +16,3 @@
     src: /usr/local/bin/php-cs-fixer.phar
     dest: /usr/local/bin/php-cs-fixer
     state: link
-
-- name: phpunit-4.8 install
-  shell: curl -LsS https://phar.phpunit.de/phpunit-4.8.27.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
-  when: phpversion == 5.5 or phpversion == '5.5-original'
-
-- name: phpunit-5.5 install
-  shell: curl -LsS https://phar.phpunit.de/phpunit-5.5.4.phar -o /usr/local/bin/phpunit.phar && chmod +x /usr/local/bin/phpunit.phar
-  when: phpversion != 5.5 and phpversion != '5.5-original'
-
-- name: phpunit symlink
-  file:
-    src: /usr/local/bin/phpunit.phar
-    dest: /usr/local/bin/phpunit
-    state: link

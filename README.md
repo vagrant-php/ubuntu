@@ -2,21 +2,14 @@
 
 ## Features
 
- * ubuntu 14.04
+ * ubuntu 16.04
  * nginx 1.8
- * php (5.5, 5.5-original, 5.6, 7.0, 7.1, hhvm)
+ * php (7.0-original, 7.1)
 
 ## Switchable features
 
- * elasticsearch 1.7
- * freetds 0.91
- * mariadb 10.0
- * memcached 1.4
- * mongodb 3.0
- * nodejs 0.12
- * postgresql 9.4
- * redis 3.0.4
- * ruby 2.1.5
+ * mariadb 10.2
+ * nodejs 8
 
 ## Installation
 
@@ -30,7 +23,7 @@
 
 ```{.sh}
 cd /path/to/my/project
-git submodule add -b 14.04 https://github.com/vagrant-php/ubuntu.git vagrant-php
+git submodule add -b 16.04 https://github.com/vagrant-php/ubuntu.git vagrant-php
 ```
 
 #### install
@@ -89,12 +82,8 @@ for advanced configuration see the [default configuration][2]
 
 If you d'like to change the php version, you need to run `vagrant destroy and vagrant up`.
 
- * 5.5-original
- * 5.5
- * 5.6
- * 7.0
+ * 7.0-original
  * 7.1
- * hhvm
 
 ### .vagrant-default-user.yml (within your home directory)
 

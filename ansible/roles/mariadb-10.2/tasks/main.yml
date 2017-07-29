@@ -1,0 +1,42 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8 state=present
+
+- name: app repository
+  apt_repository: repo='deb [arch=amd64,i386] http://mirror.netcologne.de/mariadb/repo/10.2/ubuntu xenial main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - python-mysqldb
+
+- name: configure my.cnf
+  template:
+    src=my.cnf.j2
+    dest=/etc/mysql/my.cnf
+  notify:
+      - restart mysql
+
+- name: wait for mariadb
+  wait_for: port={{mariadb.config.mysqld.port}}
+
+- name: change default user to {{ mariadb.username }} / {{ mariadb.password }}
+  mysql_user: name={{ mariadb.username }} password={{ mariadb.password }} host=localhost login_unix_socket={{ mariadb.config.mysqld.socket }}
+
+- name: copy .my.cnf file for user root
+  template:
+    src=user-my.cnf.j2
+    dest=/root/.my.cnf
+    owner=root
+    group=root
+    mode=0600
+
+- name: copy .my.cnf for user vagrant
+  template:
+    src=user-my.cnf.j2
+    dest=/home/vagrant/.my.cnf
+    owner=vagrant
+    group=vagrant
+    mode=0600

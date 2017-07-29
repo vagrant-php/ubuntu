@@ -6,15 +6,8 @@ subhosts: []
 
 sharetype: nfs
 
-box_version: 2.0.26
-
-elasticsearchversion: 1.7
-nodeversion: 0.12
-phpversion: 5.6
-
 cpus: ~
 memory: 1024
-additional_swap: 0
 
 network:
     forwarded_ports:
@@ -58,14 +51,8 @@ virtualbox:
 
 role:
     elasticsearch: false
-    freetds: false
     mariadb: true
-    memcached: false
-    mongodb: false
-    nodejs: false
-    postgresql: false
-    redis: false
-    ruby: false
+    nodejs: true
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -88,25 +75,21 @@ bash:
             histappend: true
 
 elasticsearch:
+    version: 5
     config:
+        http.port: 9200
+        network.host: 0.0.0.0
+        node.max_local_storage_nodes: 1
         path.home: /usr/share/elasticsearch
         path.data: /var/lib/elasticsearch
-        path.work: /tmp/elasticsearch
         path.logs: /var/log/elasticsearch
         pidfile: /var/run/elasticsearch/elasticsearch.pid
-        http.port: 9200
-    plugins:
-        - mobz/elasticsearch-head
-        - elasticsearch/marvel/latest
-
-freetds:
-    config:
-#        sampledomain.tld:
-#            host: sampledomain.tld
-#            port: 60655
-#            tds version: 7.0
-#            client charset: UTF-8
-#            text size: 20971520
+    kibana:
+        config:
+            server.host: 0.0.0.0
+            server.port: 5601
+        plugins: []
+    plugins: []
 
 general:
     config:
@@ -119,7 +102,6 @@ general:
     packages:
         - build-essential
         - htop
-        - openjdk-7-jre-headless
         - unzip
         - vim
 
@@ -136,53 +118,15 @@ git:
 #            name: "'Firstname Lastname'"
 #            email: firstname.lastname@domain.tld
 
-hhvm:
-    config:
-        php:
-            short_open_tag: Off
-            safe_mode: Off
-            max_execution_time: 600
-            max_input_time: 600
-            memory_limit: 256M
-            error_reporting: E_ALL
-            display_errors: On
-            display_startup_errors: On
-            log_errors: On
-            error_log: /var/log/hhvm.err.log
-            post_max_size: 50M
-            magic_quotes_gpc: Off
-            magic_quotes_runtime: Off
-            default_charset: utf-8
-            cgi.fix_pathinfo: Off
-            upload_max_filesize: 50M
-            allow_url_fopen: On
-            allow_url_include: Off
-        date:
-            date.timezone: *timezone
-        intl:
-            intl.default_locale: *locale
-        mysql:
-            mysql.default_port: &mariadbport 3306
-            mysql.default_socket: &mariadbsocket /var/run/mysqld/mysqld.sock
-        mysqli:
-            mysqli.default_port: *mariadbport
-            mysqli.default_socket: *mariadbsocket
-        pdo_mysql:
-            pdo_mysql.default_socket: *mariadbsocket
-        hhvm:
-            hhvm.libxml.ext_entity_whitelist: file,http
-    server:
-        log: /var/log/hhvm-server.log
-        socket: &phpserversocket /tmp/php-server-socket
-
 mariadb:
+    version: 10.2
     username: root
     password: root
     config:
         client:
             default-character-set: utf8
-            port: *mariadbport
-            socket: *mariadbsocket
+            port: &mariadbport 3306
+            socket: &mariadbsocket /var/run/mysqld/mysqld.sock
         mysqld:
             character-set-server: utf8
             datadir: /var/lib/mysql
@@ -191,50 +135,21 @@ mariadb:
             port: *mariadbport
             socket: *mariadbsocket
 
-memcached:
-    config:
-        -d: ''
-        logfile: /var/log/memcached.log
-        -m: 64
-        -p: 11211
-        -s: /tmp/memcached.sock
-        -u: memcache
-
-mongodb:
-    username: root
-    password: root
-    config:
-        net:
-            port: 27017
-            unixDomainSocket:
-                enabled: true
-                pathPrefix: /tmp
-        security:
-            authorization: enabled
-        storage:
-           dbPath: /var/lib/mongodb
-        systemLog:
-           destination: file
-           path: /var/log/mongodb/mongodb.log
-           logAppend: true
-
 nginx:
     config:
         charset: utf-8
         error_log: /var/log/nginx/error.log
         fastcgi_read_timeout: 600
-        fastcgi_socket: *phpserversocket
+        fastcgi_socket: &phpserversocket /tmp/php-server-socket
         proxy_buffer_size: 128k
         proxy_buffers: 4 256k
         proxy_busy_buffers_size: 256k
 
 nodejs:
-    npm:
-        - bower
-        - gulp
-        - less
+    version: 8
 
 php:
+    version: 7.1
     config:
         cli:
             php:
@@ -305,7 +220,6 @@ php:
                 xdebug.max_nesting_level: 1024
     server:
         socket: *phpserversocket
-
     modules:
         - curl
         - gd
@@ -313,51 +227,9 @@ php:
         - intl
         - mbstring
         - mcrypt
-        - sqlite
+        - sqlite3
         - xdebug
         - xml
-
-postgresql:
-    username: root
-    password: root
-    config:
-        data_directory: /var/lib/postgresql/9.4/main
-        external_pid_file: /var/run/postgresql/9.4-main.pid
-        hba_file: /etc/postgresql/9.4/main/pg_hba.conf
-        ident_file: /etc/postgresql/9.4/main/pg_ident.conf
-        lc_messages: *locale
-        lc_monetary: *locale
-        lc_numeric: *locale
-        lc_time: *locale
-        log_directory: /var/log/postgresql
-        log_timezone: *timezone
-        port: 5432
-        shared_buffers: 128MB
-        timezone: *timezone
-        unix_socket_directories: /var/run/postgresql
-
-redis:
-    config:
-        daemonize: yes
-        pidfile: /var/run/redis/redis-server.pid
-        port: 6379
-        unixsocket: /var/run/redis/redis.sock
-        loglevel: notice
-        logfile: /var/log/redis/redis-server.log
-        dir: /var/lib/redis
-        #save:
-            #900: 1
-            #300: 10
-            #60: 10000
-
-ruby:
-    gems:
-        - compass
-        - compass-normalize
-        - compass-rgbapng
-        - sass
-        - sass-globbing
-        - toolkit
 
 zsh:
     config:

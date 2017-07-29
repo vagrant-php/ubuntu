@@ -3,10 +3,10 @@
   apt_key: keyserver=keyserver.ubuntu.com id=00A6F0A3C300EE8C state=present
 
 - name: app repository
-  apt_repository: repo='deb http://ppa.launchpad.net/nginx/stable/ubuntu trusty main' state=present
+  apt_repository: repo='deb http://ppa.launchpad.net/nginx/stable/ubuntu xenial main' state=present
 
 - name: app src repository
-  apt_repository: repo='deb-src http://ppa.launchpad.net/nginx/stable/ubuntu trusty main' state=present
+  apt_repository: repo='deb-src http://ppa.launchpad.net/nginx/stable/ubuntu xenial main' state=present
 
 - name: install
   apt: name={{ item }} state=present

@@ -35,22 +35,6 @@
             fastcgi_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
             include fastcgi_params;
         }
-
-        {% if phpversion == 'hhvm' %}
-            location ~ ^(.+\.hh)(.*)$ {
-                fastcgi_split_path_info ^(.+\.hh)(.*)$;
-                try_files $fastcgi_script_name =404;
-                set $wtf $fastcgi_path_info;
-                fastcgi_param PATH_INFO $wtf;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
-                fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
-                fastcgi_buffer_size {{ nginx.config.proxy_buffer_size }};
-                fastcgi_buffers {{ nginx.config.proxy_buffers }};
-                fastcgi_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
-                include fastcgi_params;
-            }
-        {% endif %}
     }
 {% endmacro %}
 
