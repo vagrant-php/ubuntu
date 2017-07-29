@@ -15,49 +15,12 @@
     - kibana
     - openjdk-8-jre-headless
 
-#- name: link elasticsearch rc0.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc0.d/K01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc1.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc1.d/K01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc2.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc2.d/S01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc3.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc3.d/S01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc4.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc4.d/S01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc5.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc5.d/S01elasticsearch
-#    state=link
-#
-#- name: link elasticsearch rc6.d
-#  file:
-#    src=/etc/init.d/elasticsearch
-#    dest=/etc/rc6.d/K01elasticsearch
-#    state=link
+### elasticsearch
 
-- name: fix -Xms
+- name: enable elasticsearch on boot
+  service: name=elasticsearch enabled=yes
+
+- name: fix elasticsearch -Xms
   lineinfile:
     dest=/etc/elasticsearch/jvm.options
     line='-Xms128m'
@@ -66,7 +29,7 @@
   notify:
       - restart elasticsearch
 
-- name: fix -Xmx
+- name: fix elasticsearch -Xmx
   lineinfile:
     dest=/etc/elasticsearch/jvm.options
     line='-Xmx128m'
@@ -82,6 +45,23 @@
   notify:
       - restart elasticsearch
 
+- name: uninstall all elasticsearch modules (there is no update support)
+  command: "/usr/share/elasticsearch/bin/elasticsearch-plugin remove {{ item }}"
+  with_items: "{{ elasticsearch.plugins }}"
+
+- name: install all elasticsearch modules
+  command: "/usr/share/elasticsearch/bin/elasticsearch-plugin install {{ item }}"
+  with_items: "{{ elasticsearch.plugins }}"
+
+- name: install elasticsearch plugins
+  elasticsearch_plugin: name={{ item }} state=present
+  with_items: "{{ elasticsearch.plugins }}"
+
+### kibana
+
+- name: enable kibana on boot
+  service: name=kibana enabled=yes
+
 - name: configure kibana.yml
   template:
     src=kibana.yml.j2
@@ -89,10 +69,6 @@
   notify:
       - restart kibana
 
-- name: uninstall all modules (there is no update support)
-  command: "{{ elasticsearch.config['path.home'] }}/bin/elasticsearch-plugin remove {{ item }}"
-  with_items: "{{ elasticsearch.plugins }}"
-
-- name: install all modules
-  command: "{{ elasticsearch.config['path.home'] }}/bin/elasticsearch-plugin install {{ item }}"
-  with_items: "{{ elasticsearch.plugins }}"
+- name: install kibana plugins
+  kibana_plugin: name={{ item }} state=present
+  with_items: "{{ elasticsearch.kibana.plugins }}"

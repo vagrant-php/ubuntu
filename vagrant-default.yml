@@ -80,7 +80,6 @@ elasticsearch:
         http.port: 9200
         network.host: 0.0.0.0
         node.max_local_storage_nodes: 1
-        path.home: /usr/share/elasticsearch
         path.data: /var/lib/elasticsearch
         path.logs: /var/log/elasticsearch
         pidfile: /var/run/elasticsearch/elasticsearch.pid
