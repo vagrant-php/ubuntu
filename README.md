@@ -3,11 +3,12 @@
 ## Features
 
  * ubuntu 16.04
- * nginx 1.8
+ * nginx 1.12.1
  * php (7.0-original, 7.1)
 
 ## Switchable features
 
+ * elasticsearch 5
  * mariadb 10.2
  * nodejs 8
 
