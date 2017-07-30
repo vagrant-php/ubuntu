@@ -50,10 +50,10 @@ virtualbox:
 # ----------------------------------------------------------------------------------------------------
 
 role:
-    elasticsearch: true
-    freetds: true
+    elasticsearch: false
+    freetds: false
     mariadb: true
-    memcached: true
+    memcached: false
     nodejs: true
 
 # ----------------------------------------------------------------------------------------------------
