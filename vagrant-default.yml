@@ -55,6 +55,7 @@ role:
     mariadb: true
     memcached: false
     nodejs: true
+    postgresql: false
     redis: false
 
 # ----------------------------------------------------------------------------------------------------
@@ -250,6 +251,26 @@ php:
         - sqlite3
         - xdebug
         - xml
+
+postgresql:
+    version: 9.6
+    username: root
+    password: root
+    config:
+        data_directory: /var/lib/postgresql/%%VERSION%%/main
+        external_pid_file: /var/run/postgresql/%%VERSION%%-main.pid
+        hba_file: /etc/postgresql/%%VERSION%%/main/pg_hba.conf
+        ident_file: /etc/postgresql/%%VERSION%%/main/pg_ident.conf
+        lc_messages: *locale
+        lc_monetary: *locale
+        lc_numeric: *locale
+        lc_time: *locale
+        log_directory: /var/log/postgresql
+        log_timezone: *timezone
+        port: 5432
+        shared_buffers: 128MB
+        timezone: *timezone
+        unix_socket_directories: /var/run/postgresql
 
 redis:
     config:

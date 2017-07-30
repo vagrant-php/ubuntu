@@ -34,13 +34,13 @@
     - restart php7.0-fpm
   when: role.mariadb
 
-#- name: install pgsql
-#  apt: name={{ item }} state=present
-#  with_items:
-#    - php7.0-pgsql
-#  notify:
-#    - restart php7.0-fpm
-#  when: role.postgresql
+- name: install pgsql
+  apt: name={{ item }} state=present
+  with_items:
+    - php7.0-pgsql
+  notify:
+    - restart php7.0-fpm
+  when: role.postgresql
 
 - name: install redis
   apt: name={{ item }} state=present

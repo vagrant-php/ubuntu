@@ -13,6 +13,7 @@
  * mariadb 10.2 (10.1, 10.0, 10.0-original)
  * memcached 1.4
  * nodejs 8 (7, 6, 5, 4, 4-original)
+ * postgresql 9.6 (9.5, 9.5-original)
  * redis 3.2
 
 ## Installation
