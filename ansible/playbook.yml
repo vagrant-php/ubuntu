@@ -27,6 +27,7 @@
     - nginx
     - { role: nodejs-8, when: role.nodejs and nodejs.version == 8 }
     - { role: php-7.0-original, when: php.version == '7.0-original' }
+    - { role: php-7.0, when: php.version == 7.0 }
     - { role: php-7.1, when: php.version == 7.1 }
     - php-tools
     - php-application
