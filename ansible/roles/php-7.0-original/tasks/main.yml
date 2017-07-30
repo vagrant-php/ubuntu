@@ -41,14 +41,14 @@
 #  notify:
 #    - restart php7.0-fpm
 #  when: role.postgresql
-#
-#- name: install redis
-#  apt: name={{ item }} state=present
-#  with_items:
-#    - php7.0-redis
-#  notify:
-#    - restart php7.0-fpm
-#  when: role.redis
+
+- name: install redis
+  apt: name={{ item }} state=present
+  with_items:
+    - php-redis
+  notify:
+    - restart php7.0-fpm
+  when: role.redis
 
 - name: install sybase
   apt: name={{ item }} state=present

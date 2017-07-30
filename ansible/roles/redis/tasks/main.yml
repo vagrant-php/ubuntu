@@ -1,0 +1,21 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=B9316A7BC7917B12 state=present
+
+- name: app repository
+  apt_repository: repo='deb http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' state=present
+
+- name: app src repository
+  apt_repository: repo='deb-src http://ppa.launchpad.net/chris-lea/redis-server/ubuntu trusty main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - redis-server
+
+- name: configure redis.conf
+  template:
+    src=redis.conf.j2
+    dest=/etc/redis/redis.conf
+  notify:
+      - restart redis

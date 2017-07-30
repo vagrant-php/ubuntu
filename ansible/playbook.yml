@@ -44,5 +44,6 @@
     - { role: php-application-symfony2, when: "'symfony2' in applications" }
     - { role: php-application-symfony3, when: "'symfony3' in applications" }
     - { role: php-application-wordpress4, when: "'wordpress4' in applications" }
+    - { role: redis, when: role.redis }
     - { role: zsh, when: general.config.shell == 'zsh' }
     - cleanup

@@ -1,0 +1,17 @@
+{% macro fixValue(value) -%}
+{% if value == true %}
+{% set value = 'yes' %}
+{% elif value == false %}
+{% set value = 'no' %}
+{% endif %}
+{{ value }}
+{%- endmacro %}
+{% for option, value in redis.config.iteritems() %}
+{% if value is mapping %}
+{% for suboption, subvalue in value.iteritems() %}
+{{ option }} {{ fixValue(suboption) }} {{ fixValue(subvalue) }}
+{% endfor %}
+{% else %}
+{{ option }} {{ fixValue(value) }}
+{% endif %}
+{% endfor %}
