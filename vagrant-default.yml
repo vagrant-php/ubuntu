@@ -54,6 +54,7 @@ role:
     freetds: false
     mariadb: true
     memcached: false
+    mongodb: false
     nodejs: true
     postgresql: false
     redis: false
@@ -155,6 +156,25 @@ memcached:
         -p: 11211
         -s: /tmp/memcached.sock
         -u: memcache
+
+mongodb:
+    version: 3.4
+    username: root
+    password: root
+    config:
+        net:
+            port: 27017
+            unixDomainSocket:
+                enabled: true
+                pathPrefix: /tmp
+        security:
+            authorization: enabled
+        storage:
+           dbPath: /var/lib/mongodb
+        systemLog:
+           destination: file
+           path: /var/log/mongodb/mongodb.log
+           logAppend: true
 
 nginx:
     config:

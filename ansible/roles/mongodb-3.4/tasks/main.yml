@@ -1,0 +1,46 @@
+---
+- name: add key
+  apt_key: keyserver=keyserver.ubuntu.com id=0C49F3730359A14518585931BC711F9BA15703C6 state=present
+
+- name: app repository
+  apt_repository: repo='deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - mongodb-org
+    - python-pymongo
+
+- name: configure mongod.conf
+  template:
+    src=mongod.conf.j2
+    dest=/etc/mongod.conf
+  notify:
+      - restart mongodb
+  register: mongodbconfig
+
+- name: force mongodb restart, if config changed
+  service: name=mongod state=restarted
+  when: mongodbconfig.changed
+
+- name: wait for mongod
+  wait_for: port={{mongodb.config.net.port}}
+
+- name: change default user to {{ mongodb.username }} / {{ mongodb.password }}
+  mongodb_user: user={{ mongodb.username }} password={{ mongodb.password }} database=admin roles=root
+
+- name: copy .mongorc.js file for user root
+  template:
+    src=user-mongorc.js.j2
+    dest=/root/.mongorc.js
+    owner=root
+    group=root
+    mode=0600
+
+- name: copy .mongorc.js for user vagrant
+  template:
+    src=user-mongorc.js.j2
+    dest=/home/vagrant/.mongorc.js
+    owner=vagrant
+    group=vagrant
+    mode=0600
