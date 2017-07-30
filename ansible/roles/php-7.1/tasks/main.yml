@@ -58,14 +58,14 @@
 #  notify:
 #    - restart php7.1-fpm
 #  when: role.redis
-#
-#- name: install sybase
-#  apt: name={{ item }} state=present
-#  with_items:
-#    - php7.1-sybase
-#  notify:
-#    - restart php7.1-fpm
-#  when: role.freetds
+
+- name: install sybase
+  apt: name={{ item }} state=present
+  with_items:
+    - php7.1-sybase
+  notify:
+    - restart php7.1-fpm
+  when: role.freetds
 
 - name: install modules
   apt: name="php7.1-{{ php.modules|join(',php7.1-') }}" state=present

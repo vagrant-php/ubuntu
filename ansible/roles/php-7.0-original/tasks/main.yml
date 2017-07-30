@@ -49,14 +49,14 @@
 #  notify:
 #    - restart php7.0-fpm
 #  when: role.redis
-#
-#- name: install sybase
-#  apt: name={{ item }} state=present
-#  with_items:
-#    - php7.0-sybase
-#  notify:
-#    - restart php7.0-fpm
-#  when: role.freetds
+
+- name: install sybase
+  apt: name={{ item }} state=present
+  with_items:
+    - php7.0-sybase
+  notify:
+    - restart php7.0-fpm
+  when: role.freetds
 
 - name: install modules
   apt: name="php7.0-{{ php.modules|join(',php7.0-')|replace('php7.0-imagick', 'php-imagick')|replace('php7.0-xdebug', 'php-xdebug') }}" state=present

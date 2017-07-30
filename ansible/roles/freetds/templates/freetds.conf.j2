@@ -1,0 +1,7 @@
+{% for groupname, group in freetds.config.iteritems() %}
+[{{ groupname }}]
+{% for option, value in group.iteritems() %}
+{{ option }} = {{ value }}
+{% endfor %}
+
+{% endfor %}
