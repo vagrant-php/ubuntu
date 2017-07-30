@@ -45,6 +45,7 @@
     - { role: php-application-symfony2, when: "'symfony2' in applications" }
     - { role: php-application-symfony3, when: "'symfony3' in applications" }
     - { role: php-application-wordpress4, when: "'wordpress4' in applications" }
+    - { role: postfix, when: role.postfix }
     - { role: postgresql-9.5-original, when: role.postgresql and postgresql.version == '9.5-original' }
     - { role: postgresql-9.5, when: role.postgresql and postgresql.version == 9.5 }
     - { role: postgresql-9.6, when: role.postgresql and postgresql.version == 9.6 }
