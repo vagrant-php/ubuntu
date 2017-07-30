@@ -53,6 +53,7 @@ role:
     elasticsearch: true
     freetds: true
     mariadb: true
+    memcached: true
     nodejs: true
 
 # ----------------------------------------------------------------------------------------------------
@@ -143,6 +144,15 @@ mariadb:
             pid-file: /var/run/mysqld/mysqld.pid
             port: *mariadbport
             socket: *mariadbsocket
+
+memcached:
+    config:
+        -d: ''
+        logfile: /var/log/memcached.log
+        -m: 64
+        -p: 11211
+        -s: /tmp/memcached.sock
+        -u: memcache
 
 nginx:
     config:
