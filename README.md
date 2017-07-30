@@ -88,6 +88,7 @@ for advanced configuration see the [default configuration][2]
 If you d'like to change the php version, you need to run `vagrant destroy and vagrant up`.
 
  * 7.0-original
+ * 7.0
  * 7.1
 
 ### .vagrant-default-user.yml (within your home directory)
