@@ -4,13 +4,14 @@
 
  * ubuntu 16.04
  * nginx 1.12.1
- * php (7.0-original, 7.1)
+ * php 7.1 (7.0-original)
 
 ## Switchable features
 
  * elasticsearch 5
- * mariadb 10.2
- * nodejs 8
+ * freetds 0.91
+ * mariadb 10.2 (10.1, 10.0, 10.0-original)
+ * nodejs 8 (7, 6, 5, 4, 4-original)
 
 ## Installation
 
