@@ -10,14 +10,14 @@
   notify:
     - restart php7.0-fpm
 
-#- name: install memcached
-#  apt: name={{ item }} state=present
-#  with_items:
-#    - php7.0-memcached
-#  notify:
-#    - restart php7.0-fpm
-#  when: role.memcached
-#
+- name: install memcached
+  apt: name={{ item }} state=present
+  with_items:
+    - php-memcached
+  notify:
+    - restart php7.0-fpm
+  when: role.memcached
+
 #- name: install mongodb
 #  apt: name={{ item }} state=present
 #  with_items:
