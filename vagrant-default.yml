@@ -1,5 +1,5 @@
 ---
-hostname: projectname.dev
+hostname: &hostname projectname.dev
 application: ~
 subhosts: []
 #  - { subhostname: "project1", application: "symfony2" }
@@ -56,6 +56,7 @@ role:
     memcached: false
     mongodb: false
     nodejs: true
+    postfix: true
     postgresql: false
     redis: false
 
@@ -271,6 +272,12 @@ php:
         - sqlite3
         - xdebug
         - xml
+
+postfix:
+    receiver: firstname.lastname@hostname.tld
+    config:
+        myhostname: *hostname
+        inet_interfaces: loopback-only
 
 postgresql:
     version: 9.6

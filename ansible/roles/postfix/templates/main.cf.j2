@@ -1,0 +1,5 @@
+{% for option, value in postfix.config.iteritems() %}
+{{ option }} = {{ value }}
+{% endfor %}
+
+virtual_alias_maps = pcre:/etc/postfix/virtual.map.pcre

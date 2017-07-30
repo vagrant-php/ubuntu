@@ -14,6 +14,7 @@
  * memcached 1.4
  * mongodb 3.4
  * nodejs 8 (7, 6, 5, 4, 4-original)
+ * postfix 3.1
  * postgresql 9.6 (9.5, 9.5-original)
  * redis 3.2
 
