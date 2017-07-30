@@ -100,7 +100,7 @@ elasticsearch:
         - elasticsearch/marvel/latest
 
 freetds:
-    config:
+    config: {}
 #        sampledomain.tld:
 #            host: sampledomain.tld
 #            port: 60655
