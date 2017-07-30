@@ -90,6 +90,15 @@ elasticsearch:
         plugins: []
     plugins: []
 
+freetds:
+    config: {}
+#        sampledomain.tld:
+#            host: sampledomain.tld
+#            port: 60655
+#            tds version: 7.0
+#            client charset: UTF-8
+#            text size: 20971520
+
 general:
     config:
         locale: &locale de_CH.UTF-8
