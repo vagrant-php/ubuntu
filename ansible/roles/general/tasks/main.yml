@@ -69,3 +69,22 @@
 - name: grub | update
   command: /usr/sbin/update-grub
   when: fixbootparameter.changed
+
+### sysfsutils
+
+- name: sysfsutils | install
+  apt: name=sysfsutils state=present
+
+- name: sysfsutils | set kernel/mm/transparent_hugepage/enabled = never within /etc/sysfs.conf
+  lineinfile:
+    dest=/etc/sysfs.conf
+    line='kernel/mm/transparent_hugepage/enabled = never'
+    regexp='^kernel\/mm\/transparent_hugepage\/enabled'
+    state=present
+
+- name: sysfsutils | set kernel/mm/transparent_hugepage/defrag = never within /etc/sysfs.conf
+  lineinfile:
+    dest=/etc/sysfs.conf
+    line='kernel/mm/transparent_hugepage/defrag = never'
+    regexp='^kernel\/mm\/transparent_hugepage\/defrag'
+    state=present
