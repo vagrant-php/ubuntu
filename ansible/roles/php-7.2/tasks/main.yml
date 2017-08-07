@@ -19,13 +19,13 @@
   notify:
     - restart php7.2-fpm
 
-- name: install memcached
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.2-memcached
-  notify:
-    - restart php7.2-fpm
-  when: role.memcached
+#- name: install memcached
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php7.2-memcached
+#  notify:
+#    - restart php7.2-fpm
+#  when: role.memcached
 
 - name: install mongodb
   apt: name={{ item }} state=present
@@ -51,13 +51,13 @@
     - restart php7.2-fpm
   when: role.postgresql
 
-- name: install redis
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.2-redis
-  notify:
-    - restart php7.2-fpm
-  when: role.redis
+#- name: install redis
+#  apt: name={{ item }} state=present
+#  with_items:
+#    - php7.2-redis
+#  notify:
+#    - restart php7.2-fpm
+#  when: role.redis
 
 - name: install sybase
   apt: name={{ item }} state=present
@@ -67,8 +67,19 @@
     - restart php7.2-fpm
   when: role.freetds
 
+# todo use the real packages when available
 - name: install modules
-  apt: name="php7.2-{{ php.modules|join(',php7.2-') }}" state=present
+  apt: name="{{ item }}" state=present
+  with_items:
+    - php7.2-curl
+    - php7.2-gd
+    #- php7.2-imagick
+    - php7.2-intl
+    - php7.2-mbstring
+    #- php7.2-mcrypt
+    - php7.2-sqlite3
+    #- php7.2-xdebug
+    - php7.2-xml
   notify:
     - restart php7.2-fpm
 
