@@ -51,7 +51,6 @@ virtualbox:
 
 role:
     elasticsearch: false
-    extgeos: false
     freetds: false
     mariadb: true
     memcached: false
@@ -273,6 +272,8 @@ php:
         - sqlite3
         - xdebug
         - xml
+    modulesfromsource:
+        geos: false
 
 postfix:
     receiver: firstname.lastname@hostname.tld
