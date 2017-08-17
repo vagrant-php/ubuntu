@@ -51,6 +51,7 @@ virtualbox:
 
 role:
     elasticsearch: false
+    extgeos: false
     freetds: false
     mariadb: true
     memcached: false
