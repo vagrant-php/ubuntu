@@ -272,6 +272,8 @@ php:
         - sqlite3
         - xdebug
         - xml
+    modulesfromsource:
+        geos: false
 
 postfix:
     receiver: firstname.lastname@hostname.tld
@@ -298,6 +300,7 @@ postgresql:
         shared_buffers: 128MB
         timezone: *timezone
         unix_socket_directories: /var/run/postgresql
+    postgis: false
 
 redis:
     config:

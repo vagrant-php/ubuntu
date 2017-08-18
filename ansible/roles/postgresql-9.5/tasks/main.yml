@@ -32,3 +32,11 @@
     owner=postgres
     group=postgres
     mode=0600
+
+- name: install postgis
+  apt: name={{ item }} state=present
+  with_items:
+    - postgresql-9.5-postgis-2.3
+  notify:
+      - restart postgresql
+  when: postgresql.postgis
