@@ -9,7 +9,7 @@
     state: link
 
 - name: php-cs-fixer install
-  shell: curl -LsS http://get.sensiolabs.org/php-cs-fixer.phar -o /usr/local/bin/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer.phar
+  shell: curl -LsS http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -o /usr/local/bin/php-cs-fixer.phar && chmod +x /usr/local/bin/php-cs-fixer.phar
 
 - name: php-cs-fixer symlink
   file:
