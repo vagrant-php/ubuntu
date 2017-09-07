@@ -76,7 +76,7 @@ Vagrant.configure(2) do |config|
 
     # Vagrant box
     # --------------------------------------------------------------------------
-    config.vm.box = 'boxcutter/ubuntu1604'
+    config.vm.box = 'box-cutter/ubuntu1604'
     config.vm.guest = 'ubuntu'
 
     # General settings
