@@ -1,5 +1,22 @@
 ---
+### resolv
+- name: resolv | copy sources.list
+  copy:
+    src=resolv.conf
+    dest=/etc/resolv.conf
+
 ### apt
+- name: apt | copy sources.list
+  copy:
+    src=sources.list
+    dest=/etc/apt/sources.list
+
+- name: apt | update
+  command: apt-get update
+
+- name: apt | install aptitude and apt-transport-https
+  command: apt-get install -y aptitude apt-transport-https
+
 - name: apt | upgrade
   apt: update_cache=yes upgrade=full
 
