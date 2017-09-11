@@ -195,9 +195,11 @@ Vagrant.configure(2) do |config|
 
     # Provisioning
     # --------------------------------------------------------------------------
-    config.vm.provision 'shell' do |sh|
-        sh.path = 'ansible/ansible-on-guest.sh'
-        sh.args = ['ansible/playbook.yml', setupConfig.to_json.split(' ').join('\u0020')]
+    config.vm.provision 'ansible_local' do |ansible|
+        ansible.playbook = 'vagrant-php/ansible/playbook.yml'
+        ansible.install_mode = 'pip'
+        ansible.version = '2.3.2.0'
+        ansible.extra_vars = setupConfig
     end
 
     if setupConfig['subhosts'].empty?
