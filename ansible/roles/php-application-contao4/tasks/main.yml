@@ -1,0 +1,13 @@
+- name: copy .application_aliases for user vagrant
+  copy:
+    src=contao4
+    dest=/home/vagrant/.application_aliases/contao4
+    owner=vagrant
+    group=vagrant
+
+- name: copy .application_aliases for user root
+  copy:
+    src=contao4
+    dest=/root/.application_aliases/contao4
+    owner=root
+    group=root
