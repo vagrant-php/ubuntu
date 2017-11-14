@@ -67,6 +67,7 @@ for advanced configuration see the [default configuration][2]
  * bolt2
  * bolt3
  * contao3
+ * contao4
  * drupal7
  * drupal8
  * lavarel5
