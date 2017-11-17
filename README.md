@@ -77,6 +77,7 @@ for advanced configuration see the [default configuration][2]
  * symfony1
  * symfony2
  * symfony3
+ * symfony-flex # can be used for symfony 3.4 and symfony 4+ if created with symfony flex
  * wordpress4
 
 #### supported sharetype

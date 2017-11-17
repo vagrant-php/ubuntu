@@ -1,4 +1,4 @@
-alias sf3='./app/console'
+alias sf3='./bin/console'
 alias sf3cc='sf3 cache:clear'
 alias sf3ad='sf3 assetic:dump'
 alias sf3ai='sf3 assets:install --symlink'
