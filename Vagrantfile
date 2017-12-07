@@ -198,8 +198,9 @@ Vagrant.configure(2) do |config|
     config.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = 'vagrant-php/ansible/playbook.yml'
         ansible.install_mode = 'pip'
-        ansible.version = '2.3.2.0'
+        ansible.version = '2.4.2.0'
         ansible.extra_vars = setupConfig
+        ansible.compatibility_mode = '2.0'
     end
 
     if setupConfig['subhosts'].empty?
