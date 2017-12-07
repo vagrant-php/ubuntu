@@ -6,8 +6,6 @@ subhosts: []
 
 sharetype: nfs
 
-box_version: 2.0.26
-
 elasticsearchversion: 1.7
 nodeversion: 0.12
 phpversion: 5.6

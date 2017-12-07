@@ -76,8 +76,7 @@ Vagrant.configure(2) do |config|
 
     # Vagrant box
     # --------------------------------------------------------------------------
-    config.vm.box = 'box-cutter/ubuntu1404'
-    config.vm.box_version = setupConfig['box_version']
+    config.vm.box = 'bento/ubuntu-14.04'
     config.vm.guest = 'ubuntu'
 
     # General settings
