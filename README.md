@@ -4,11 +4,11 @@
 
  * ubuntu 16.04
  * nginx 1.12.1
- * php 7.1 (7.0-original)
+ * php 7.1 (7.2, 7.0. 7.0-original)
 
 ## Switchable features
 
- * elasticsearch 5 (2, 6)
+ * elasticsearch 5 (6, 2)
  * freetds 0.91
  * mariadb 10.2 (10.1, 10.0, 10.0-original)
  * memcached 1.4
