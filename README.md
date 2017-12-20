@@ -94,6 +94,7 @@ If you d'like to change the php version, you need to run `vagrant destroy and va
  * 7.0-original
  * 7.0
  * 7.1
+ * 7.2
 
 ### .vagrant-default-user.yml (within your home directory)
 
