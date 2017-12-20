@@ -28,6 +28,7 @@
     - { role: nginx-application-symfony1, when: "'symfony1' in applications" }
     - { role: nginx-application-symfony2, when: "'symfony2' in applications" }
     - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
+    - { role: nginx-application-symfony-flex, when: "'symfony-flex' in applications" }
     - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
     - nginx
     - { role: nodejs-4-original, when: role.nodejs and nodejs.version == '4-original' }
@@ -47,6 +48,7 @@
     - { role: php-application-slim3, when: "'slim3' in applications" }
     - { role: php-application-symfony2, when: "'symfony2' in applications" }
     - { role: php-application-symfony3, when: "'symfony3' in applications" }
+    - { role: php-application-symfony-flex, when: "'symfony-flex' in applications" }
     - { role: php-application-contao4, when: "'contao4' in applications" }
     - { role: php-application-wordpress4, when: "'wordpress4' in applications" }
     - { role: php-module-geos, when: php.modulesfromsource.geos }

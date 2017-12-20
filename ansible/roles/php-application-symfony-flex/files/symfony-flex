@@ -1,0 +1,5 @@
+alias flex='./bin/console'
+alias flexcc='flex cache:clear --no-warmup'
+alias flexcw='flex cache:warmup'
+alias flexcccw='flexcc && flexcw'
+alias flexai='flex assets:install --symlink'
