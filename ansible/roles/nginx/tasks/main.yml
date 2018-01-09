@@ -13,15 +13,12 @@
   with_items:
     - nginx-light
 
-- name: copy privatekey
-  copy:
-    src=privatekey
-    dest=/etc/nginx/privatekey
+- name: generate certificate for {{ hostname }}
+  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ hostname }}.key -out /etc/nginx/{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ hostname }}" creates=/etc/nginx/{{ hostname }}.crt
 
-- name: copy certificate
-  copy:
-    src=certificate
-    dest=/etc/nginx/certificate
+- name: generate certificate for {{ item.subhostname }}.{{ hostname }}
+  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ item.subhostname }}.{{ hostname }}.key -out /etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ item.subhostname }}.{{ hostname }}" creates=/etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt
+  with_items: "{{ subhosts }}"
 
 - name: nginx.conf
   template:

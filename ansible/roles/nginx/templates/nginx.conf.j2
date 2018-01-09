@@ -5,8 +5,8 @@
 
         server_name {{ servername }};
 
-        ssl_certificate /etc/nginx/certificate;
-        ssl_certificate_key /etc/nginx/privatekey;
+        ssl_certificate /etc/nginx/{{ servername }}.crt;
+        ssl_certificate_key /etc/nginx/{{ servername }}.key;
 
         set $baseRootDir {{ baseRootDir }};
 
@@ -65,8 +65,8 @@ http {
 
             server_name {{ hostname }};
 
-            ssl_certificate /etc/nginx/certificate;
-            ssl_certificate_key /etc/nginx/privatekey;
+            ssl_certificate /etc/nginx/{{ hostname }}.crt;
+            ssl_certificate_key /etc/nginx/{{ hostname }}.key;
 
             add_header Content-Type text/html;
 

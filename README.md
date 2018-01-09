@@ -57,7 +57,7 @@ git submodule update --remote -- vagrant-php
 
 ```{.yml}
 ---
-hostname: projectname.dev
+hostname: projectname.development
 ```
 
 for advanced configuration see the [default configuration][2]
