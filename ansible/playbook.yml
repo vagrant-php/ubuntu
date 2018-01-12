@@ -13,6 +13,7 @@
     - { role: mariadb-10.0, when: role.mariadb and mariadb.version == 10.0 }
     - { role: mariadb-10.1, when: role.mariadb and mariadb.version == 10.1 }
     - { role: mariadb-10.2, when: role.mariadb and mariadb.version == 10.2 }
+    - { role: mariadb-10.3, when: role.mariadb and mariadb.version == 10.3 }
     - { role: memcached, when: role.memcached }
     - { role: mongodb-3.4, when: role.mongodb and mongodb.version == 3.4 }
     - { role: nginx-application-bolt2, when: "'bolt2' in applications" }
