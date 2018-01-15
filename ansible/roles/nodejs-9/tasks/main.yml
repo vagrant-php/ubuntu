@@ -1,0 +1,18 @@
+---
+- name: add apt key for nodejs
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+
+- name: add apt repository for nodejs
+  apt_repository: repo='deb https://deb.nodesource.com/node_9.x xenial main' state=present
+
+- name: add apt key for yarn
+  apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg state=present
+
+- name: add apt repository for yarn
+  apt_repository: repo='deb https://dl.yarnpkg.com/debian/ stable main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - nodejs
+    - yarn
