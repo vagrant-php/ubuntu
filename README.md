@@ -4,7 +4,7 @@
 
  * ubuntu 14.04
  * nginx 1.8
- * php (5.5, 5.5-original, 5.6, 7.0, 7.1, hhvm)
+ * php (5.5-original, 5.6, 7.0, 7.1, hhvm)
 
 ## Switchable features
 
