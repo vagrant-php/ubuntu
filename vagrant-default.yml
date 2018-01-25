@@ -24,6 +24,7 @@ network:
 
 nfsoptions:
     udp: false
+    mount_options: []
     bsd: ['alldirs']
     linux: ['rw','no_subtree_check','all_squash','async']
 
