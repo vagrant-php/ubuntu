@@ -132,6 +132,7 @@ Vagrant.configure(2) do |config|
         nfsoptions = {
             :create => true,
             :nfs => true,
+            :mount_options => setupConfig['nfsoptions']['mount_options'],
             :nfs_udp => setupConfig['nfsoptions']['udp'],
             :bsd__nfs_options => setupConfig['nfsoptions']['bsd'],
             :linux__nfs_options => setupConfig['nfsoptions']['linux']
