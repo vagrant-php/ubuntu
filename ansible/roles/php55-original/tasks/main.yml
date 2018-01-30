@@ -59,7 +59,7 @@
   when: role.freetds
 
 - name: install modules
-  apt: name="php5-{{ php.modules|join(',php5-') }}" state=present
+  apt: name="php5-{{ php.modules|join(',php5-')|replace(',php5-mbstring', '')|replace(',php5-xml', '') }}" state=present
   notify:
     - restart php55-original-fpm
 
