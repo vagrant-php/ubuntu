@@ -32,7 +32,6 @@
     - { role: nodejs7, when: role.nodejs and nodeversion == 7 }
     - { role: nodejs8, when: role.nodejs and nodeversion == 8 }
     - { role: php55-original, when: phpversion == '5.5-original' }
-    - { role: php55, when: phpversion == 5.5 }
     - { role: php56, when: phpversion == 5.6 }
     - { role: php70, when: phpversion == 7.0 }
     - { role: php71, when: phpversion == 7.1 }
