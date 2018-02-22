@@ -2,7 +2,10 @@
 hostname: &hostname projectname.development
 application: ~
 subhosts: []
-#  - { subhostname: "project1", application: "symfony2" }
+#  - { subhostname: "project1", application: "symfony2", aliases: [] }
+#  - { subhostname: "project1", application: "symfony2", aliases: ['alias1.something.development', 'alias2.something.development'] }
+aliases: []
+#  - anothername.development
 
 sharetype: nfs
 

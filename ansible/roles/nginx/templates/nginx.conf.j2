@@ -1,9 +1,9 @@
-{% macro server(servername, baseRootDir, application) %}
+{% macro server(servername, aliases, baseRootDir, application) %}
     server {
         listen 80;
         listen 443 ssl;
 
-        server_name {{ servername }};
+        server_name {{ servername }} {{ aliases|join(' ') }};
 
         ssl_certificate /etc/nginx/{{ servername }}.crt;
         ssl_certificate_key /etc/nginx/{{ servername }}.key;
@@ -56,14 +56,14 @@ http {
     client_max_body_size {{ php.config.fpm.php.post_max_size }};
 
     {% if not subhosts %}
-        {{ server(hostname, '/vagrant', application) }}
+        {{ server(hostname, aliases, '/vagrant', application) }}
     {% else %}
 
         server {
             listen 80;
             listen 443 ssl;
 
-            server_name {{ hostname }};
+            server_name {{ hostname }} {{ aliases|join(' ') }};
 
             ssl_certificate /etc/nginx/{{ hostname }}.crt;
             ssl_certificate_key /etc/nginx/{{ hostname }}.key;
@@ -72,15 +72,41 @@ http {
 
             return 200 '
             <h1>multihost system</h1>
+            <h2>current host</h2>
+
+            <ul>
+                <li>
+                    <a target="_blank" href="//{{ hostname }}">{{ hostname }}</a>
+                    {% if aliases|length > 0 %}
+                        <ul>
+                            {% for alias in aliases %}
+                                <li><a target="_blank" href="//{{ alias }}">{{ alias }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            </ul>
+
+            <h2>subhosts</h2>
             <ul>
             {% for subhost in subhosts %}
-                <li><a target="_blank" href="//{{ subhost['subhostname'] + '.' + hostname }}">{{ subhost['subhostname'] + '.' + hostname }}</a></li>
+                <li>
+                    <a target="_blank" href="//{{ subhost['subhostname'] + '.' + hostname }}">{{ subhost['subhostname'] + '.' + hostname }}</a>
+                    {% if subhost['aliases']|length > 0 %}
+                    <ul>
+                        {% for alias in subhost['aliases'] %}
+                            <li><a target="_blank" href="//{{ alias }}">{{ alias }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
             {% endfor %}
-            </ul>';
+            </ul>
+            ';
         }
 
         {% for subhost in subhosts %}
-            {{ server(subhost['subhostname'] + '.' + hostname, '/vagrant/' + subhost['subhostname'], subhost['application']) }}
+            {{ server(subhost['subhostname'] + '.' + hostname, subhost['aliases'], '/vagrant/' + subhost['subhostname'], subhost['application']) }}
         {% endfor %}
     {% endif %}
 }
