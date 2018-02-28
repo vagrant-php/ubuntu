@@ -9,6 +9,7 @@
     - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6}
     - { role: freetds, when: role.freetds }
     - git
+    - { role: mysql-5.7-original, when: role.mariadb and mariadb.version == '5.7-original' }
     - { role: mariadb-10.0-original, when: role.mariadb and mariadb.version == '10.0-original' }
     - { role: mariadb-10.0, when: role.mariadb and mariadb.version == 10.0 }
     - { role: mariadb-10.1, when: role.mariadb and mariadb.version == 10.1 }

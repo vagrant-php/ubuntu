@@ -10,7 +10,7 @@
 
  * elasticsearch 5 (6, 2)
  * freetds 0.91
- * mariadb 10.2 (10.3, 10.1, 10.0, 10.0-original)
+ * mariadb 10.2 (10.3, 10.1, 10.0, 10.0-original, or mysql: 5.7-original)
  * memcached 1.4
  * mongodb 3.4
  * nodejs 8 (9, 7, 6, 5, 4, 4-original)
