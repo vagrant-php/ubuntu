@@ -112,11 +112,24 @@ Vagrant.configure(2) do |config|
         end
     end
 
-    if not setupConfig['subhosts'].empty?
+    if not setupConfig['subhosts'].empty? or not setupConfig['aliases'].empty?
         aliases = []
-        setupConfig['subhosts'].each do |subhost|
-            aliases.push(subhost['subhostname'] + '.' + setupConfig['hostname'])
+
+        if not setupConfig['aliases'].empty?
+            setupConfig['aliases'].each do |setupConfigAlias|
+                aliases.push(setupConfigAlias)
+            end
         end
+
+        if not setupConfig['subhosts'].empty?
+            setupConfig['subhosts'].each do |subhost|
+                aliases.push(subhost['subhostname'] + '.' + setupConfig['hostname'])
+                subhost['aliases'].each do |subhostAlias|
+                    aliases.push(subhostAlias)
+                end
+            end
+        end
+
         config.hostmanager.aliases = aliases.join(' ')
     end
 
