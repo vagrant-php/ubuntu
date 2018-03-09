@@ -1,0 +1,22 @@
+---
+- name: add key
+  apt_key: url=https://packagecloud.io/gpg.key state=present
+
+- name: app repository
+  apt_repository: repo='deb http://packages.blackfire.io/debian any main' state=present
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - blackfire-agent
+
+- name: configure blackfire-agent
+  lineinfile:
+    path: /etc/blackfire/agent
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: "^server-id=", line: "server-id={{ blackfire.server_id }}" }
+    - { regexp: "^server-token=", line: "server-token={{ blackfire.server_token }}" }
+  notify:
+    - restart blackfire-agent
