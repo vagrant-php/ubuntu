@@ -58,6 +58,14 @@
     - restart php7.0-fpm
   when: role.freetds
 
+- name: install blackfire-probe
+  apt: name={{ item }} state=present
+  with_items:
+    - blackfire-php
+  notify:
+    - restart php7.0-fpm
+  when: role.blackfire
+
 - name: install modules
   apt: name="php7.0-{{ php.modules|join(',php7.0-')|replace('php7.0-imagick', 'php-imagick')|replace('php7.0-xdebug', 'php-xdebug') }}" state=present
   notify:

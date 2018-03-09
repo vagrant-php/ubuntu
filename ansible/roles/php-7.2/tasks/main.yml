@@ -67,6 +67,14 @@
     - restart php7.2-fpm
   when: role.freetds
 
+- name: install blackfire-probe
+  apt: name={{ item }} state=present
+  with_items:
+    - blackfire-php
+  notify:
+    - restart php7.0-fpm
+  when: role.blackfire
+
 # todo use the real packages when available
 - name: install modules
   apt: name="{{ item }}" state=present
