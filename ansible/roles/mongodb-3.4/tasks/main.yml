@@ -10,24 +10,45 @@
   with_items:
     - mongodb-org
     - python-pymongo
+  register: mongoinstall
+
+- name: force mongodb start, if installed
+  service: name=mongod state=started
+  when: mongoinstall.changed
+
+- name: wait for mongodb, if installed
+  wait_for: port=27017
+  when: mongoinstall.changed
+
+- name: add vagrant user
+  mongodb_user: user=vagrant password=vagrant database=admin roles=userAdminAnyDatabase
+  when: mongoinstall.changed
 
 - name: configure mongod.conf
   template:
     src=mongod.conf.j2
     dest=/etc/mongod.conf
   notify:
-      - restart mongodb
+    - restart mongodb
   register: mongodbconfig
 
 - name: force mongodb restart, if config changed
   service: name=mongod state=restarted
   when: mongodbconfig.changed
 
-- name: wait for mongod
+- name: wait for mongodb, if config changed
   wait_for: port={{mongodb.config.net.port}}
+  when: mongodbconfig.changed
 
-- name: change default user to {{ mongodb.username }} / {{ mongodb.password }}
-  mongodb_user: user={{ mongodb.username }} password={{ mongodb.password }} database=admin roles=root
+- name: change user to {{ mongodb.username }} / {{ mongodb.password }}
+  mongodb_user:
+    user={{ mongodb.username }}
+    password={{ mongodb.password }}
+    database=admin
+    login_database=admin
+    login_user=vagrant
+    login_password=vagrant
+    roles=userAdminAnyDatabase
 
 - name: copy .mongorc.js file for user root
   template:
