@@ -72,7 +72,7 @@
   with_items:
     - blackfire-php
   notify:
-    - restart php7.0-fpm
+    - restart php7.1-fpm
   when: role.blackfire
 
 - name: install modules
