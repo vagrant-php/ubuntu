@@ -13,7 +13,7 @@
   register: mongoinstall
 
 - name: force mongodb start, if installed
-  service: name=mongod state=started
+  service: name=mongod state=started enabled=true
   when: mongoinstall.changed
 
 - name: wait for mongodb, if installed
