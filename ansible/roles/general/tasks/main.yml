@@ -24,6 +24,11 @@
   apt: name={{ item }} state=present
   with_items: "{{ general.packages }}"
 
+- name: apt | lts kernel
+  apt: name={{ item }} state=present
+  with_items:
+    - linux-generic-hwe-16.04
+
 ### locale
 
 - name: locale | install
