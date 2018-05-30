@@ -21,7 +21,7 @@
   when: mongoinstall.changed
 
 - name: add vagrant user
-  mongodb_user: user=vagrant password=vagrant database=admin roles=userAdminAnyDatabase
+  mongodb_user: user=vagrant password=vagrant database=admin roles=root
   when: mongoinstall.changed
 
 - name: configure mongod.conf
@@ -48,7 +48,7 @@
     login_database=admin
     login_user=vagrant
     login_password=vagrant
-    roles=userAdminAnyDatabase
+    roles=root
 
 - name: copy .mongorc.js file for user root
   template:
