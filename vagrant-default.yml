@@ -163,6 +163,7 @@ memcached:
         -d: ''
         logfile: /var/log/memcached.log
         -m: 64
+        -l: 127.0.0.1
         -p: 11211
         -s: /tmp/memcached.sock
         -u: memcache
