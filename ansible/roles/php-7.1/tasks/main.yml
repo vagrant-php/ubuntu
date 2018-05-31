@@ -22,6 +22,7 @@
 - name: install memcached
   apt: name={{ item }} state=present
   with_items:
+    - php7.1-memcache
     - php7.1-memcached
   notify:
     - restart php7.1-fpm
