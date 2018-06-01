@@ -16,3 +16,12 @@
     src: /usr/local/bin/php-cs-fixer.phar
     dest: /usr/local/bin/php-cs-fixer
     state: link
+
+- name: phan install
+  shell: curl -LsS https://github.com/phan/phan/releases/download/0.12.10/phan.phar -o /usr/local/bin/phan.phar && chmod +x /usr/local/bin/phan.phar
+
+- name: phan
+  file:
+    src: /usr/local/bin/phan.phar
+    dest: /usr/local/bin/phan
+    state: link
