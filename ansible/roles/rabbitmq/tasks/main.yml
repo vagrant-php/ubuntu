@@ -1,0 +1,31 @@
+---
+- name: add key
+  apt_key: url=https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc state=present
+
+- name: app repository
+  apt_repository: repo='deb https://dl.bintray.com/rabbitmq/debian xenial main erlang' state=present
+
+- name: apt | upgrade
+  apt: update_cache=yes
+
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - rabbitmq-server
+
+- name: install plugins
+  rabbitmq_plugin: names={{ item }} state=enabled
+  with_items:
+    - rabbitmq_management
+  notify:
+  - restart rabbitmq
+
+- name: add user admin
+  rabbitmq_user: user=admin password=admin configure_priv=.* read_priv=.* write_priv=.* tags=administrator state=present
+  notify:
+  - restart rabbitmq
+
+- name: remove user guest
+  rabbitmq_user: user=guest state=absent
+  notify:
+  - restart rabbitmq
