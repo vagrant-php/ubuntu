@@ -4,8 +4,8 @@
   roles:
     - general
     - { role: bash, when: general.config.shell == 'bash' }
-    - { role: rabbitmq, when: role.rabbitmq }
     - { role: blackfire, when: role.blackfire }
+    - { role: rabbitmq, when: role.rabbitmq }
     - { role: elasticsearch-2, when: role.elasticsearch and elasticsearch.version == 2}
     - { role: elasticsearch-5, when: role.elasticsearch and elasticsearch.version == 5}
     - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6}
