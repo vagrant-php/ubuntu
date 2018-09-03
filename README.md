@@ -18,6 +18,7 @@
  * postgresql 9.6 (9.5, 9.5-original)
  * redis 3.2
  * blackfire
+ * rabbitmq
 
 ## Installation
 
