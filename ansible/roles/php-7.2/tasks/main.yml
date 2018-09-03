@@ -16,6 +16,7 @@
     - php7.2-cli
     - php7.2-fpm
     - php-apcu
+    - php-ast
   notify:
     - restart php7.2-fpm
 
