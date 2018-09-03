@@ -273,6 +273,7 @@ php:
     server:
         socket: *phpserversocket
     modules:
+        - ast
         - curl
         - gd
         - imagick
