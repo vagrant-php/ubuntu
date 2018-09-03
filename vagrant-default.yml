@@ -64,6 +64,7 @@ role:
     postgresql: false
     redis: false
     blackfire: false
+    rabbitmq: false
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -88,6 +89,13 @@ bash:
 blackfire:
     server_id: ~
     server_token: ~
+
+rabbitmq:
+    username: root
+    password: root
+    config:
+        listeners.tcp.default: 5672
+        handshake_timeout: 10000
 
 elasticsearch:
     version: 5
