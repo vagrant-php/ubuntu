@@ -25,3 +25,16 @@
     src: /usr/local/bin/phan.phar
     dest: /usr/local/bin/phan
     state: link
+    
+- name: php-short-array-syntax-converter install
+  shell: curl -LsS https://raw.githubusercontent.com/thomasbachem/php-short-array-syntax-converter/master/convert.php -o /usr/local/bin/php-short-array-syntax-converter.php && chmod +x /usr/local/bin/php-short-array-syntax-converter.php
+
+- name: php-short-array-syntax-converter
+  file:
+    src: /usr/local/bin/php-short-array-syntax-converter.php
+    dest: /usr/local/bin/php-short-array-syntax-converter
+    state: link
+
+
+
+
