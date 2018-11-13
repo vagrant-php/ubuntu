@@ -196,6 +196,13 @@ mongodb:
            logAppend: true
 
 nginx:
+    cors:
+        allow_headers:
+            - Accept
+            - Accept-Language
+            - Authorization
+            - Content-Type
+            - Origin
     config:
         charset: utf-8
         error_log: /var/log/nginx/error.log
