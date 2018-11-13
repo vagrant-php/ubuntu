@@ -1,5 +1,5 @@
 if ($request_method = 'OPTIONS') {
-    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Origin' "$http_origin";
     add_header 'Access-Control-Allow-Headers' '{{ nginx.cors.allow_headers|join(',') }}';
     add_header 'Access-Control-Max-Age' 1728000;
     add_header 'Content-Type' 'text/plain charset=UTF-8';
