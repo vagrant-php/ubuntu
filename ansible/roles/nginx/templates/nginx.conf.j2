@@ -23,6 +23,8 @@
         proxy_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
 
         location ~ ^(.+\.php)(.*)$ {
+            add_header 'Access-Control-Allow-Origin' "$http_origin";
+        
             fastcgi_split_path_info ^(.+\.php)(.*)$;
             try_files $fastcgi_script_name =404;
             set $wtf $fastcgi_path_info;
