@@ -54,6 +54,7 @@ virtualbox:
 # ----------------------------------------------------------------------------------------------------
 
 role:
+    clamav: false
     elasticsearch: false
     freetds: false
     mariadb: true

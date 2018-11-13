@@ -5,7 +5,7 @@
     - general
     - { role: bash, when: general.config.shell == 'bash' }
     - { role: blackfire, when: role.blackfire }
-    - { role: rabbitmq, when: role.rabbitmq }
+    - { role: clamav, when: role.clamav }
     - { role: elasticsearch-2, when: role.elasticsearch and elasticsearch.version == 2}
     - { role: elasticsearch-5, when: role.elasticsearch and elasticsearch.version == 5}
     - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6}
@@ -61,6 +61,7 @@
     - { role: postgresql-9.5-original, when: role.postgresql and postgresql.version == '9.5-original' }
     - { role: postgresql-9.5, when: role.postgresql and postgresql.version == 9.5 }
     - { role: postgresql-9.6, when: role.postgresql and postgresql.version == 9.6 }
+    - { role: rabbitmq, when: role.rabbitmq }
     - { role: redis, when: role.redis }
     - { role: zsh, when: general.config.shell == 'zsh' }
     - cleanup

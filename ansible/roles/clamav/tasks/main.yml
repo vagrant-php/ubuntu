@@ -1,0 +1,44 @@
+---
+- name: install
+  apt: name={{ item }} state=present
+  with_items:
+    - clamav
+    - clamav-daemon
+
+- name: Download main.cvd
+  get_url:
+    url: http://db.local.clamav.net/main.cvd
+    dest: /var/lib/clamav/main.cvd
+    mode: 0755
+  notify:
+    - restart clamav-daemon
+
+- name: Download daily.cvd
+  get_url:
+    url: http://db.local.clamav.net/daily.cvd
+    dest: /var/lib/clamav/daily.cvd
+    mode: 0755
+  notify:
+    - restart clamav-daemon
+
+- name: Download main.cvd
+  get_url:
+    url: http://db.local.clamav.net/bytecode.cvd
+    dest: /var/lib/clamav/bytecode.cvd
+    mode: 0755
+  notify:
+    - restart clamav-daemon
+
+- name: Add user vagrant to group clamav
+  user:
+    name: vagrant
+    groups: clamav
+
+- name: enable 3310
+  lineinfile:
+    dest=/etc/clamav/clamd.conf
+    line='TCPSocket 3310'
+    regexp='^TCPSocket'
+    state=present
+  notify:
+    - restart clamav-daemon
