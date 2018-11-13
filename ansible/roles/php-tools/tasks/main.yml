@@ -1,6 +1,6 @@
 ---
 - name: composer install
-  shell: curl -LsS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
+  shell: curl -LsS https://github.com/composer/composer/releases/download/1.7.3/composer.phar -o /usr/local/bin/composer.phar && chmod +x /usr/local/bin/composer.phar
 
 - name: composer symlink
   file:
@@ -18,14 +18,14 @@
     state: link
 
 - name: phan install
-  shell: curl -LsS https://github.com/phan/phan/releases/download/0.12.10/phan.phar -o /usr/local/bin/phan.phar && chmod +x /usr/local/bin/phan.phar
+  shell: curl -LsS https://github.com/phan/phan/releases/download/1.1.2/phan.phar -o /usr/local/bin/phan.phar && chmod +x /usr/local/bin/phan.phar
 
 - name: phan
   file:
     src: /usr/local/bin/phan.phar
     dest: /usr/local/bin/phan
     state: link
-    
+
 - name: php-short-array-syntax-converter install
   shell: curl -LsS https://raw.githubusercontent.com/thomasbachem/php-short-array-syntax-converter/master/convert.php -o /usr/local/bin/php-short-array-syntax-converter.php && chmod +x /usr/local/bin/php-short-array-syntax-converter.php
 
@@ -34,7 +34,3 @@
     src: /usr/local/bin/php-short-array-syntax-converter.php
     dest: /usr/local/bin/php-short-array-syntax-converter
     state: link
-
-
-
-
