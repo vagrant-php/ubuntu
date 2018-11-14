@@ -24,6 +24,11 @@
 
 - name: change default user to {{ mariadb.username }} / {{ mariadb.password }}
   mysql_user: name={{ mariadb.username }} password={{ mariadb.password }} host=localhost login_unix_socket={{ mariadb.config.mysqld.socket }}
+  when: mariadb.password != ''
+
+- name: change default user to {{ mariadb.username }}
+  mysql_user: name={{ mariadb.username }} host=localhost login_unix_socket={{ mariadb.config.mysqld.socket }}
+  when: mariadb.password == ''
 
 - name: copy .my.cnf file for user root
   template:
