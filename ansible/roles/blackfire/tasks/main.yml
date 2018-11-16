@@ -20,3 +20,19 @@
     - { regexp: "^server-token=", line: "server-token={{ blackfire.server_token }}" }
   notify:
     - restart blackfire-agent
+
+- name: copy .blackfire.ini file for user root
+  template:
+    src=blackfire.ini.j2
+    dest=/root/.blackfire.ini
+    owner=root
+    group=root
+    mode=0600
+
+- name: copy .blackfire.ini file for user vagrant
+  template:
+    src=blackfire.ini.j2
+    dest=/home/vagrant/.blackfire.ini
+    owner=vagrant
+    group=vagrant
+    mode=0600

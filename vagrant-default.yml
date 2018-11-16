@@ -106,8 +106,15 @@ bash:
             histappend: true
 
 blackfire:
+    ca_cert: ~
+    client_id: ~
+    client_token: ~
+    endpoint: https://blackfire.io
+    http_proxy: ~
+    https_proxy: ~
     server_id: ~
     server_token: ~
+    timeout: 15s
 
 rabbitmq:
     username: root
