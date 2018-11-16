@@ -140,8 +140,12 @@ Vagrant.configure(2) do |config|
     if setupConfig['sharetype'] == 'native'
         config.vm.synced_folder './..', '/vagrant'
     elsif setupConfig['sharetype'] == 'nfs' or setupConfig['sharetype'] == 'nfs-bindfs'
-        config.nfs.map_uid = Process.uid
-        config.nfs.map_gid = Process.gid
+        if setupConfig['nfsoptions']['map_uid']
+            config.nfs.map_uid = Process.uid
+        end
+        if setupConfig['nfsoptions']['map_gid']
+            config.nfs.map_uid = Process.uid
+        end
         nfsoptions = {
             :create => true,
             :nfs => true,

@@ -27,6 +27,8 @@ network:
 
 nfsoptions:
     udp: false
+    map_uid: true
+    map_gid: true
     mount_options: []
     bsd: ['alldirs']
     linux: ['rw','no_subtree_check','all_squash','async']
