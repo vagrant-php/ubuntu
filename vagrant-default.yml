@@ -33,23 +33,39 @@ nfsoptions:
 
 virtualbox:
     bsd:
+        audio: 'none'
+        boot1: 'disk'
+        boot2: 'none'
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
         nictype1: 'virtio'
         nictype2: 'virtio'
+        vrde: 'off'
     darwin:
+        audio: 'none'
+        boot1: 'disk'
+        boot2: 'none'
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
         nictype1: 'virtio'
         nictype2: 'virtio'
+        vrde: 'off'
     linux:
+        audio: 'none'
+        boot1: 'disk'
+        boot2: 'none'
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
         nictype1: 'virtio'
         nictype2: 'virtio'
+        vrde: 'off'
     windows:
+        audio: 'none'
+        boot1: 'disk'
+        boot2: 'none'
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
+        vrde: 'off'
 
 # ----------------------------------------------------------------------------------------------------
 
