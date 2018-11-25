@@ -209,12 +209,15 @@ nginx:
                     - '"Access-Control-Allow-Origin" "$http_origin"'
                 "if ($request_method = 'OPTIONS')":
                     add_header:
+                        - '"Access-Control-Allow-Origin" "$http_origin"'
                         - '"Access-Control-Allow-Headers" "*"'
                         - '"Access-Control-Max-Age" 1728000'
                         - '"Content-Type" "text/plain charset=UTF-8"'
                         - '"Content-Length" 0'
                     return: 204
                 'location ~ ^(.+\.php)(.*)$':
+                    add_header:
+                        - '"Access-Control-Allow-Origin" "$http_origin"'
                     fastcgi_split_path_info: '^(.+\.php)(.*)$'
                     try_files: '$fastcgi_script_name =404'
                     set: '$wtf $fastcgi_path_info'
@@ -237,6 +240,7 @@ nginx:
                     - '"Access-Control-Allow-Origin" "$http_origin"'
                 "if ($request_method = 'OPTIONS')":
                     add_header:
+                        - '"Access-Control-Allow-Origin" "$http_origin"'
                         - '"Access-Control-Allow-Headers" "*"'
                         - '"Access-Control-Max-Age" 1728000'
                         - '"Content-Type" "text/plain charset=UTF-8"'
@@ -245,6 +249,8 @@ nginx:
                 try_files:
                     - '$uri $uri/ /index_dev.php?$args'
                 'location ~ ^(.+\.php)(.*)$':
+                    add_header:
+                        - '"Access-Control-Allow-Origin" "$http_origin"'
                     fastcgi_split_path_info: '^(.+\.php)(.*)$'
                     try_files: '$fastcgi_script_name =404'
                     set: '$wtf $fastcgi_path_info'
