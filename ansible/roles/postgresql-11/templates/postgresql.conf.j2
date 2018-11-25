@@ -1,4 +1,4 @@
-{% for option, value in postgresql.config.iteritems() %}
+{% for option, value in postgresql.config.items() %}
 {% if value == value|int %}
 {{ option }} = {{ value }}
 {% elif value == 'true' or value == 'false' or value == 'on' or value == 'off' %}

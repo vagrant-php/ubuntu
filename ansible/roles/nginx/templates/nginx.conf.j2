@@ -1,6 +1,6 @@
 
 {% macro renderDictionary(values) %}
-    {% for key, value in values.iteritems() %}
+    {% for key, value in values.items() %}
         {{ renderValue(key, value) }}
     {% endfor %}
 {% endmacro %}

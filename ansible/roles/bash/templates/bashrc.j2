@@ -1,14 +1,14 @@
-{% for shopt, active in bash.config.shopt.iteritems() %}
+{% for shopt, active in bash.config.shopt.items() %}
 {% if active %}
 shopt -s {{ shopt }}
 {% endif %}
 {% endfor %}
 
-{% for alias, value in bash.config.alias.iteritems() %}
+{% for alias, value in bash.config.alias.items() %}
 alias {{ alias }}='{{ value }}'
 {% endfor %}
 
-{% for export, value in bash.config.export.iteritems() %}
+{% for export, value in bash.config.export.items() %}
 export {{ export }}={{ value }}
 {% endfor %}
 

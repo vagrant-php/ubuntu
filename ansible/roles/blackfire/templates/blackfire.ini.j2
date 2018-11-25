@@ -1,4 +1,4 @@
 [blackfire]
-{% for option, value in blackfire.config.client.iteritems() %}
+{% for option, value in blackfire.config.client.items() %}
 {{ option }}={{ value }}
 {% endfor %}

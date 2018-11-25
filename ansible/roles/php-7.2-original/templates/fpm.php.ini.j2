@@ -1,6 +1,6 @@
-{% for groupname, group in php.config.fpm.iteritems() %}
+{% for groupname, group in php.config.fpm.items() %}
 [{{ groupname }}]
-{% for option, value in group.iteritems() %}
+{% for option, value in group.items() %}
 {{ option }} = {{ value }}
 {% endfor %}
 

@@ -6,9 +6,9 @@
 {% endif %}
 {{ value }}
 {%- endmacro %}
-{% for option, value in redis.config.iteritems() %}
+{% for option, value in redis.config.items() %}
 {% if value is mapping %}
-{% for suboption, subvalue in value.iteritems() %}
+{% for suboption, subvalue in value.items() %}
 {{ option }} {{ fixValue(suboption) }} {{ fixValue(subvalue) }}
 {% endfor %}
 {% else %}
