@@ -139,13 +139,17 @@ blackfire:
 clamav:
     config:
         DatabaseDirectory: /var/lib/clamav
-        LocalSocket: /var/run/clamav/clamd.sock
+        FixStaleSocket: true
+        LocalSocket: /var/run/clamav/clamd.ctl
+        LocalSocketGroup: clamav
+        LocalSocketMode: 666
         LogFile: /var/log/clamav/clamav.log
         MaxFileSize: 32M
         MaxScanSize: 32M
         PCREMaxFileSize: 32M
         StreamMaxLength: 32M
         TCPSocket: 3310
+        User: clamav
 
 # git: -----------------------------------------------------------------------------------------------------------------
 

@@ -1,10 +1,6 @@
 - name: install
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - clamav
-      - clamav-daemon
+    name: "clamav-daemon"
 
 - name: download main.cvd
   get_url:
