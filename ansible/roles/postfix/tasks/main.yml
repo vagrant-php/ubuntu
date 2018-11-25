@@ -1,20 +1,21 @@
----
 - name: install
-  apt: name={{ item }} state=present
-  with_items:
-    - postfix
-    - postfix-pcre
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - postfix
+      - postfix-pcre
 
 - name: configure main.cf
   template:
-    src=main.cf.j2
-    dest=/etc/postfix/main.cf
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
   notify:
-      - restart postfix
+    - restart postfix
 
 - name: configure virtual.map.pcre
   template:
-    src=virtual.map.pcre.j2
-    dest=/etc/postfix/virtual.map.pcre
+    src: virtual.map.pcre.j2
+    dest: /etc/postfix/virtual.map.pcre
   notify:
-      - restart postfix
+    - restart postfix

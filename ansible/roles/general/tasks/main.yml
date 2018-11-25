@@ -1,40 +1,32 @@
----
 ### resolv
 - name: resolv | copy sources.list
   copy:
-    src=resolv.conf
-    dest=/etc/resolv.conf
+    src: resolv.conf
+    dest: /etc/resolv.conf
 
 ### apt
 - name: apt | copy sources.list
   copy:
-    src=sources.list
-    dest=/etc/apt/sources.list
+    src: sources.list
+    dest: /etc/apt/sources.list
 
 - name: apt | update
-  command: apt-get update
-
-- name: apt | install aptitude and apt-transport-https
-  command: apt-get install -y aptitude apt-transport-https
+  apt:
+    update_cache: yes
 
 - name: apt | upgrade
-  apt: update_cache=yes upgrade=full
+  apt:
+    upgrade: dist
 
 - name: apt | install packages
-  apt: name={{ item }} state=present
-  with_items: "{{ general.packages }}"
-
-- name: apt | lts kernel
-  apt: name={{ item }} state=present
-  with_items:
-    - linux-generic-hwe-16.04
+  apt:
+    name: "{{ general.packages }}"
 
 ### locale
 
 - name: locale | install
-  apt: name={{ item }} state=present
-  with_items:
-    - locales
+  apt:
+    name: locales
 
 - name: locale | Generate {{ general.config.locale }}
   command: /usr/sbin/locale-gen {{ general.config.locale }}
@@ -54,10 +46,10 @@
 
 - name: keymap | copy keyboard config
   template:
-    src=keyboard.j2
-    dest=/etc/default/keyboard
-    owner=root
-    group=root
+    src: keyboard.j2
+    dest: /etc/default/keyboard
+    owner: root
+    group: root
 
 - name: keymap | setupcon
   command: /bin/setupcon
@@ -66,26 +58,23 @@
 
 - name: grub | fix boot hidden timeout
   lineinfile:
-    dest=/etc/default/grub
-    line='#GRUB_HIDDEN_TIMEOUT=0'
-    regexp='^(|#)GRUB_HIDDEN_TIMEOUT\='
-    state=present
+    dest: /etc/default/grub
+    line: '#GRUB_HIDDEN_TIMEOUT=0'
+    regexp: '^(|#)GRUB_HIDDEN_TIMEOUT\='
   register: fixbootparameter
 
 - name: grub | fix boot hidden timeput quiet
   lineinfile:
-    dest=/etc/default/grub
-    line='GRUB_HIDDEN_TIMEOUT_QUIET=true'
-    regexp='^GRUB_HIDDEN_TIMEOUT_QUIET\='
-    state=present
+    dest: /etc/default/grub
+    line: 'GRUB_HIDDEN_TIMEOUT_QUIET=true'
+    regexp: '^GRUB_HIDDEN_TIMEOUT_QUIET\='
   register: fixbootparameter
 
 - name: grub | fix boot timeout
   lineinfile:
-    dest=/etc/default/grub
-    line='GRUB_TIMEOUT=3'
-    regexp='^GRUB_TIMEOUT\='
-    state=present
+    dest: /etc/default/grub
+    line: 'GRUB_TIMEOUT=3'
+    regexp: '^GRUB_TIMEOUT\='
   register: fixbootparameter
 
 - name: grub | update
@@ -95,18 +84,17 @@
 ### sysfsutils
 
 - name: sysfsutils | install
-  apt: name=sysfsutils state=present
+  apt:
+    name: sysfsutils
 
 - name: sysfsutils | set kernel/mm/transparent_hugepage/enabled = never within /etc/sysfs.conf
   lineinfile:
-    dest=/etc/sysfs.conf
-    line='kernel/mm/transparent_hugepage/enabled = never'
-    regexp='^kernel\/mm\/transparent_hugepage\/enabled'
-    state=present
+    dest: /etc/sysfs.conf
+    line: 'kernel/mm/transparent_hugepage/enabled = never'
+    regexp: '^kernel\/mm\/transparent_hugepage\/enabled'
 
 - name: sysfsutils | set kernel/mm/transparent_hugepage/defrag = never within /etc/sysfs.conf
   lineinfile:
-    dest=/etc/sysfs.conf
-    line='kernel/mm/transparent_hugepage/defrag = never'
-    regexp='^kernel\/mm\/transparent_hugepage\/defrag'
-    state=present
+    dest: /etc/sysfs.conf
+    line: 'kernel/mm/transparent_hugepage/defrag = never'
+    regexp: '^kernel\/mm\/transparent_hugepage\/defrag'

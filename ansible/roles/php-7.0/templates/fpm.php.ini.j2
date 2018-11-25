@@ -1,7 +1,0 @@
-{% for groupname, group in php.config.fpm.iteritems() %}
-[{{ groupname }}]
-{% for option, value in group.iteritems() %}
-{{ option }} = {{ value }}
-{% endfor %}
-
-{% endfor %}

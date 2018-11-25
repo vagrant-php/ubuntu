@@ -1,3 +1,4 @@
----
-- name: restart mysql
-  service: name=mysql state=restarted
+- name: restart mariadb-10.2
+  systemd:
+    name: mysql
+    state: restarted

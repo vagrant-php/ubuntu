@@ -1,8 +1,4 @@
 [blackfire]
-ca-cert={{ blackfire.ca_cert }}
-client-id={{ blackfire.client_id }}
-client-token={{ blackfire.client_token }}
-endpoint={{ blackfire.endpoint }}
-http-proxy={{ blackfire.http_proxy }}
-https-proxy={{ blackfire.https_proxy }}
-timeout={{ blackfire.timeout }}
+{% for option, value in blackfire.config.client.iteritems() %}
+{{ option }}={{ value }}
+{% endfor %}

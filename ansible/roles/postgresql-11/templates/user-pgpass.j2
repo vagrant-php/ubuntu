@@ -1,0 +1,5 @@
+{% if postgresql.password != '' %}
+localhost:{{ postgresql.config.port }}:*:{{ postgresql.username }}:{{ postgresql.password }}
+{% else %}
+localhost:{{ postgresql.config.port }}:*:{{ postgresql.username }}:*
+{% endif %}

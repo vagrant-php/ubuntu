@@ -1,16 +1,10 @@
 ---
-hostname: &hostname projectname.development
-application: ~
-subhosts: []
-#  - { subhostname: "project1", application: "symfony2", aliases: [] }
-#  - { subhostname: "project1", application: "symfony2", aliases: ['alias1.something.development', 'alias2.something.development'] }
-aliases: []
-#  - anothername.development
-
-sharetype: nfs
+hostname: projectname.development
 
 cpus: ~
 memory: 1024
+
+# network: -------------------------------------------------------------------------------------------------------------
 
 network:
     forwarded_ports:
@@ -23,144 +17,137 @@ network:
 #        https:
 #            host: 8443
 #            guest: 443
-    ip: dhcp
+    ip: 10.10.10.10
+
+# nfs: -----------------------------------------------------------------------------------------------------------------
 
 nfsoptions:
     udp: false
-    map_uid: true
-    map_gid: true
     mount_options: []
-    bsd: ['alldirs']
-    linux: ['rw','no_subtree_check','all_squash','async']
+    bsd: [alldirs]
+    linux: [rw,no_subtree_check,all_squash,async]
+
+# virtualbox: ----------------------------------------------------------------------------------------------------------
 
 virtualbox:
     bsd:
-        audio: 'none'
-        boot1: 'disk'
-        boot2: 'none'
+        audio: none
+        boot1: disk
+        boot2: none
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
-        nictype1: 'virtio'
-        nictype2: 'virtio'
+        nictype1: virtio
+        nictype2: virtio
         vrde: 'off'
     darwin:
-        audio: 'none'
-        boot1: 'disk'
-        boot2: 'none'
+        audio: none
+        boot1: disk
+        boot2: none
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
-        nictype1: 'virtio'
-        nictype2: 'virtio'
+        nictype1: virtio
+        nictype2: virtio
         vrde: 'off'
     linux:
-        audio: 'none'
-        boot1: 'disk'
-        boot2: 'none'
+        audio: none
+        boot1: disk
+        boot2: none
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
-        nictype1: 'virtio'
-        nictype2: 'virtio'
+        nictype1: virtio
+        nictype2: virtio
         vrde: 'off'
     windows:
-        audio: 'none'
-        boot1: 'disk'
-        boot2: 'none'
+        audio: none
+        boot1: disk
+        boot2: none
         natdnshostresolver1: 'off'
         natdnsproxy1: 'off'
         vrde: 'off'
 
-# ----------------------------------------------------------------------------------------------------
+# role: ----------------------------------------------------------------------------------------------------------------
 
 role:
+    blackfire: false
     clamav: false
-    elasticsearch: false
-    freetds: false
-    mariadb: true
+    mariadb: false
     memcached: false
-    mongodb: false
-    nodejs: true
-    postfix: true
+    nginx: false
+    postfix: false
     postgresql: false
     redis: false
-    blackfire: false
-    rabbitmq: false
 
-# ----------------------------------------------------------------------------------------------------
+# general: -------------------------------------------------------------------------------------------------------------
+
+general:
+    config:
+        locale: de_CH.UTF-8
+        keyboard:
+            layout: ch
+            variant: de_nodeadkeys
+        timezone: Europe/Zurich
+    packages: []
+
+# bash: ----------------------------------------------------------------------------------------------------------------
 
 bash:
     config:
         alias:
-            cls: &cls "base64:J3ByaW50ZiAiXDAzM2MiJw==" # 'printf "\033c"'
-            showdns: &showdns "base64:J2RpZyAkMSBhbnkgK25vY21kICttdWx0aWxpbmUgK25vYWxsICthbnN3ZXIn" # 'dig $1 any +nocmd +multiline +noall +answer'
-            whichshell: &whichshell "base64:J3BzIC1wICQkJw==" # 'ps -p $$'
+            cls: 'printf "\033c"'
+            showdns: 'dig $1 any +nocmd +multiline +noall +answer'
+            whichshell: 'ps -p $$'
         export:
             CLICOLOR: 1
-            EDITOR: &editor vim
-            HISTCONTROL: "ignoreboth:erasedups"
+            EDITOR: vim
+            HISTCONTROL: 'ignoreboth:erasedups'
             HISTFILE: ~/.bash_history
-            HISTFILESIZE: &histfilesize 100000
-            HISTSIZE: &histsize 5000
-            PS1: "base64:IlxbXGVbMTszMm1cXVxoXFtcZVswbVxdIFxbXGVbMTszN21cXVx3XFtcZVswbVxdIFxbXGVbMTszMm1cXVx1XFtcZVswbVxdIFxbXGVbMTszN21cXVwkXFtcZVswbVxdICI=" # "\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] "
+            HISTFILESIZE: 100000
+            HISTSIZE: 5000
+            PATH: '/home/vagrant/.composer/vendor/bin:$PATH'
+            PS1: >
+                '\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] '
         shopt:
             checkwinsize: true
             histappend: true
 
+# blackfire: -----------------------------------------------------------------------------------------------------------
+
 blackfire:
-    ca_cert: ~
-    client_id: ~
-    client_token: ~
-    endpoint: https://blackfire.io
-    http_proxy: ~
-    https_proxy: ~
-    server_id: ~
-    server_token: ~
-    timeout: 15s
-
-rabbitmq:
-    username: root
-    password: root
     config:
-        listeners.tcp.default: 5672
-        handshake_timeout: 10000
+        agent:
+            ca-cert: ~
+            collector: https://blackfire.io
+            http-proxy: ~
+            https-proxy: ~
+            log-file: stderr
+            log-level: 1
+            server-id: ~
+            server-token: ~
+            socket: unix:///var/run/blackfire/agent.sock
+            spec: ~
+        client:
+            ca-cert: ~
+            client-id: ~
+            client-token: ~
+            endpoint: https://blackfire.io
+            http-proxy: ~
+            https-proxy: ~
+            timeout: 15s
 
-elasticsearch:
-    version: 5
+# clamav: --------------------------------------------------------------------------------------------------------------
+
+clamav:
     config:
-        http.port: 9200
-        network.host: 0.0.0.0
-        node.max_local_storage_nodes: 1
-        path.data: /var/lib/elasticsearch
-        path.logs: /var/log/elasticsearch
-        pidfile: /var/run/elasticsearch/elasticsearch.pid
-    kibana:
-        config:
-            server.host: 0.0.0.0
-            server.port: 5601
-        plugins: []
-    plugins: []
+        DatabaseDirectory: /var/lib/clamav
+        LocalSocket: /var/run/clamav/clamd.sock
+        LogFile: /var/log/clamav/clamav.log
+        MaxFileSize: 32M
+        MaxScanSize: 32M
+        PCREMaxFileSize: 32M
+        StreamMaxLength: 32M
+        TCPSocket: 3310
 
-freetds:
-    config: {}
-#        sampledomain.tld:
-#            host: sampledomain.tld
-#            port: 60655
-#            tds version: 7.0
-#            client charset: UTF-8
-#            text size: 20971520
-
-general:
-    config:
-        locale: &locale de_CH.UTF-8
-        keyboard:
-            layout: ch
-            variant: de_nodeadkeys
-        shell: bash # bash or zsh
-        timezone: &timezone Europe/Zurich
-    packages:
-        - build-essential
-        - htop
-        - unzip
-        - vim
+# git: -----------------------------------------------------------------------------------------------------------------
 
 git:
     config:
@@ -168,29 +155,33 @@ git:
             pp: "!'git pull -v; git push -v'"
             ppt: "!'git pull -v; git push -v; git push --tags -v'"
         core:
-            editor: *editor
+            editor: vim
         push:
             default: current
 #        user:
 #            name: "'Firstname Lastname'"
 #            email: firstname.lastname@domain.tld
 
+# mariadb: -------------------------------------------------------------------------------------------------------------
+
 mariadb:
-    version: 10.2
+    version: 10.3
     username: root
     password: root
     config:
         client:
             default-character-set: utf8
-            port: &mariadbport 3306
-            socket: &mariadbsocket /var/run/mysqld/mysqld.sock
+            port: 3306
+            socket: /var/run/mysqld/mysqld.sock
         mysqld:
             character-set-server: utf8
             datadir: /var/lib/mysql
             log_error: /var/log/mysql/error.log
             pid-file: /var/run/mysqld/mysqld.pid
-            port: *mariadbport
-            socket: *mariadbsocket
+            port: 3306
+            socket: /var/run/mysqld/mysqld.sock
+
+# memcached: -----------------------------------------------------------------------------------------------------------
 
 memcached:
     config:
@@ -202,47 +193,92 @@ memcached:
         -s: /tmp/memcached.sock
         -u: memcache
 
-mongodb:
-    version: 3.4
-    username: root
-    password: root
-    config:
-        net:
-            port: 27017
-            unixDomainSocket:
-                enabled: true
-                pathPrefix: /tmp
-        security:
-            authorization: enabled
-        storage:
-           dbPath: /var/lib/mongodb
-        systemLog:
-           destination: file
-           path: /var/log/mongodb/mongodb.log
-           logAppend: true
+# nginx: ---------------------------------------------------------------------------------------------------------------
 
 nginx:
-    cors:
-        allow_headers:
-            - Accept
-            - Accept-Language
-            - Authorization
-            - Content-Type
-            - Origin
+    templates:
+        default:
+            listen: [80, 443 ssl http2]
+            index: index.php
+            'location /':
+                add_header:
+                    - '"Access-Control-Allow-Origin" "$http_origin"'
+                "if ($request_method = 'OPTIONS')":
+                    add_header:
+                        - '"Access-Control-Allow-Headers" "*"'
+                        - '"Access-Control-Max-Age" 1728000'
+                        - '"Content-Type" "text/plain charset=UTF-8"'
+                        - '"Content-Length" 0'
+                    return: 204
+                'location ~ ^(.+\.php)(.*)$':
+                    fastcgi_split_path_info: '^(.+\.php)(.*)$'
+                    try_files: '$fastcgi_script_name =404'
+                    set: '$wtf $fastcgi_path_info'
+                    fastcgi_param:
+                        - 'PATH_INFO $wtf'
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                    fastcgi_pass:
+                        - unix://var/run/php/default.sock
+                    fastcgi_read_timeout: 600
+                    fastcgi_buffer_size: 128k
+                    fastcgi_buffers: 4 256k
+                    fastcgi_busy_buffers_size: 256k
+                    include:
+                        - 'fastcgi_params'
+        slim3:
+            listen: [80, 443 ssl http2]
+            index: index_dev.php
+            'location /':
+                add_header:
+                    - '"Access-Control-Allow-Origin" "$http_origin"'
+                "if ($request_method = 'OPTIONS')":
+                    add_header:
+                        - '"Access-Control-Allow-Headers" "*"'
+                        - '"Access-Control-Max-Age" 1728000'
+                        - '"Content-Type" "text/plain charset=UTF-8"'
+                        - '"Content-Length" 0'
+                    return: 204
+                try_files:
+                    - '$uri $uri/ /index_dev.php?$args'
+                'location ~ ^(.+\.php)(.*)$':
+                    fastcgi_split_path_info: '^(.+\.php)(.*)$'
+                    try_files: '$fastcgi_script_name =404'
+                    set: '$wtf $fastcgi_path_info'
+                    fastcgi_param:
+                        - 'PATH_INFO $wtf'
+                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+                    fastcgi_pass:
+                        - unix://var/run/php/default.sock
+                    fastcgi_read_timeout: 600
+                    fastcgi_buffer_size: 128k
+                    fastcgi_buffers: 4 256k
+                    fastcgi_busy_buffers_size: 256k
+                    include:
+                        - 'fastcgi_params'
     config:
-        charset: utf-8
+        user: vagrant vagrant
+        worker_processes: 4
         error_log: /var/log/nginx/error.log
-        fastcgi_read_timeout: 600
-        fastcgi_socket: &phpserversocket /tmp/php-server-socket
-        proxy_buffer_size: 128k
-        proxy_buffers: 4 256k
-        proxy_busy_buffers_size: 256k
+        pid: /var/run/nginx.pid
+        events:
+            worker_connections: 1024
+        http:
+            include: ['mime.types']
+            charset: utf-8
+            gzip: 'on'
+            sendfile: 'off'
+            client_max_body_size: 50M
+            server: []
+    server: []
+        # -
+        #     root: /vagrant
+        #     server_name: project.development
+        #     template: default
 
-nodejs:
-    version: 8
+# php: -----------------------------------------------------------------------------------------------------------------
 
 php:
-    version: 7.1
+    version: 7.2
     config:
         cli:
             php:
@@ -260,17 +296,17 @@ php:
                 allow_url_fopen: On
                 allow_url_include: Off
             date:
-                date.timezone: *timezone
+                date.timezone: Europe/Zurich
             intl:
-                intl.default_locale: *locale
+                intl.default_locale: de_CH.UTF-8
             mysql:
-                mysql.default_port: *mariadbport
-                mysql.default_socket: *mariadbsocket
+                mysql.default_port: 3306
+                mysql.default_socket: /var/run/mysqld/mysqld.sock
             mysqli:
-                mysqli.default_port: *mariadbport
-                mysqli.default_socket: *mariadbsocket
+                mysqli.default_port: 3306
+                mysqli.default_socket: /var/run/mysqld/mysqld.sock
             pdo_mysql:
-                pdo_mysql.default_socket: *mariadbsocket
+                pdo_mysql.default_socket: /var/run/mysqld/mysqld.sock
             session:
                 session.gc_probability: 0
             xdebug:
@@ -296,44 +332,54 @@ php:
                 allow_url_fopen: On
                 allow_url_include: Off
             date:
-                date.timezone: *timezone
+                date.timezone: Europe/Zurich
             intl:
-                intl.default_locale: *locale
+                intl.default_locale: de_CH.UTF-8
             mysql:
-                mysql.default_port: *mariadbport
-                mysql.default_socket: *mariadbsocket
+                mysql.default_port: 3306
+                mysql.default_socket: /var/run/mysqld/mysqld.sock
             mysqli:
-                mysqli.default_port: *mariadbport
-                mysqli.default_socket: *mariadbsocket
+                mysqli.default_port: 3306
+                mysqli.default_socket: /var/run/mysqld/mysqld.sock
             pdo_mysql:
-                pdo_mysql.default_socket: *mariadbsocket
+                pdo_mysql.default_socket: /var/run/mysqld/mysqld.sock
             session:
                 session.gc_probability: 0
             xdebug:
                 xdebug.max_nesting_level: 1024
-    server:
-        socket: *phpserversocket
-    modules:
-        - curl
-        - gd
-        - imagick
-        - intl
-        - mbstring
-        - mcrypt
-        - sqlite3
-        - xdebug
-        - xml
-    modulesfromsource:
-        geos: false
+        php_fpm:
+            default:
+                user: vagrant
+                group: vagrant
+                listen: /var/run/php/default.sock
+                listen.owner: vagrant
+                listen.group: vagrant
+                pm: dynamic
+                pm.max_children: 10
+                pm.start_servers: 2
+                pm.min_spare_servers: 1
+                pm.max_spare_servers: 4
+                pm.max_requests: 400
+                request_terminate_timeout: 600
+
+    modules: []
+        # - php7.2-zip
+    composer:
+        require: {}
+            #friendsofphp/php-cs-fixer: '^2.13.1'
+
+# postfix: -------------------------------------------------------------------------------------------------------------
 
 postfix:
-    receiver: firstname.lastname@hostname.tld
     config:
-        myhostname: *hostname
         inet_interfaces: loopback-only
+        myhostname: localhost
+    receiver: firstname.lastname@hostname.tld
+
+# postgresql: ----------------------------------------------------------------------------------------------------------
 
 postgresql:
-    version: 9.6
+    version: 11
     username: root
     password: root
     config:
@@ -341,49 +387,25 @@ postgresql:
         external_pid_file: /var/run/postgresql/%%VERSION%%-main.pid
         hba_file: /etc/postgresql/%%VERSION%%/main/pg_hba.conf
         ident_file: /etc/postgresql/%%VERSION%%/main/pg_ident.conf
-        lc_messages: *locale
-        lc_monetary: *locale
-        lc_numeric: *locale
-        lc_time: *locale
+        lc_messages: de_CH.UTF-8
+        lc_monetary: de_CH.UTF-8
+        lc_numeric: de_CH.UTF-8
+        lc_time: de_CH.UTF-8
         log_directory: /var/log/postgresql
-        log_timezone: *timezone
+        log_timezone: Europe/Zurich
         port: 5432
         shared_buffers: 128MB
-        timezone: *timezone
+        timezone: Europe/Zurich
         unix_socket_directories: /var/run/postgresql
-    postgis: false
+
+# redis: ---------------------------------------------------------------------------------------------------------------
 
 redis:
     config:
         daemonize: yes
+        dir: /var/lib/redis
+        logfile: /var/log/redis/redis-server.log
+        loglevel: notice
         pidfile: /var/run/redis/redis-server.pid
         port: 6379
         unixsocket: /var/run/redis/redis.sock
-        loglevel: notice
-        logfile: /var/log/redis/redis-server.log
-        dir: /var/lib/redis
-        #save:
-            #900: 1
-            #300: 10
-            #60: 10000
-
-zsh:
-    config:
-        alias:
-            cls: *cls
-            showdns: *showdns
-            whichshell: *whichshell
-        export:
-            EDITOR: *editor
-            HISTFILE: ~/.zsh_history
-            HISTSIZE: *histsize
-            PS1: "base64:IiV7JGZnX2JvbGRbZ3JlZW5dJX0lTSV7JHJlc2V0X2NvbG9yJX0gJXskZmdfYm9sZFt3aGl0ZV0lfSV+JXskcmVzZXRfY29sb3IlfSAleyRmZ19ib2xkW2dyZWVuXSV9JW4leyRyZXNldF9jb2xvciV9ICUgIg==" # "%{$fg_bold[green]%}%M%{$reset_color%} %{$fg_bold[white]%}%~%{$reset_color%} %{$fg_bold[green]%}%n%{$reset_color%} % "
-            SAVEHIST: *histfilesize
-        setopt:
-            HIST_IGNORE_ALL_DUPS: true
-            SHARE_HISTORY: true
-    ohmyzsh:
-        enable: false
-        plugins:
-            - git
-        theme: geoffgarside

@@ -4,27 +4,12 @@ shopt -s {{ shopt }}
 {% endif %}
 {% endfor %}
 
-{% macro row(key, value, prefix) -%}
-{% if value is string and value[:6] == 'base64' %}
-{% set value = value[6:]|b64decode %}
-{% endif %}
-{% if prefix %}{{ prefix }} {% endif %}{{ key }}={{ value }}
-{%- endmacro %}
-
 {% for alias, value in bash.config.alias.iteritems() %}
-{{ row(alias, value, 'alias') }}
+alias {{ alias }}='{{ value }}'
 {% endfor %}
 
 {% for export, value in bash.config.export.iteritems() %}
-{{ row(export, value, 'export') }}
+export {{ export }}={{ value }}
 {% endfor %}
-
-if [ -d ~/.application_aliases ]; then
-    for filename in ~/.application_aliases/*; do
-        if [ -f $filename ]; then
-            . $filename
-        fi
-    done
-fi
 
 cd /vagrant

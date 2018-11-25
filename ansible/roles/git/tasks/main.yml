@@ -1,10 +1,19 @@
----
 - name: install
-  apt: name={{ item }} state=present
-  with_items:
-    - git
+  apt:
+    name: git
 
-- name: copy .gitconfig
+- name: copy .gitconfig file for user root
   template:
-    src=gitconfig.j2
-    dest=/home/vagrant/.gitconfig
+    src: gitconfig.j2
+    dest: /root/.gitconfig
+    owner: root
+    group: root
+    mode: 0600
+
+- name: copy .gitconfig file for user vagrant
+  template:
+    src: gitconfig.j2
+    dest: /home/vagrant/.gitconfig
+    owner: vagrant
+    group: vagrant
+    mode: 0600

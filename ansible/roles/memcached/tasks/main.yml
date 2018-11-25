@@ -1,12 +1,10 @@
----
 - name: install
-  apt: name={{ item }} state=present
-  with_items:
-    - memcached
+  apt:
+    name: memcached
 
 - name: configure memcached.conf
   template:
-    src=memcached.conf.j2
-    dest=/etc/memcached.conf
+    src: memcached.conf.j2
+    dest: /etc/memcached.conf
   notify:
       - restart memcached

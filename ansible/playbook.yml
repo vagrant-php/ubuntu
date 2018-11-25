@@ -1,67 +1,23 @@
----
 - hosts: all
   become: true
   roles:
     - general
-    - { role: bash, when: general.config.shell == 'bash' }
+    - bash
     - { role: blackfire, when: role.blackfire }
     - { role: clamav, when: role.clamav }
-    - { role: elasticsearch-2, when: role.elasticsearch and elasticsearch.version == 2}
-    - { role: elasticsearch-5, when: role.elasticsearch and elasticsearch.version == 5}
-    - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6}
-    - { role: freetds, when: role.freetds }
     - git
-    - { role: mysql-5.7-original, when: role.mariadb and mariadb.version == '5.7-original' }
-    - { role: mariadb-10.0-original, when: role.mariadb and mariadb.version == '10.0-original' }
-    - { role: mariadb-10.0, when: role.mariadb and mariadb.version == 10.0 }
+    - { role: mariadb-10.1-original, when: role.mariadb and mariadb.version == '10.1-original' }
     - { role: mariadb-10.1, when: role.mariadb and mariadb.version == 10.1 }
     - { role: mariadb-10.2, when: role.mariadb and mariadb.version == 10.2 }
     - { role: mariadb-10.3, when: role.mariadb and mariadb.version == 10.3 }
     - { role: memcached, when: role.memcached }
-    - { role: mongodb-3.4, when: role.mongodb and mongodb.version == 3.4 }
-    - { role: nginx-application-bolt2, when: "'bolt2' in applications" }
-    - { role: nginx-application-bolt3, when: "'bolt3' in applications" }
-    - { role: nginx-application-contao3, when: "'contao3' in applications" }
-    - { role: nginx-application-contao4, when: "'contao4' in applications" }
-    - { role: nginx-application-drupal7, when: "'drupal7' in applications" }
-    - { role: nginx-application-drupal8, when: "'drupal8' in applications" }
-    - { role: nginx-application-lavarel5, when: "'lavarel5' in applications" }
-    - { role: nginx-application-magento1, when: "'magento1' in applications" }
-    - { role: nginx-application-shopware, when: "'shopware' in applications" }
-    - { role: nginx-application-slim3, when: "'slim3' in applications" }
-    - { role: nginx-application-symfony1, when: "'symfony1' in applications" }
-    - { role: nginx-application-symfony2, when: "'symfony2' in applications" }
-    - { role: nginx-application-symfony3, when: "'symfony3' in applications" }
-    - { role: nginx-application-symfony-flex, when: "'symfony-flex' in applications" }
-    - { role: nginx-application-wordpress4, when: "'wordpress4' in applications" }
-    - nginx
-    - { role: nodejs-4-original, when: role.nodejs and nodejs.version == '4-original' }
-    - { role: nodejs-4, when: role.nodejs and nodejs.version == 4 }
-    - { role: nodejs-5, when: role.nodejs and nodejs.version == 5 }
-    - { role: nodejs-6, when: role.nodejs and nodejs.version == 6 }
-    - { role: nodejs-7, when: role.nodejs and nodejs.version == 7 }
-    - { role: nodejs-8, when: role.nodejs and nodejs.version == 8 }
-    - { role: nodejs-9, when: role.nodejs and nodejs.version == 9 }
-    - { role: php-7.0-original, when: php.version == '7.0-original' }
-    - { role: php-7.0, when: php.version == 7.0 }
-    - { role: php-7.1, when: php.version == 7.1 }
+    - { role: nginx, when: role.nginx }
+    - { role: php-7.2-original, when: php.version == '7.2-original' }
     - { role: php-7.2, when: php.version == 7.2 }
-    - php-tools
-    - php-application
-    - { role: php-application-drupal7, when: "'drupal7' in applications" }
-    - { role: php-application-drupal8, when: "'drupal8' in applications" }
-    - { role: php-application-slim3, when: "'slim3' in applications" }
-    - { role: php-application-symfony2, when: "'symfony2' in applications" }
-    - { role: php-application-symfony3, when: "'symfony3' in applications" }
-    - { role: php-application-symfony-flex, when: "'symfony-flex' in applications" }
-    - { role: php-application-contao4, when: "'contao4' in applications" }
-    - { role: php-application-wordpress4, when: "'wordpress4' in applications" }
-    - { role: php-module-geos, when: php.modulesfromsource.geos }
+    - { role: php-7.3, when: php.version == 7.3 }
     - { role: postfix, when: role.postfix }
-    - { role: postgresql-9.5-original, when: role.postgresql and postgresql.version == '9.5-original' }
-    - { role: postgresql-9.5, when: role.postgresql and postgresql.version == 9.5 }
-    - { role: postgresql-9.6, when: role.postgresql and postgresql.version == 9.6 }
-    - { role: rabbitmq, when: role.rabbitmq }
+    - { role: postgresql-10-original, when: role.postgresql and postgresql.version == '10-original' }
+    - { role: postgresql-10, when: role.postgresql and postgresql.version == 10 }
+    - { role: postgresql-11, when: role.postgresql and postgresql.version == 11 }
     - { role: redis, when: role.redis }
-    - { role: zsh, when: general.config.shell == 'zsh' }
     - cleanup

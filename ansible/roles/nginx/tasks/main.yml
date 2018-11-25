@@ -1,38 +1,16 @@
----
-- name: add key
-  apt_key: keyserver=keyserver.ubuntu.com id=00A6F0A3C300EE8C state=present
-
-- name: app repository
-  apt_repository: repo='deb http://ppa.launchpad.net/nginx/stable/ubuntu xenial main' state=present
-
-- name: app src repository
-  apt_repository: repo='deb-src http://ppa.launchpad.net/nginx/stable/ubuntu xenial main' state=present
-
 - name: install
-  apt: name={{ item }} state=present
-  with_items:
-    - nginx-light
+  apt:
+    name: nginx-light
 
-- name: force nginx start, if installed
-  service: name=nginx state=started enabled=true
-
-- name: generate certificate for {{ hostname }}
-  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ hostname }}.key -out /etc/nginx/{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ hostname }}" creates=/etc/nginx/{{ hostname }}.crt
-
-- name: generate certificate for {{ item.subhostname }}.{{ hostname }}
-  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ item.subhostname }}.{{ hostname }}.key -out /etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ item.subhostname }}.{{ hostname }}" creates=/etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt
-  with_items: "{{ subhosts }}"
+- name: generate certificate for {{ item }}
+  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ item }}.key -out /etc/nginx/{{ item }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ item }}"
+  args:
+    creates: /etc/nginx/{{ item }}.crt
+  with_items: "{{ nginx.certificates }}"
 
 - name: nginx.conf
   template:
-    src=nginx.conf.j2
-    dest=/etc/nginx/nginx.conf
-  notify:
-    - restart nginx
-
-- name: cors.conf
-  template:
-    src=cors.conf.j2
-    dest=/etc/nginx/cors.conf
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
   notify:
     - restart nginx

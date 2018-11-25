@@ -1,114 +1,42 @@
-{% macro server(servername, aliases, baseRootDir, application) %}
-    server {
-        listen 80;
-        listen 443 ssl http2;
 
-        server_name {{ servername }} {{ aliases|join(' ') }};
-
-        ssl_certificate /etc/nginx/{{ servername }}.crt;
-        ssl_certificate_key /etc/nginx/{{ servername }}.key;
-
-        set $baseRootDir {{ baseRootDir }};
-
-        {% if application %}
-            include application/{{ application }}.conf;
-        {% else %}
-            root $baseRootDir;
-
-            index index.php;
-        {% endif %}
-
-        proxy_buffer_size {{ nginx.config.proxy_buffer_size }};
-        proxy_buffers {{ nginx.config.proxy_buffers }};
-        proxy_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
-
-        location ~ ^(.+\.php)(.*)$ {
-            add_header 'Access-Control-Allow-Origin' "$http_origin";
-        
-            fastcgi_split_path_info ^(.+\.php)(.*)$;
-            try_files $fastcgi_script_name =404;
-            set $wtf $fastcgi_path_info;
-            fastcgi_param PATH_INFO $wtf;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_pass unix:/{{ nginx.config.fastcgi_socket }};
-            fastcgi_read_timeout {{ nginx.config.fastcgi_read_timeout }};
-            fastcgi_buffer_size {{ nginx.config.proxy_buffer_size }};
-            fastcgi_buffers {{ nginx.config.proxy_buffers }};
-            fastcgi_busy_buffers_size {{ nginx.config.proxy_busy_buffers_size }};
-            include fastcgi_params;
-        }
-    }
+{% macro renderDictionary(values) %}
+    {% for key, value in values.iteritems() %}
+        {{ renderValue(key, value) }}
+    {% endfor %}
 {% endmacro %}
 
-user vagrant vagrant;
-worker_processes 4;
-error_log {{ nginx.config.error_log }};
-pid /var/run/nginx.pid;
+{% macro renderList(key, list) %}
+    {% for value in list %}
+        {{ renderValue(key, value) }}
+    {% endfor %}
+{% endmacro %}
 
-events {
-    worker_connections 1024;
-}
-
-http {
-    include mime.types;
-
-    charset {{ nginx.config.charset }};
-    gzip on;
-    sendfile off;
-    client_max_body_size {{ php.config.fpm.php.post_max_size }};
-
-    {% if not subhosts %}
-        {{ server(hostname, aliases, '/vagrant', application) }}
-    {% else %}
-
-        server {
-            listen 80;
-            listen 443 ssl;
-
-            server_name {{ hostname }} {{ aliases|join(' ') }};
-
-            ssl_certificate /etc/nginx/{{ hostname }}.crt;
-            ssl_certificate_key /etc/nginx/{{ hostname }}.key;
-
-            add_header Content-Type text/html;
-
-            return 200 '
-            <h1>multihost system</h1>
-            <h2>current host</h2>
-
-            <ul>
-                <li>
-                    <a target="_blank" href="//{{ hostname }}">{{ hostname }}</a>
-                    {% if aliases|length > 0 %}
-                        <ul>
-                            {% for alias in aliases %}
-                                <li><a target="_blank" href="//{{ alias }}">{{ alias }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </li>
-            </ul>
-
-            <h2>subhosts</h2>
-            <ul>
-            {% for subhost in subhosts %}
-                <li>
-                    <a target="_blank" href="//{{ subhost['subhostname'] + '.' + hostname }}">{{ subhost['subhostname'] + '.' + hostname }}</a>
-                    {% if subhost['aliases']|length > 0 %}
-                    <ul>
-                        {% for alias in subhost['aliases'] %}
-                            <li><a target="_blank" href="//{{ alias }}">{{ alias }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </li>
-            {% endfor %}
-            </ul>
-            ';
+{% macro renderValue(key, value) %}
+    {% set json = value|tojson %}
+    {% if json[0]|default('') == '[' %}
+        {{ renderList(key, value) }}
+    {% elif json[0]|default('') == '{' %}
+        {{ key }} {
+            {{ renderDictionary(value) }}
         }
-
-        {% for subhost in subhosts %}
-            {{ server(subhost['subhostname'] + '.' + hostname, subhost['aliases'], '/vagrant/' + subhost['subhostname'], subhost['application']) }}
-        {% endfor %}
+    {% else %}
+        {{ key }} {{ value }};
     {% endif %}
-}
+{% endmacro %}
+
+{% for config in nginx.server %}
+    {% set template = nginx.templates[config.template] %}
+
+    {% set serverNameParts = config.server_name.split(' ') %}
+
+    {% set _ = template.update({
+        'root': config.root,
+        'server_name': config.server_name,
+        'ssl_certificate_key': '/etc/nginx/' ~ serverNameParts[0] ~ '.key',
+        'ssl_certificate': '/etc/nginx/' ~ serverNameParts[0] ~ '.crt'
+    }) %}
+
+    {% set _ = nginx.config.http.server.append(template) %}
+{% endfor %}
+
+{{ renderDictionary(nginx.config) }}

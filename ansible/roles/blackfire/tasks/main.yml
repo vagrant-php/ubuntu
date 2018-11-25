@@ -1,38 +1,34 @@
----
 - name: add key
-  apt_key: url=https://packagecloud.io/gpg.key state=present
+  apt_key:
+    url: https://packagecloud.io/gpg.key
 
-- name: app repository
-  apt_repository: repo='deb http://packages.blackfire.io/debian any main' state=present
+- name: add repository
+  apt_repository:
+    repo: 'deb http://packages.blackfire.io/debian any main'
 
 - name: install
-  apt: name={{ item }} state=present
-  with_items:
-    - blackfire-agent
+  apt:
+    name: blackfire-agent
 
-- name: configure blackfire-agent
-  lineinfile:
-    path: /etc/blackfire/agent
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-  with_items:
-    - { regexp: "^server-id=", line: "server-id={{ blackfire.server_id }}" }
-    - { regexp: "^server-token=", line: "server-token={{ blackfire.server_token }}" }
+- name: update config
+  template:
+    src: agent.ini.j2
+    dest: /etc/blackfire/agent
   notify:
     - restart blackfire-agent
 
 - name: copy .blackfire.ini file for user root
   template:
-    src=blackfire.ini.j2
-    dest=/root/.blackfire.ini
-    owner=root
-    group=root
-    mode=0600
+    src: blackfire.ini.j2
+    dest: /root/.blackfire.ini
+    owner: root
+    group: root
+    mode: 0600
 
 - name: copy .blackfire.ini file for user vagrant
   template:
-    src=blackfire.ini.j2
-    dest=/home/vagrant/.blackfire.ini
-    owner=vagrant
-    group=vagrant
-    mode=0600
+    src: blackfire.ini.j2
+    dest: /home/vagrant/.blackfire.ini
+    owner: vagrant
+    group: vagrant
+    mode: 0600

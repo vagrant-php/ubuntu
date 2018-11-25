@@ -60,23 +60,11 @@ else
     hostos = 'unknown'
 end
 
-# applications
-# --------------------------------------------------------------------------
-setupConfig['applications'] = []
-if not setupConfig['application'].nil?
-    setupConfig['applications'].push(setupConfig['application'])
-end
-setupConfig['subhosts'].each do |subhost|
-    if not subhost['application'].nil?
-        setupConfig['applications'].push(subhost['application'])
-    end
-end
-
 Vagrant.configure(2) do |config|
 
     # Vagrant box
     # --------------------------------------------------------------------------
-    config.vm.box = 'bento/ubuntu-16.04'
+    config.vm.box = 'bento/ubuntu-18.04'
     config.vm.guest = 'ubuntu'
 
     # General settings
@@ -85,11 +73,7 @@ Vagrant.configure(2) do |config|
 
     # Network
     # --------------------------------------------------------------------------
-    if setupConfig['network']['ip'] == 'dhcp'
-        config.vm.network 'private_network', type: 'dhcp'
-    else
-        config.vm.network 'private_network', ip: setupConfig['network']['ip']
-    end
+    config.vm.network 'private_network', ip: setupConfig['network']['ip']
 
     setupConfig['network']['forwarded_ports'].each do |id, options|
         if options['host'] == 'ephemeral'
@@ -106,65 +90,40 @@ Vagrant.configure(2) do |config|
     # --------------------------------------------------------------------------
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
-    config.hostmanager.ip_resolver = proc do |vm, resolving_vm|
-        if hostname = (vm.ssh_info && vm.ssh_info[:host])
-            `vagrant ssh -c 'hostname -I'`.split()[1]
-        end
-    end
+    config.hostmanager.manage_guest = true
 
-    if not setupConfig['subhosts'].empty? or not setupConfig['aliases'].empty?
+    if setupConfig['role']['nginx']
         aliases = []
+        certificates = [setupConfig['hostname']];
 
-        if not setupConfig['aliases'].empty?
-            setupConfig['aliases'].each do |setupConfigAlias|
-                aliases.push(setupConfigAlias)
-            end
-        end
-
-        if not setupConfig['subhosts'].empty?
-            setupConfig['subhosts'].each do |subhost|
-                aliases.push(subhost['subhostname'] + '.' + setupConfig['hostname'])
-                subhost['aliases'].each do |subhostAlias|
-                    aliases.push(subhostAlias)
+        setupConfig['nginx']['server'].each do |hostconfig|
+            hostconfig['server_name'].split(' ').each do |serverNamePart|
+                if serverNamePart != '' and serverNamePart != setupConfig['hostname']
+                    aliases.push(serverNamePart)
+                    certificates.push(serverNamePart)
                 end
             end
         end
 
         config.hostmanager.aliases = aliases.join(' ')
+
+        setupConfig['nginx']['certificates'] = certificates
     end
 
     # Synced folder
     # --------------------------------------------------------------------------
     config.vm.synced_folder '.', '/vagrant', disabled: true
 
-    if setupConfig['sharetype'] == 'native'
-        config.vm.synced_folder './..', '/vagrant'
-    elsif setupConfig['sharetype'] == 'nfs' or setupConfig['sharetype'] == 'nfs-bindfs'
-        if setupConfig['nfsoptions']['map_uid']
-            config.nfs.map_uid = Process.uid
-        end
-        if setupConfig['nfsoptions']['map_gid']
-            config.nfs.map_uid = Process.uid
-        end
-        nfsoptions = {
-            :create => true,
-            :nfs => true,
-            :mount_options => setupConfig['nfsoptions']['mount_options'],
-            :nfs_udp => setupConfig['nfsoptions']['udp'],
-            :bsd__nfs_options => setupConfig['nfsoptions']['bsd'],
-            :linux__nfs_options => setupConfig['nfsoptions']['linux']
-        }
-        if setupConfig['sharetype'] == 'nfs-bindfs'
-            config.vm.synced_folder './..', '/vagrant-nfs', nfsoptions
-            config.bindfs.bind_folder '/vagrant-nfs', '/vagrant'
-        else
-            config.vm.synced_folder './..', '/vagrant', nfsoptions
-        end
-    elsif setupConfig['sharetype'] == 'sshfs'
-        config.vm.synced_folder './..', '/vagrant', type: 'sshfs'
-    else
-        print "no valid sharetype, please take a look into README.md!\n"
-    end
+    nfsoptions = {
+        :create => true,
+        :nfs => true,
+        :mount_options => setupConfig['nfsoptions']['mount_options'],
+        :nfs_udp => setupConfig['nfsoptions']['udp'],
+        :bsd__nfs_options => setupConfig['nfsoptions']['bsd'],
+        :linux__nfs_options => setupConfig['nfsoptions']['linux']
+    }
+
+    config.vm.synced_folder './..', '/vagrant', nfsoptions
 
     # Resources of our box
     # --------------------------------------------------------------------------
@@ -216,34 +175,8 @@ Vagrant.configure(2) do |config|
     config.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = 'vagrant-php/ansible/playbook.yml'
         ansible.install_mode = 'pip'
-        ansible.version = '2.6.7'
+        ansible.version = '2.7.2'
         ansible.extra_vars = setupConfig
         ansible.compatibility_mode = '2.0'
-    end
-
-    if setupConfig['subhosts'].empty?
-        if setupConfig['application']
-            config.vm.provision 'shell', run: "always" do |sh|
-                sh.path = "bindmount/" + setupConfig['application'] + ".sh"
-                sh.args = [
-                    setupConfig['application'],
-                    '/var/' + setupConfig['hostname'],
-                    '/vagrant',
-                ]
-            end
-        end
-    else
-        setupConfig['subhosts'].each do |subhost|
-            if subhost['application']
-                config.vm.provision 'shell', run: "always" do |sh|
-                    sh.path = "bindmount/" + subhost['application'] + ".sh"
-                    sh.args = [
-                        subhost['application'],
-                        '/var/' + subhost['subhostname'],
-                        '/vagrant/' + subhost['subhostname'],
-                    ]
-                end
-            end
-        end
     end
 end

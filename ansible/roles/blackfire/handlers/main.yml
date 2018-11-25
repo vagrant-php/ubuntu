@@ -1,3 +1,4 @@
----
 - name: restart blackfire-agent
-  service: name=blackfire-agent state=restarted
+  systemd:
+    name: blackfire-agent
+    state: restarted

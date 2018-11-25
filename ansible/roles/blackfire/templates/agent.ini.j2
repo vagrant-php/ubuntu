@@ -1,0 +1,4 @@
+[blackfire]
+{% for option, value in blackfire.config.agent.iteritems() %}
+{{ option }}={{ value }}
+{% endfor %}
