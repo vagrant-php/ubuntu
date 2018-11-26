@@ -80,6 +80,7 @@
     dest: /etc/php/7.2/fpm/php-fpm.conf
   notify:
     - restart php7.2-fpm
+  when: role.nginx
 
 - name: create .composer for user vagrant
   file:
