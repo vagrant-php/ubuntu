@@ -15,10 +15,14 @@
       - php7.3
       - php7.3-common
       - php7.3-cli
-      - php7.3-fpm
       - php-apcu
       - php-ast
       - php-xdebug
+
+- name: install fpm
+  apt:
+    name: "php7.3-fpm"
+  when: role.nginx
 
 - name: install modules
   apt:

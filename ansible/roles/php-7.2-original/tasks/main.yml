@@ -6,10 +6,14 @@
       - php7.2
       - php7.2-common
       - php7.2-cli
-      - php7.2-original-fpm
       - php-apcu
       - php-ast
       - php-xdebug
+
+- name: install fpm
+  apt:
+    name: "php7.2-fpm"
+  when: role.nginx
 
 - name: install modules
   apt:

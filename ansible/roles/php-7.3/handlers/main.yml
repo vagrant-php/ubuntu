@@ -2,3 +2,4 @@
   systemd:
     name: php7.3-fpm
     state: restarted
+  when: role.nginx
