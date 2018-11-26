@@ -73,6 +73,7 @@
     dest: /etc/php/7.3/fpm/php.ini
   notify:
     - restart php7.3-fpm
+  when: role.nginx
 
 - name: configure php-fpm
   template:

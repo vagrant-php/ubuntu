@@ -64,6 +64,7 @@
     dest: /etc/php/7.2/fpm/php.ini
   notify:
     - restart php7.2-original-fpm
+  when: role.nginx
 
 - name: configure php-fpm
   template:
