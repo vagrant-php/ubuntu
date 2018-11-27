@@ -219,6 +219,25 @@ memcached:
 # nginx: ---------------------------------------------------------------------------------------------------------------
 
 nginx:
+    config:
+        user: vagrant vagrant
+        worker_processes: 4
+        error_log: /var/log/nginx/error.log
+        pid: /var/run/nginx.pid
+        events:
+            worker_connections: 1024
+        http:
+            include: ['mime.types']
+            charset: utf-8
+            gzip: 'on'
+            sendfile: 'off'
+            client_max_body_size: 50M
+            server: []
+    server: []
+        # -
+        #     root: /vagrant
+        #     server_name: project.development
+        #     template: default
     templates:
         default:
             listen: [80, 443 ssl http2]
@@ -260,25 +279,6 @@ nginx:
                     fastcgi_busy_buffers_size: 256k
                     include:
                         - 'fastcgi_params'
-    config:
-        user: vagrant vagrant
-        worker_processes: 4
-        error_log: /var/log/nginx/error.log
-        pid: /var/run/nginx.pid
-        events:
-            worker_connections: 1024
-        http:
-            include: ['mime.types']
-            charset: utf-8
-            gzip: 'on'
-            sendfile: 'off'
-            client_max_body_size: 50M
-            server: []
-    server: []
-        # -
-        #     root: /vagrant
-        #     server_name: project.development
-        #     template: default
 
 # php: -----------------------------------------------------------------------------------------------------------------
 
