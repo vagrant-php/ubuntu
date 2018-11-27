@@ -5,6 +5,7 @@
     - bash
     - { role: blackfire, when: role.blackfire }
     - { role: clamav, when: role.clamav }
+    - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6 }
     - git
     - { role: mariadb-10.1-original, when: role.mariadb and mariadb.version == '10.1-original' }
     - { role: mariadb-10.1, when: role.mariadb and mariadb.version == 10.1 }

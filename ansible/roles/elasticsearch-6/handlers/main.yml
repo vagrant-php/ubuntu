@@ -1,0 +1,9 @@
+- name: restart elasticsearch-6
+  systemd:
+    name: elasticsearch
+    state: restarted
+
+- name: restart kibana-6
+  systemd:
+    name: kibana
+    state: restarted

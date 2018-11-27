@@ -1,0 +1,78 @@
+- name: change sysctl memory allocation
+  sysctl:
+    name: vm.max_map_count
+    value: 262144
+
+- name: add apt key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: add repository
+  apt_repository:
+    repo: 'deb https://artifacts.elastic.co/packages/6.x/apt stable main'
+
+- name: install java
+  apt:
+    name: openjdk-11-jdk-headless
+
+- name: install
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - elasticsearch
+      - kibana
+
+### elasticsearch
+
+- name: enable elasticsearch on boot
+  systemd:
+    name: elasticsearch
+    enabled: yes
+
+- name: fix elasticsearch -Xms
+  lineinfile:
+    dest: /etc/elasticsearch/jvm.options
+    line: '-Xms128m'
+    regexp: '^-Xms'
+  notify:
+      - restart elasticsearch-6
+
+- name: fix elasticsearch -Xmx
+  lineinfile:
+    dest: /etc/elasticsearch/jvm.options
+    line: '-Xmx128m'
+    regexp: '^-Xmx'
+  notify:
+      - restart elasticsearch-6
+
+- name: configure elasticsearch.yml
+  template:
+    src: elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  notify:
+      - restart elasticsearch-6
+
+- name: install elasticsearch plugins
+  elasticsearch_plugin:
+    name: "{{ item }}"
+  with_items: "{{ elasticsearch.plugins }}"
+
+### kibana
+
+- name: enable kibana on boot
+  systemd:
+    name: kibana
+    enabled: yes
+
+- name: configure kibana.yml
+  template:
+    src: kibana.yml.j2
+    dest: /etc/kibana/kibana.yml
+  notify:
+      - restart kibana-6
+
+- name: install kibana plugins
+  kibana_plugin:
+    name: "{{ item }}"
+  with_items: "{{ elasticsearch.kibana.plugins }}"
