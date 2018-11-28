@@ -1,0 +1,79 @@
+- name: create group kafka
+  group:
+    name: kafka
+
+- name: create user kafka and add to kafka group
+  user:
+    name: kafka
+    group: kafka
+
+- name: add user vagrant to kafka group
+  user:
+    name: vagrant
+    group: kafka
+
+- name: download kafka
+  get_url:
+    url: "http://mirror.easyname.ch/apache/kafka/{{ kafka.version }}/kafka_{{ kafka.scala }}-{{ kafka.version }}.tgz"
+    dest: "/opt/kafka_{{ kafka.scala }}-{{ kafka.version }}.tgz"
+
+- name: download and unarchive kafka to /opt
+  unarchive:
+    src: "/opt/kafka_{{ kafka.scala }}-{{ kafka.version }}.tgz"
+    dest: /opt
+    owner: kafka
+    group: kafka
+
+- name: symlink to /opt/kafka
+  file:
+    src: "/opt/kafka_{{ kafka.scala }}-{{ kafka.version }}"
+    dest: /opt/kafka
+    state: link
+
+- name: create /var/log/kafka
+  file:
+    path: /var/log/kafka
+    state: directory
+    owner: kafka
+    group: kafka
+
+- name: create /var/lib/kafka/zookeeper
+  file:
+    path: /var/lib/kafka/zookeeper
+    state: directory
+    owner: kafka
+    group: kafka
+
+- name: copy zookeeper.service
+  copy:
+    src: zookeeper.service
+    dest: /lib/systemd/system/zookeeper.service
+
+- name: copy kafka.service
+  copy:
+    src: kafka.service
+    dest: /lib/systemd/system/kafka.service
+
+- name: enable zookeeper on boot
+  systemd:
+    name: zookeeper
+    enabled: yes
+
+- name: enable kafka on boot
+  systemd:
+    name: kafka
+    enabled: yes
+
+- name: configure zookeeper
+  template:
+    src: zookeeper.properties.j2
+    dest: /opt/kafka/config/zookeeper.properties
+  notify:
+    - restart zookeeper
+
+- name: configure kafka
+  template:
+    src: server.properties.j2
+    dest: /opt/kafka/config/server.properties
+  notify:
+    - restart kafka
