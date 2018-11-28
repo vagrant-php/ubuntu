@@ -18,6 +18,10 @@
   apt:
     upgrade: dist
 
+- name: apt | install java
+  apt:
+    name: openjdk-11-jdk-headless
+
 - name: apt | install packages
   apt:
     name: "{{ general.packages }}"

@@ -11,10 +11,6 @@
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/6.x/apt stable main'
 
-- name: install java
-  apt:
-    name: openjdk-11-jdk-headless
-
 - name: install
   apt:
     name: "{{ packages }}"
