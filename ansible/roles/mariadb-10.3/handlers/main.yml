@@ -1,4 +1,0 @@
-- name: restart mariadb-10.3
-  systemd:
-    name: mysql
-    state: restarted

@@ -6,5 +6,11 @@
   template:
     src: memcached.conf.j2
     dest: /etc/memcached.conf
-  notify:
-      - restart memcached
+  register: configuration
+
+- name: restart memcached
+  systemd:
+    name: memcached
+    state: restarted
+  when: configuration.changed
+

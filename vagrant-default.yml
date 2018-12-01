@@ -422,8 +422,10 @@ php:
     modules: []
         # - php7.2-zip
     composer:
-        require: {}
-            #friendsofphp/php-cs-fixer: '^2.13.1'
+        version: 1.7.3
+        json:
+            require: {}
+                #friendsofphp/php-cs-fixer: '^2.13.1'
 
 # postfix: -------------------------------------------------------------------------------------------------------------
 
@@ -440,10 +442,10 @@ postgresql:
     username: root
     password: root
     config:
-        data_directory: /var/lib/postgresql/%%VERSION%%/main
-        external_pid_file: /var/run/postgresql/%%VERSION%%-main.pid
-        hba_file: /etc/postgresql/%%VERSION%%/main/pg_hba.conf
-        ident_file: /etc/postgresql/%%VERSION%%/main/pg_ident.conf
+        data_directory: /var/lib/postgresql/___VERSION___/main
+        external_pid_file: /var/run/postgresql/___VERSION___-main.pid
+        hba_file: /etc/postgresql/___VERSION___/main/pg_hba.conf
+        ident_file: /etc/postgresql/___VERSION___/main/pg_ident.conf
         lc_messages: de_CH.UTF-8
         lc_monetary: de_CH.UTF-8
         lc_numeric: de_CH.UTF-8

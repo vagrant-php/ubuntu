@@ -6,5 +6,10 @@
   template:
     src: redis.conf.j2
     dest: /etc/redis/redis.conf
-  notify:
-      - restart redis
+  register: configuration
+
+- name: restart redis
+  systemd:
+    name: redis
+    state: restarted
+  when: configuration.changed

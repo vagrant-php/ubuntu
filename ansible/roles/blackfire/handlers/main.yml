@@ -1,4 +1,0 @@
-- name: restart blackfire-agent
-  systemd:
-    name: blackfire-agent
-    state: restarted

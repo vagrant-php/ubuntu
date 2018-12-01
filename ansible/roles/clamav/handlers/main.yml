@@ -1,4 +1,0 @@
-- name: restart clamav-daemon
-  systemd:
-    name: clamav-daemon
-    state: restarted

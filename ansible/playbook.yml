@@ -5,22 +5,15 @@
     - bash
     - { role: blackfire, when: role.blackfire }
     - { role: clamav, when: role.clamav }
-    - { role: elasticsearch-6, when: role.elasticsearch and elasticsearch.version == 6 }
+    - { role: elasticsearch, when: role.elasticsearch }
     - git
     - { role: kafka, when: role.kafka }
-    - { role: mariadb-10.1-original, when: role.mariadb and mariadb.version == '10.1-original' }
-    - { role: mariadb-10.1, when: role.mariadb and mariadb.version == 10.1 }
-    - { role: mariadb-10.2, when: role.mariadb and mariadb.version == 10.2 }
-    - { role: mariadb-10.3, when: role.mariadb and mariadb.version == 10.3 }
+    - { role: mariadb, when: role.mariadb }
     - { role: memcached, when: role.memcached }
     - { role: mongodb, when: role.mongodb }
     - { role: nginx, when: role.nginx }
-    - { role: php-7.2-original, when: php.version == '7.2-original' }
-    - { role: php-7.2, when: php.version == 7.2 }
-    - { role: php-7.3, when: php.version == 7.3 }
+    - php
     - { role: postfix, when: role.postfix }
-    - { role: postgresql-10-original, when: role.postgresql and postgresql.version == '10-original' }
-    - { role: postgresql-10, when: role.postgresql and postgresql.version == 10 }
-    - { role: postgresql-11, when: role.postgresql and postgresql.version == 11 }
+    - { role: postgresql, when: role.postgresql }
     - { role: redis, when: role.redis }
     - cleanup

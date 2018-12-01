@@ -1,0 +1,149 @@
+- name: add key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 4F4EA0AAE5267A6C
+  when: php.version != '7.2-original'
+
+- name: add repository
+  apt_repository:
+    repo: 'deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main'
+  when: php.version != '7.2-original'
+
+- name: install
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - "php{{ php.version }}"
+      - "php{{ php.version }}-cli"
+      - "php{{ php.version }}-common"
+      - "php{{ php.version }}-dev"
+      - php-apcu
+      - php-ast
+      - php-pear
+      - php-xdebug
+
+- name: install fpm
+  apt:
+    name: "php{{ php.version }}-fpm"
+  when: role.nginx
+
+- name: install modules
+  apt:
+    name: "{{ php.modules }}"
+
+- name: install blackfire-probe
+  apt:
+    name: blackfire-php
+  notify:
+    - restart php-fpm
+  when: role.blackfire
+
+- name: install mariadb
+  apt:
+    name: "php{{ php.version }}-mysql"
+  notify:
+    - restart php-fpm
+  when: role.mariadb
+
+- name: install memcached
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - php-memcache
+      - php-memcached
+  notify:
+    - restart php-fpm
+  when: role.memcached
+
+- name: install mongodb
+  apt:
+    name: php-mongodb
+  notify:
+    - restart php-fpm
+  when: role.mongodb
+
+- name: install postgresql
+  apt:
+    name: "php{{ php.version }}-pgsql"
+  notify:
+    - restart php-fpm
+  when: role.postgresql
+
+- name: install librdkafka-dev
+  apt:
+    name: librdkafka-dev
+  when: role.kafka
+
+- name: pecl upgrade rdkafka
+  command: pecl upgrade rdkafka
+  notify:
+    - restart php-fpm
+  when: role.kafka
+
+- name: create rdkafka.ini
+  copy:
+    src: rdkafka.ini
+    dest: "/etc/php/{{ php.version }}/mods-available/rdkafka.ini"
+  when: role.kafka
+
+- name: symlink rdkafka.ini for cli
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/rdkafka.ini"
+    dest: "/etc/php/{{ php.version }}/cli/conf.d/20-rdkafka.ini"
+    state: link
+
+- name: symlink rdkafka.ini for fpm
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/rdkafka.ini"
+    dest: "/etc/php/{{ php.version }}/fpm/conf.d/20-rdkafka.ini"
+    state: link
+  notify:
+    - restart php-fpm
+  when: role.nginx
+
+- name: configure cli php.ini
+  template:
+    src: cli.php.ini.j2
+    dest: "/etc/php/{{ php.version }}/cli/php.ini"
+  notify:
+    - restart php-fpm
+
+- name: configure fpm php.ini
+  template:
+    src: fpm.php.ini.j2
+    dest: "/etc/php/{{ php.version }}/fpm/php.ini"
+  notify:
+    - restart php-fpm
+  when: role.nginx
+
+- name: configure php-fpm
+  template:
+    src: php-fpm.conf.j2
+    dest: "/etc/php/{{ php.version }}/fpm/php-fpm.conf"
+  notify:
+    - restart php-fpm
+  when: role.nginx
+
+- name: create .composer for user vagrant
+  file:
+    path: /home/vagrant/.composer
+    state: directory
+    owner: vagrant
+    group: vagrant
+
+- name: copy .composer/composer.json for user vagrant
+  template:
+    src: composer.json.j2
+    dest: /home/vagrant/.composer/composer.json
+
+- name: download composer
+  get_url:
+    url: https://github.com/composer/composer/releases/download/{{ php.composer.version }}/composer.phar
+    dest: /usr/local/bin/composer
+    mode: 0755
+
+- name: composer global update for user vagrant
+  command: /usr/local/bin/composer global update
+  become_user: vagrant

@@ -1,0 +1,68 @@
+- name: add key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: F1656F24C74CD1D8
+  when: mariadb.version != '10.1-original'
+
+- name: add repository
+  apt_repository:
+    repo: "deb [arch=amd64] http://mirror.netcologne.de/mariadb/repo/{{ mariadb.version }}/ubuntu bionic main"
+  when: mariadb.version != '10.1-original'
+
+- name: install
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - "mariadb-server-{{ mariadb.version|replace('-original', '') }}"
+      - "mariadb-client-{{ mariadb.version|replace('-original', '') }}"
+      - python-pymysql
+
+- name: configure mariadb
+  template:
+    src: my.cnf.j2
+    dest: /etc/mysql/my.cnf
+  register: configuration
+
+- name: restart mariadb
+  systemd:
+    name: mysql
+    state: restarted
+  when: configuration.changed
+
+- name: wait for mariadb
+  wait_for:
+    port: "{{ mariadb.config.mysqld.port }}"
+  when: configuration.changed
+
+- name: set plugin '' on root user
+  command: mysql -e "UPDATE mysql.user SET plugin='' WHERE user='root'; FLUSH PRIVILEGES;"
+  ignore_errors: yes
+  when: mariadb.version == '10.1-original' or mariadb.version == 10.1
+
+- name: change default user to {{ mariadb.username }} / {{ mariadb.password }}
+  mysql_user:
+    name: "{{ mariadb.username }}"
+    password: "{{ mariadb.password }}"
+  when: mariadb.password != ''
+
+- name: change default user to {{ mariadb.username }}
+  mysql_user:
+    name: "{{ mariadb.username }}"
+  when: mariadb.password == ''
+
+- name: copy .my.cnf file for user root
+  template:
+    src: user-my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: copy .my.cnf for user vagrant
+  template:
+    src: user-my.cnf.j2
+    dest: /home/vagrant/.my.cnf
+    owner: vagrant
+    group: vagrant
+    mode: 0600

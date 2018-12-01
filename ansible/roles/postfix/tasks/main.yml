@@ -10,12 +10,16 @@
   template:
     src: main.cf.j2
     dest: /etc/postfix/main.cf
-  notify:
-    - restart postfix
+  register: configuration
 
 - name: configure virtual.map.pcre
   template:
     src: virtual.map.pcre.j2
     dest: /etc/postfix/virtual.map.pcre
-  notify:
-    - restart postfix
+  register: virtualmap
+
+- name: restart postfix
+  systemd:
+    name: postfix
+    state: restarted
+  when: configuration.changed or virtualmap.changed

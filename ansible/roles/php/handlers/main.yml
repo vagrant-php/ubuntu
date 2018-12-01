@@ -1,0 +1,5 @@
+- name: restart php-fpm
+  systemd:
+    name: "php{{ php.version|replace('-original', '') }}-fpm"
+    state: restarted
+  when: role.nginx

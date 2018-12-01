@@ -1,4 +1,0 @@
-- name: restart postgresql-11
-  systemd:
-    name: postgresql
-    state: restarted

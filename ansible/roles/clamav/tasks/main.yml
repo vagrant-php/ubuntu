@@ -1,34 +1,37 @@
 - name: install
   apt:
     name: "clamav-daemon"
+  register: installed
 
 - name: download main.cvd
   get_url:
     url: http://db.local.clamav.net/main.cvd
     dest: /var/lib/clamav/main.cvd
     mode: 0755
-  notify:
-    - restart clamav-daemon
+  when: installed.changed
 
 - name: download daily.cvd
   get_url:
     url: http://db.local.clamav.net/daily.cvd
     dest: /var/lib/clamav/daily.cvd
     mode: 0755
-  notify:
-    - restart clamav-daemon
+  when: installed.changed
 
-- name: download main.cvd
+- name: download bytecode.cvd
   get_url:
     url: http://db.local.clamav.net/bytecode.cvd
     dest: /var/lib/clamav/bytecode.cvd
     mode: 0755
-  notify:
-    - restart clamav-daemon
+  when: installed.changed
 
 - name: update config
   template:
     src: clamd.conf.j2
     dest: /etc/clamav/clamd.conf
-  notify:
-    - restart clamav-daemon
+  register: configuration
+
+- name: restart clamav-daemon
+  systemd:
+    name: clamav-daemon
+    state: restarted
+  when: configuration.changed

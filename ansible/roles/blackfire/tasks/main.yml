@@ -14,8 +14,13 @@
   template:
     src: agent.ini.j2
     dest: /etc/blackfire/agent
-  notify:
-    - restart blackfire-agent
+  register: configuration
+
+- name: restart blackfire
+  systemd:
+    name: blackfire-agent
+    state: restarted
+  when: configuration.changed
 
 - name: copy .blackfire.ini file for user root
   template:

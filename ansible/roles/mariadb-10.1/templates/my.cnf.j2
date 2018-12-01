@@ -1,7 +1,0 @@
-{% for groupname, group in mariadb.config.items() %}
-[{{ groupname }}]
-{% for option, value in group.items() %}
-{{ option }} = {{ value }}
-{% endfor %}
-
-{% endfor %}

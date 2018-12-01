@@ -68,12 +68,22 @@
   template:
     src: zookeeper.properties.j2
     dest: /opt/kafka/config/zookeeper.properties
-  notify:
-    - restart zookeeper
+  register: zookeeperConfiguration
+
+- name: restart zookeeper
+  systemd:
+    name: zookeeper
+    state: restarted
+  when: zookeeperConfiguration.changed
 
 - name: configure kafka
   template:
     src: server.properties.j2
     dest: /opt/kafka/config/server.properties
-  notify:
-    - restart kafka
+  register: kafkaConfiguration
+
+- name: restart kafka
+  systemd:
+    name: kafka
+    state: restarted
+  when: kafkaConfiguration.changed
