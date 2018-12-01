@@ -28,6 +28,20 @@
   apt:
     name: "{{ php.modules }}"
 
+- name: install blackfire-probe
+  apt:
+    name: blackfire-php
+  notify:
+    - restart php7.2-fpm
+  when: role.blackfire
+
+- name: install mariadb
+  apt:
+    name: php7.2-mysql
+  notify:
+    - restart php7.2-fpm
+  when: role.mariadb
+
 - name: install memcached
   apt:
     name: "{{ packages }}"
@@ -39,12 +53,12 @@
     - restart php7.2-fpm
   when: role.memcached
 
-- name: install mariadb
+- name: install mongodb
   apt:
-    name: php7.2-mysql
+    name: php7.2-mongodb
   notify:
     - restart php7.2-fpm
-  when: role.mariadb
+  when: role.mongodb
 
 - name: install postgresql
   apt:
@@ -52,13 +66,6 @@
   notify:
     - restart php7.2-fpm
   when: role.postgresql
-
-- name: install blackfire-probe
-  apt:
-    name: blackfire-php
-  notify:
-    - restart php7.2-fpm
-  when: role.blackfire
 
 - name: configure cli php.ini
   template:
