@@ -12,10 +12,11 @@
     name: mongodb-org
   register: installed
 
-- name: install | start mongodb
+- name: install | start mongodb and enable on boot
   systemd:
     name: mongod
     state: started
+    enabled: yes
     daemon-reload: true
   when: installed.changed
 
