@@ -1,0 +1,4 @@
+var currentDbName = db.getName();
+var adminDb = db.getSiblingDB('admin');
+adminDb.auth('{{ mongodb.username }}', '{{ mongodb.password }}');
+db = adminDb.getSiblingDB(currentDbName);

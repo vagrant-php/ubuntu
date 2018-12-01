@@ -13,6 +13,7 @@
     - { role: mariadb-10.2, when: role.mariadb and mariadb.version == 10.2 }
     - { role: mariadb-10.3, when: role.mariadb and mariadb.version == 10.3 }
     - { role: memcached, when: role.memcached }
+    - { role: mongodb-4.0, when: role.mongodb and mongodb.version == 4.0 }
     - { role: nginx, when: role.nginx }
     - { role: php-7.2-original, when: php.version == '7.2-original' }
     - { role: php-7.2, when: php.version == 7.2 }

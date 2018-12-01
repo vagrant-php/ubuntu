@@ -1,0 +1,85 @@
+- name: add key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+
+- name: add repository
+  apt_repository:
+    repo: 'deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse'
+
+- name: install
+  apt:
+    name: mongodb-org
+  register: installed
+
+- name: install | start mongodb
+  systemd:
+    name: mongod
+    state: started
+    daemon-reload: true
+  when: installed.changed
+
+- name: install | wait for mongod
+  wait_for:
+    port: 27017
+  when: installed.changed
+
+- name: install | add create admin user script
+  template:
+    src: createuser.js.j2
+    dest: /tmp/createuser.js
+  when: installed.changed
+
+- name: install | create user admin
+  command: mongo --shell /tmp/createuser.js
+  when: installed.changed
+
+- name: install | copy .mongorc.js file for user root
+  template:
+    src: mongorc.js.j2
+    dest: /root/.mongorc.js
+    owner: root
+    group: root
+    mode: 0600
+  when: installed.changed
+
+- name: configure mongod.conf
+  template:
+    src: mongod.conf.j2
+    dest: /etc/mongod.conf
+  register: configuration
+
+- name: restart mongodb
+  systemd:
+    name: mongod
+    state: restarted
+  when: configuration.changed
+
+- name: wait for mongod
+  wait_for:
+    port: "{{mongodb.config.net.port}}"
+  when: configuration.changed
+
+- name: add update admin user script
+  template:
+    src: updateuser.js.j2
+    dest: /tmp/updateuser.js
+
+- name: update user admin
+  command: "mongo --port {{mongodb.config.net.port}} --shell /tmp/updateuser.js"
+
+- name: copy .mongorc.js file for user root
+  template:
+    src: mongorc.js.j2
+    dest: /root/.mongorc.js
+    owner: root
+    group: root
+    mode: 0600
+
+- name: copy .mongorc.js file for user vagrant
+  template:
+    src: mongorc.js.j2
+    dest: /home/vagrant/.mongorc.js
+    owner: vagrant
+    group: vagrant
+    mode: 0600

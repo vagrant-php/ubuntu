@@ -74,6 +74,7 @@ role:
     kafka: false
     mariadb: false
     memcached: false
+    mongodb: false
     nginx: false
     postfix: false
     postgresql: false
@@ -245,6 +246,27 @@ memcached:
         -p: 11211
         -s: /tmp/memcached.sock
         -u: memcache
+
+# mongodb: -------------------------------------------------------------------------------------------------------------
+
+mongodb:
+    version: 4.0
+    username: root
+    password: root
+    config:
+        net:
+            port: 27017
+            unixDomainSocket:
+                enabled: true
+                pathPrefix: /tmp
+        security:
+            authorization: enabled
+        storage:
+           dbPath: /var/lib/mongodb
+        systemLog:
+           destination: file
+           path: /var/log/mongodb/mongodb.log
+           logAppend: true
 
 # nginx: ---------------------------------------------------------------------------------------------------------------
 
