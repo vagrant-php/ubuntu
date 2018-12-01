@@ -5,7 +5,7 @@
 
 - name: add repository
   apt_repository:
-    repo: 'deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse'
+    repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/{{mongodb.version}} multiverse"
 
 - name: install
   apt:
