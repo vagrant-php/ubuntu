@@ -4,10 +4,12 @@
   vars:
     packages:
       - php7.2
-      - php7.2-common
       - php7.2-cli
+      - php7.2-common
+      - php7.2-dev
       - php-apcu
       - php-ast
+      - php-pear
       - php-xdebug
 
 - name: install fpm
@@ -46,7 +48,7 @@
 
 - name: install mongodb
   apt:
-    name: php7.2-mongodb
+    name: php-mongodb
   notify:
     - restart php7.2-original-fpm
   when: role.mongodb
@@ -57,6 +59,17 @@
   notify:
     - restart php7.2-original-fpm
   when: role.postgresql
+
+- name: install librdkafka-dev
+  apt:
+    name: librdkafka-dev
+  when: role.kafka
+
+- name: pecl install rdkafka
+  command: pecl install rdkafka
+  notify:
+    - restart php7.2-original-fpm
+  when: role.kafka
 
 - name: configure cli php.ini
   template:
