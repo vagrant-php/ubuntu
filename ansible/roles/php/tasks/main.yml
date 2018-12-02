@@ -93,6 +93,7 @@
     src: "/etc/php/{{ php.version }}/mods-available/rdkafka.ini"
     dest: "/etc/php/{{ php.version }}/cli/conf.d/20-rdkafka.ini"
     state: link
+  when: role.kafka
 
 - name: symlink rdkafka.ini for fpm
   file:
@@ -101,7 +102,7 @@
     state: link
   notify:
     - restart php-fpm
-  when: role.nginx
+  when: role.kafka
 
 - name: configure cli php.ini
   template:
