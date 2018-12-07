@@ -48,6 +48,14 @@ git submodule update --remote -- vagrant-php
 hostname: projectname.development
 network:
     ip: 10.11.12.13
+role:
+    nginx: true
+nginx:
+    server:
+        -
+            root: /vagrant
+            server_name: *hostname
+            template: default
 ```
 
 ## Run
