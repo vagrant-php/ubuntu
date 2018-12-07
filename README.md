@@ -19,6 +19,13 @@ Based on: Ubuntu 18.04
 
 ## Installation
 
+### Vagrant plugins
+
+```bash
+vagrant plugin install vagrant-hostmanager
+vagrant plugin install vagrant-vbguest # if you use virtualbox
+```
+
 ### Add to project
 
 ```bash
