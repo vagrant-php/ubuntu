@@ -14,12 +14,11 @@
     name: "{{ packages }}"
   vars:
     packages:
-      - "php{{ php.version }}"
       - "php{{ php.version }}-cli"
-      - "php{{ php.version }}-common"
       - "php{{ php.version }}-dev"
       - php-apcu
       - php-ast
+      - php-common
       - php-pear
       - php-xdebug
 
