@@ -1,8 +1,9 @@
 # vagrant-php/ubuntu
 
+Based on: Ubuntu 18.04
+
 ## Features
 
- * ubuntu 18.04
  * blackfire
  * clamav
  * elasticsearch (6)
