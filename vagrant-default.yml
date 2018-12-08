@@ -90,7 +90,11 @@ general:
             layout: ch
             variant: de_nodeadkeys
         timezone: Europe/Zurich
-    packages: []
+    packages:
+        - htop
+        - openjdk-11-jdk-headless
+        - unzip
+        - vim
 
 # bash: ----------------------------------------------------------------------------------------------------------------
 
