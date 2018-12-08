@@ -15,6 +15,7 @@ Based on: Ubuntu 18.04
  * php (7.2-original, 7.2, 7.3)
  * postfix
  * postgresql (10-original, 10, 11)
+ * rabbitmq (3.7)
  * redis
 
 ## Installation

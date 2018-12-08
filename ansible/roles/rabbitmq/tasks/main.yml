@@ -1,0 +1,54 @@
+- name: add key
+  apt_key:
+    url: https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+
+- name: add repository
+  apt_repository:
+    repo: "deb https://dl.bintray.com/rabbitmq/debian bionic rabbitmq-server-v{{ rabbitmq.version }}.x"
+
+- name: install
+  apt:
+    name: rabbitmq-server
+  register: installed
+
+- name: remove user guest
+  rabbitmq_user:
+    user: guest
+    state: absent
+  when: installed.changed
+
+- name: add user {{ rabbitmq.username }} / {{ rabbitmq.password }}
+  rabbitmq_user:
+    user: "{{ rabbitmq.username }}"
+    password: "{{ rabbitmq.password }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    tags: administrator
+  when: rabbitmq.password != ''
+
+- name: add user {{ rabbitmq.username }}
+  rabbitmq_user:
+    user: "{{ rabbitmq.username }}"
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    tags: administrator
+  when: rabbitmq.password == ''
+
+- name: install rabbitmq plugins
+  rabbitmq_plugin:
+    name: "{{ item }}"
+  with_items: "{{ rabbitmq.plugins }}"
+
+- name: configure rabbitmq
+  template:
+    src: rabbitmq.conf.j2
+    dest: /etc/rabbitmq/rabbitmq.conf
+  register: configuration
+
+- name: restart rabbitmq
+  systemd:
+    name: rabbitmq-server
+    state: restarted
+  when: configuration.changed

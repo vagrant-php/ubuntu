@@ -15,5 +15,6 @@
     - php
     - { role: postfix, when: role.postfix }
     - { role: postgresql, when: role.postgresql }
+    - { role: rabbitmq, when: role.rabbitmq }
     - { role: redis, when: role.redis }
     - cleanup

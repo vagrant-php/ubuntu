@@ -78,6 +78,7 @@ role:
     nginx: false
     postfix: false
     postgresql: false
+    rabbitmq: false
     redis: false
 
 # general: -------------------------------------------------------------------------------------------------------------
@@ -456,6 +457,18 @@ postgresql:
         shared_buffers: 128MB
         timezone: Europe/Zurich
         unix_socket_directories: /var/run/postgresql
+
+# rabbitmq: ------------------------------------------------------------------------------------------------------------
+
+rabbitmq:
+    version: 3.7
+    username: root
+    password: root
+    config:
+        listeners.tcp.default: 5672
+        log.dir: /var/log/rabbitmq
+        log.file: rabbit.log
+    plugins: []
 
 # redis: ---------------------------------------------------------------------------------------------------------------
 
