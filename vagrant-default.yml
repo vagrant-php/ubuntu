@@ -449,9 +449,9 @@ php:
                 request_terminate_timeout: 600
 
     modules: []
-        # - php7.2-zip
+        # - php7.2-gd
     composer:
-        version: 1.7.3
+        version: 1.8.0
         json:
             require: {}
                 #friendsofphp/php-cs-fixer: '^2.13.1'

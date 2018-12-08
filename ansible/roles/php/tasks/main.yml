@@ -15,10 +15,16 @@
   vars:
     packages:
       - "php{{ php.version }}-cli"
+      - "php{{ php.version }}-curl"
       - "php{{ php.version }}-dev"
+      - "php{{ php.version }}-json"
+      - "php{{ php.version }}-mbstring"
+      - "php{{ php.version }}-opcache"
+      - "php{{ php.version }}-readline"
+      - "php{{ php.version }}-xml"
+      - "php{{ php.version }}-zip"
       - php-apcu
       - php-ast
-      - php-common
       - php-pear
       - php-xdebug
 
