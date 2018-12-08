@@ -114,16 +114,25 @@ Vagrant.configure(2) do |config|
     # --------------------------------------------------------------------------
     config.vm.synced_folder '.', '/vagrant', disabled: true
 
-    nfsoptions = {
-        :create => true,
-        :nfs => true,
-        :mount_options => setupConfig['nfsoptions']['mount_options'],
-        :nfs_udp => setupConfig['nfsoptions']['udp'],
-        :bsd__nfs_options => setupConfig['nfsoptions']['bsd'],
-        :linux__nfs_options => setupConfig['nfsoptions']['linux']
-    }
+    if hostos == 'windows'
+        smboptions = {
+            :create => true,
+            :smb => true
+        }
 
-    config.vm.synced_folder './..', '/vagrant', nfsoptions
+        config.vm.synced_folder './..', '/vagrant', smboptions
+    else
+        nfsoptions = {
+            :create => true,
+            :nfs => true,
+            :mount_options => setupConfig['nfsoptions']['mount_options'],
+            :nfs_udp => setupConfig['nfsoptions']['udp'],
+            :bsd__nfs_options => setupConfig['nfsoptions']['bsd'],
+            :linux__nfs_options => setupConfig['nfsoptions']['linux']
+        }
+
+        config.vm.synced_folder './..', '/vagrant', nfsoptions
+    end
 
     # Resources of our box
     # --------------------------------------------------------------------------
@@ -136,6 +145,8 @@ Vagrant.configure(2) do |config|
             cpus = `sysctl -n hw.ncpu`.to_i
         elsif hostos == 'linux'
             cpus = `nproc`.to_i
+        elsif hostos == 'windows'
+            cpus = `echo %NUMBER_OF_PROCESSORS%`.to_i
         else
             cpus = 2
         end
