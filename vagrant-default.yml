@@ -291,47 +291,75 @@ nginx:
         #     root: /vagrant
         #     server_name: project.development
         #     template: default
+    snippets:
+        php: &nginx_php
+            fastcgi_split_path_info: '^(.+\.php)(.*)$'
+            try_files: '$fastcgi_script_name =404'
+            set: '$wtf $fastcgi_path_info'
+            fastcgi_param:
+                - 'PATH_INFO $wtf'
+                - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+            fastcgi_pass:
+                - unix://var/run/php/default.sock
+            fastcgi_read_timeout: 600
+            fastcgi_buffer_size: 128k
+            fastcgi_buffers: 4 256k
+            fastcgi_busy_buffers_size: 256k
+            include:
+                - 'fastcgi_params'
     templates:
         default:
             listen: [80, 443 ssl http2]
             index: index.php
             'location /':
-                'location ~ ^(.+\.php)(.*)$':
-                    fastcgi_split_path_info: '^(.+\.php)(.*)$'
-                    try_files: '$fastcgi_script_name =404'
-                    set: '$wtf $fastcgi_path_info'
-                    fastcgi_param:
-                        - 'PATH_INFO $wtf'
-                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-                    fastcgi_pass:
-                        - unix://var/run/php/default.sock
-                    fastcgi_read_timeout: 600
-                    fastcgi_buffer_size: 128k
-                    fastcgi_buffers: 4 256k
-                    fastcgi_busy_buffers_size: 256k
-                    include:
-                        - 'fastcgi_params'
-        slim3:
+                try_files:
+                    - '$uri $uri/ /index.php?$query_string'
+            'location ~ ^(.+\.php)(.*)$': *nginx_php
+        bolt3:
             listen: [80, 443 ssl http2]
-            index: index_dev.php
+            index: index.php
             'location /':
                 try_files:
-                    - '$uri $uri/ /index_dev.php?$args'
-                'location ~ ^(.+\.php)(.*)$':
-                    fastcgi_split_path_info: '^(.+\.php)(.*)$'
-                    try_files: '$fastcgi_script_name =404'
-                    set: '$wtf $fastcgi_path_info'
-                    fastcgi_param:
-                        - 'PATH_INFO $wtf'
-                        - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-                    fastcgi_pass:
-                        - unix://var/run/php/default.sock
-                    fastcgi_read_timeout: 600
-                    fastcgi_buffer_size: 128k
-                    fastcgi_buffers: 4 256k
-                    fastcgi_busy_buffers_size: 256k
-                    include:
-                        - 'fastcgi_params'
+                    - '$uri $uri/ /index.php?$query_string'
+            'location ~ ^(.+\.php)(.*)$': *nginx_php
+            'location = /bolt':
+                try_files:
+                    - '$uri $uri/ /index.php?$query_string'
+            'location ^~ /bolt/':
+                try_files:
+                    - '$uri $uri/ /index.php?$query_string'
+            'location ^~ /thumbs':
+                try_files:
+                    - '$uri /index.php; #?$query_string'
+                access_log: off
+                log_not_found: off
+                expires: max
+                add_header:
+                    - 'Pragma public'
+                    - 'Cache-Control "public, mustrevalidate, proxy-revalidate"'
+                    - 'X-Koala-Status sleeping'
+            'location ~* ^.+\.(?:atom|bmp|bz2|css|doc|eot|exe|gif|gz|ico|jpe?g|jpeg|jpg|js|map|mid|midi|mp4|ogg|ogv|otf|png|ppt|rar|rtf|svg|svgz|tar|tgz|ttf|wav|woff|xls|zip)$':
+                access_log: off
+                log_not_found: off
+                expires: max
+                add_header:
+                    - 'Pragma public'
+                    - 'Cache-Control "public, mustrevalidate, proxy-revalidate"'
+                    - 'X-Koala-Status eating'
+            'location = /(?:favicon.ico|robots.txt)':
+                log_not_found: off
+                access_log: off
+            'location ~ /index.php/(.*)':
+                rewrite:
+                    - '^/index.php/(.*) /$1 permanent'
+            'location ~ /\.':
+                deny: all
+            'location ~ /\.(htaccess|htpasswd)$':
+                deny: all
+            'location ~ /\.(?:db)$':
+                deny: all
+            'location ~* /(.*)\.(?:markdown|md|twig|yaml|yml)$':
+                deny: call
 
 # php: -----------------------------------------------------------------------------------------------------------------
 
