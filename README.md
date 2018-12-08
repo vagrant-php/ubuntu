@@ -68,7 +68,26 @@ git submodule update --remote -- vagrant-php
 
 ## Configuration
 
+### .vagrant-default-user.yml
+
+*Add generic user specific settings, for example git email which are relevant for all projects using vagrant-php. Overrides the settings of [vagrant-default.yml][4].*
+
+```bash
+cd ~
+(code|nano|vi) .vagrant-default-user.yml
+```
+
+```yml
+git:
+    config:
+        user:
+            email: john.doe@gmail.com
+            name: "'John Doe'"
+```
+
 ### vagrant.yml
+
+*Add project specific settings, for example the hostname. Overrides the settings of [vagrant-default.yml][4] and ~/.vagrant-default-user.yml.*
 
 ```bash
 cd /path/to/my/project
@@ -89,23 +108,17 @@ nginx:
             template: default
 ```
 
-This values override the onces from [vagrant-default.yml][4].
+### vagrant-user.yml
 
-Available roles are:
+*Add user and project specific settings. Overrides the settings of [vagrant-default.yml][4], ~/.vagrant-default-user.yml and vagrant.yml. Add this file to .gitignore.**
+
+```bash
+cd /path/to/my/project
+(code|nano|vi) vagrant-user.yml
+```
 
 ```yml
-role:
-    blackfire: false
-    clamav: false
-    elasticsearch: false
-    kafka: false
-    mariadb: false
-    memcached: false
-    mongodb: false
-    nginx: false
-    postfix: false
-    postgresql: false
-    redis: false
+memory: 2048
 ```
 
 ## Run
