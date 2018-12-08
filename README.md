@@ -96,7 +96,7 @@ cd /path/to/my/project
 ```
 
 ```yml
-hostname: projectname.development
+hostname: &hostname projectname.development
 network:
     ip: 10.11.12.13
 role:
