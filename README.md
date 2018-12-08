@@ -19,21 +19,38 @@ Based on: Ubuntu 18.04
 
 ## Installation
 
+### Virtualbox
+
+* MacOSX and Windows: [Download][1] and install the newest version of virtualbox.
+* Linux: [Download][2] and install the newest version of virtualbox or add a package mirror for your distribution.
+
+### Vagrant
+
+[Download][3] and install the newest version of vagrant.
+
+#### Install plugins
+
 ### Vagrant plugins
 
 ```bash
 vagrant plugin install vagrant-hostmanager
-vagrant plugin install vagrant-vbguest # if you use virtualbox
+vagrant plugin install vagrant-vbguest
 ```
 
-### Add to project
+### Project
+
+#### Add vagrant-php to your project
+
+*needs to be done once*
 
 ```bash
 cd /path/to/my/project
 git submodule add -b 18.04 https://github.com/vagrant-php/ubuntu.git vagrant-php
 ```
 
-### Intialize the submodule
+#### Intialize the submodule
+
+*needs to be done after clone the project*
 
 ```bash
 cd /path/to/my/project
@@ -42,6 +59,8 @@ git submodule update --init -- vagrant-php
 
 ### Update the submodule
 
+*needs to be done, when you want to upgrade vagrant-php in your project*
+
 ```bash
 cd /path/to/my/project
 git submodule update --remote -- vagrant-php
@@ -49,10 +68,14 @@ git submodule update --remote -- vagrant-php
 
 ## Configuration
 
-### vagrant.yml (within your project dir)
+### vagrant.yml
+
+```bash
+cd /path/to/my/project
+(code|nano|vi) vagrant.yml
+```
 
 ```yml
----
 hostname: projectname.development
 network:
     ip: 10.11.12.13
@@ -66,6 +89,25 @@ nginx:
             template: default
 ```
 
+This values override the onces from [vagrant-default.yml][4].
+
+Available roles are:
+
+```yml
+role:
+    blackfire: false
+    clamav: false
+    elasticsearch: false
+    kafka: false
+    mariadb: false
+    memcached: false
+    mongodb: false
+    nginx: false
+    postfix: false
+    postgresql: false
+    redis: false
+```
+
 ## Run
 
 ```bash
@@ -74,3 +116,8 @@ cd vagrant-php
 vagrant up
 vagrant ssh
 ```
+
+[1]: https://www.virtualbox.org/wiki/Downloads
+[2]: https://www.virtualbox.org/wiki/Linux_Downloads
+[3]: https://www.vagrantup.com/downloads.html
+[4]: vagrant-default.yml
