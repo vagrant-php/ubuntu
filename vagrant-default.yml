@@ -267,11 +267,11 @@ mongodb:
         security:
             authorization: enabled
         storage:
-           dbPath: /var/lib/mongodb
+            dbPath: /var/lib/mongodb
         systemLog:
-           destination: file
-           path: /var/log/mongodb/mongodb.log
-           logAppend: true
+            destination: file
+            path: /var/log/mongodb/mongodb.log
+            logAppend: true
 
 # nginx: ---------------------------------------------------------------------------------------------------------------
 
