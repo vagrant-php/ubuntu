@@ -131,6 +131,34 @@ vagrant up
 vagrant ssh
 ```
 
+## Install SSL certificates on your machine
+```
+After provisioning run all vhost certificates are generated in vagrant-php/certs
+```
+### MacOS
+```
+* Open your key-chain application and import all certificates in vagrant-php/certs
+* set all certificates to trusted
+* enjoy ssl on your local dev environment
+```
+### Linux
+
+#### Add certificate
+```
+$ sudo apt-get install libnss3-tools
+* for each cert file run:
+  $ certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n CERT_FILE -i CERT_FILE
+* enjoy ssl on your local dev environment
+```
+#### List trusted certificates
+```
+$ certutil -d sql:$HOME/.pki/nssdb -L
+```
+#### Remove trusted certificates
+```
+$ certutil -D -d sql:$HOME/.pki/nssdb -n -.lee.dev
+```
+
 [1]: https://www.virtualbox.org/wiki/Downloads
 [2]: https://www.virtualbox.org/wiki/Linux_Downloads
 [3]: https://www.vagrantup.com/downloads.html

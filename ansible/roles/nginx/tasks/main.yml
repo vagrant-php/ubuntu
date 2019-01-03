@@ -3,9 +3,7 @@
     name: nginx-light
 
 - name: generate certificate for {{ item }}
-  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ item }}.key -out /etc/nginx/{{ item }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ item }}"
-  args:
-    creates: /etc/nginx/{{ item }}.crt
+  command: "{{ role_path }}/files/openssl.sh {{ item }}"
   with_items: "{{ nginx.certificates }}"
 
 - name: nginx.conf
