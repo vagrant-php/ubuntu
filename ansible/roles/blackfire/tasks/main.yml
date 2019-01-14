@@ -1,6 +1,8 @@
+
 - name: add key
   apt_key:
-    url: https://packagecloud.io/gpg.key
+    keyserver: keyserver.ubuntu.com
+    id: 696DBE66A72D76DA
 
 - name: add repository
   apt_repository:
