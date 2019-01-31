@@ -451,10 +451,10 @@ php:
     modules: []
         # - php7.2-gd
     composer:
-        version: 1.8.0
+        version: 1.8.3
         json:
             require: {}
-                #friendsofphp/php-cs-fixer: '^2.13.1'
+                #friendsofphp/php-cs-fixer: '^2.14.0'
 
 # postfix: -------------------------------------------------------------------------------------------------------------
 
