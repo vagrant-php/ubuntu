@@ -433,6 +433,9 @@ php:
                 session.gc_probability: 0
             xdebug:
                 xdebug.max_nesting_level: 1024
+                xdebug.remote_autostart: On
+                xdebug.remote_enable: On
+                xdebug.remote_connect_back: On
         php_fpm:
             default:
                 user: vagrant
