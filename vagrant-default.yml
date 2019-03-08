@@ -399,6 +399,8 @@ php:
                 session.gc_probability: 0
             xdebug:
                 xdebug.max_nesting_level: 1024
+                xdebug.remote_autostart: On
+                xdebug.remote_enable: On
         fpm:
             php:
                 max_execution_time: 600
