@@ -4,6 +4,10 @@
 
 - name: add repository
   apt_repository:
+    repo: "deb https://dl.bintray.com/rabbitmq-erlang/debian bionic erlang"
+
+- name: add repository
+  apt_repository:
     repo: "deb https://dl.bintray.com/rabbitmq/debian bionic rabbitmq-server-v{{ rabbitmq.version }}.x"
 
 - name: install
