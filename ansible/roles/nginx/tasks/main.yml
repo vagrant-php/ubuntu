@@ -17,11 +17,15 @@
   service: name=nginx state=started enabled=true
 
 - name: generate certificate for {{ hostname }}
-  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ hostname }}.key -out /etc/nginx/{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ hostname }}" creates=/etc/nginx/{{ hostname }}.crt
+  command: "{{ role_path }}/files/openssl.sh {{ hostname }}"
+  notify:
+    - restart nginx
 
 - name: generate certificate for {{ item.subhostname }}.{{ hostname }}
-  command: openssl req -nodes -x509 -newkey rsa:4096 -keyout /etc/nginx/{{ item.subhostname }}.{{ hostname }}.key -out /etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt -days 365 -subj "/C=CH/ST=Zurich/L=Zurich/CN={{ item.subhostname }}.{{ hostname }}" creates=/etc/nginx/{{ item.subhostname }}.{{ hostname }}.crt
+  command: "{{ role_path }}/files/openssl.sh {{ hostname }} {{ item.subhostname }}"
   with_items: "{{ subhosts }}"
+  notify:
+    - restart nginx
 
 - name: nginx.conf
   template:
