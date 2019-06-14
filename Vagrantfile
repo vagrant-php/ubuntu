@@ -188,5 +188,6 @@ Vagrant.configure(2) do |config|
         ansible.install_mode = 'pip'
         ansible.version = '2.8.1'
         ansible.extra_vars = setupConfig
+        ansible.compatibility_mode = '2.0'
     end
 end
