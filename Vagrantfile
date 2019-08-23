@@ -186,7 +186,8 @@ Vagrant.configure(2) do |config|
     config.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = 'vagrant-php/ansible/playbook.yml'
         ansible.install_mode = 'pip'
-        ansible.version = '2.8.1'
+        ansible.pip_install_cmd = "curl https://bootstrap.pypa.io/get-pip.py | sudo python"
+        ansible.version = '2.8.4'
         ansible.extra_vars = setupConfig
         ansible.compatibility_mode = '2.0'
     end
