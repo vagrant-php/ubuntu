@@ -80,6 +80,7 @@ role:
     postgresql: false
     rabbitmq: false
     redis: false
+    nodejs: false
 
 # general: -------------------------------------------------------------------------------------------------------------
 
@@ -514,3 +515,9 @@ redis:
         pidfile: /var/run/redis/redis-server.pid
         port: 6379
         unixsocket: /var/run/redis/redis.sock
+
+# node: ---------------------------------------------------------------------------------------------------------------
+
+
+nodejs:
+    version: 12

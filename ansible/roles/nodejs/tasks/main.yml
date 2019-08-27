@@ -1,0 +1,27 @@
+- name: nodejs - download nodejs setup script
+  get_url:
+    url: 'https://deb.nodesource.com/setup_{{ nodejs.version }}.x'
+    dest: /tmp/nodejs-setup.sh
+    mode: 700
+  register: nodejs_get_url_result
+
+- name: nodejs - execute the nodejs-setup.sh
+  shell: /tmp/nodejs-setup.sh
+  when: nodejs_get_url_result.changed
+
+- name: nodejs - install
+  apt:
+    name: nodejs
+
+- name: yarn - add key
+  apt_key:
+    url: https://dl.yarnpkg.com/debian/pubkey.gpg
+    state: present
+
+- name: yarn - add repository
+  apt_repository:
+    repo: "deb https://dl.yarnpkg.com/debian/ stable main"
+
+- name: yarn - install
+  apt:
+    name: yarn

@@ -17,4 +17,5 @@
     - { role: postgresql, when: role.postgresql }
     - { role: rabbitmq, when: role.rabbitmq }
     - { role: redis, when: role.redis }
+    - { role: nodejs, when: role.nodejs }
     - cleanup
