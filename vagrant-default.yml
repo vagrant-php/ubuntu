@@ -4,6 +4,9 @@ hostname: projectname.development
 cpus: ~
 memory: 1024
 
+box: bento/ubuntu-18.04
+guest: ubuntu
+
 # network: -------------------------------------------------------------------------------------------------------------
 
 network:

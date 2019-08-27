@@ -64,8 +64,8 @@ Vagrant.configure(2) do |config|
 
     # Vagrant box
     # --------------------------------------------------------------------------
-    config.vm.box = 'bento/ubuntu-18.04'
-    config.vm.guest = 'ubuntu'
+    config.vm.box = setupConfig['box']
+    config.vm.guest = setupConfig['guest']
 
     # General settings
     # --------------------------------------------------------------------------
