@@ -4,7 +4,7 @@ hostname: projectname.development
 cpus: ~
 memory: 1024
 
-box: bento/ubuntu-18.04
+box: ubuntu/bionic64
 guest: ubuntu
 
 # network: -------------------------------------------------------------------------------------------------------------
