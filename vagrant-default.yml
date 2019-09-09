@@ -76,6 +76,7 @@ role:
     memcached: false
     mongodb: false
     nginx: false
+    nodejs: false
     postfix: false
     postgresql: false
     rabbitmq: false
@@ -364,6 +365,11 @@ nginx:
                 deny: all
             'location ~* /(.*)\.(?:markdown|md|twig|yaml|yml)$':
                 deny: call
+
+# nodejs: --------------------------------------------------------------------------------------------------------------
+
+nodejs:
+    version: 12
 
 # php: -----------------------------------------------------------------------------------------------------------------
 
