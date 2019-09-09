@@ -25,7 +25,7 @@
     owner=vagrant
     group=vagrant
     mode=0777
-  when: zsh.ohmyzsh.enable == true and ohmyzsh_installer.stat.exists == false
+  when: zsh.framework == 'ohmyzsh' and ohmyzsh_installer.stat.exists == false
 
 - stat: path=/home/vagrant/.oh-my-zsh
   register: vagrant_ohmyzsh_installed
@@ -33,14 +33,91 @@
 - name: install ohmyzsh for user vagrant
   command: '/bin/sh /tmp/ohmyzsh-installer'
   become_user: vagrant
-  when: zsh.ohmyzsh.enable == true and vagrant_ohmyzsh_installed.stat.exists == false
+  when: zsh.framework == 'ohmyzsh' and vagrant_ohmyzsh_installed.stat.exists == false
 
 - stat: path=/root/.oh-my-zsh
   register: root_ohmyzsh_installed
 
 - name: install ohmyzsh for user root
   command: '/bin/sh /tmp/ohmyzsh-installer'
-  when: zsh.ohmyzsh.enable == true and root_ohmyzsh_installed.stat.exists == false
+  when: zsh.framework == 'ohmyzsh' and root_ohmyzsh_installed.stat.exists == false
+
+### prezto
+- name: install fontconfig
+  apt: name={{ item }} state=present
+  with_items:
+  - fontconfig
+
+- name: download prezto git repository
+  git:
+    repo: 'https://github.com/sorin-ionescu/prezto.git'
+    dest: /home/vagrant/.zprezto
+    recursive: yes
+    update: no
+  when: zsh.framework == 'prezto'
+
+- name: download awesome-terminal-fonts git repository
+  git:
+    repo: 'https://github.com/gabrielelana/awesome-terminal-fonts.git'
+    dest: /tmp/awesome-terminal-fonts
+    update: no
+  when: zsh.framework == 'prezto'
+
+- name: ensure font directories exists
+  file:
+    path: /home/vagrant/{{ item }}
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+  with_items:
+    - .fonts
+    - .config/fontconfig/conf.d
+  when: zsh.framework == 'prezto'
+
+- name: example copying file with owner and permissions
+  copy:
+    src: /tmp/awesome-terminal-fonts/build/
+    dest: /home/vagrant/.fonts
+    owner: vagrant
+    group: vagrant
+  when: zsh.framework == 'prezto'
+
+- name: let freetype2 know of the new fonts
+  command: fc-cache -fv ~/.fonts
+  when: zsh.framework == 'prezto'
+
+- name: copy font config file
+  copy:
+    src: /tmp/awesome-terminal-fonts/config/10-symbols.conf
+    dest: /home/vagrant/.config/fontconfig/conf.d
+    owner: vagrant
+    group: vagrant
+  when: zsh.framework == 'prezto'
+
+- name: link the prezto files in the home directory
+  file:
+    src: /home/vagrant/.zprezto/runcoms/{{ item }}
+    dest: /home/vagrant/.{{ item }}
+    owner: vagrant
+    group: vagrant
+    state: link
+    force: yes
+  with_items:
+    - zlogin
+    - zlogout
+    - zpreztorc
+    - zprofile
+    - zshenv
+  when: zsh.framework == 'prezto'
+
+- name: change theme
+  lineinfile:
+    path: /home/vagrant/.zpreztorc
+    state: present
+    regexp: "^zstyle\\s\\':prezto:module:prompt\\'\\stheme"
+    line: "zstyle ':prezto:module:prompt' theme 'powerlevel9k'"
+  when: zsh.framework == 'prezto'
 
 ### config
 

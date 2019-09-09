@@ -6,7 +6,7 @@ setopt {{ setopt }}
 {% endif %}
 {% endfor %}
 
-{% if zsh.ohmyzsh.enable == true %}
+{% if zsh.framework == 'ohmyzsh' == true %}
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME={{ zsh.ohmyzsh.theme }}
 
@@ -28,7 +28,26 @@ plugins=({{ zsh.ohmyzsh.plugins|join(' ') }})
 {{ row(export, value, 'export') }}
 {% endfor %}
 
-{% if zsh.ohmyzsh.enable == true %}source $ZSH/oh-my-zsh.sh{% endif %}
+{% if zsh.framework == 'ohmyzsh' %}source $ZSH/oh-my-zsh.sh{% endif %}
+{% if zsh.framework == 'prezto' %}
+# Source fonts.
+source ~/.fonts/*.sh
+
+POWERLEVEL9K_MODE='awesome-fontconfig'
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# POWERLEVEL9K customizations
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir_writable dir)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status php_version symfony2_version command_execution_time root_indicator time)
+
+POWERLEVEL9K_PHP_VERSION_BACKGROUND='099'
+{% endif %}
 
 if [ -d ~/.application_aliases ]; then
     for filename in ~/.application_aliases/*; do

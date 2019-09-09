@@ -382,8 +382,10 @@ zsh:
         setopt:
             HIST_IGNORE_ALL_DUPS: true
             SHARE_HISTORY: true
+    framework: ohmyzsh # or prezto
     ohmyzsh:
-        enable: false
         plugins:
             - git
         theme: geoffgarside
+    prezto:
+        theme: powerlevel9k
