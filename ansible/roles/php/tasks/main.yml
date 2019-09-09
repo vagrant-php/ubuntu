@@ -26,6 +26,7 @@
       - php-apcu
       - php-ast
       - php-pear
+      - php-phpdbg
       - php-xdebug
 
 - name: install fpm
