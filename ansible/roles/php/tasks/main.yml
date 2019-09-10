@@ -20,13 +20,13 @@
       - "php{{ php.version }}-json"
       - "php{{ php.version }}-mbstring"
       - "php{{ php.version }}-opcache"
+      - "php{{ php.version }}-phpdbg"
       - "php{{ php.version }}-readline"
       - "php{{ php.version }}-xml"
       - "php{{ php.version }}-zip"
       - php-apcu
       - php-ast
       - php-pear
-      - php-phpdbg
       - php-xdebug
 
 - name: install fpm
