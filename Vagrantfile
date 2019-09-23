@@ -65,7 +65,7 @@ Vagrant.configure(2) do |config|
     # Vagrant box
     # --------------------------------------------------------------------------
     config.vm.box = setupConfig['box']
-    config.vm.guest = setupConfig['guest']
+    config.vm.guest = 'ubuntu'
 
     # General settings
     # --------------------------------------------------------------------------
