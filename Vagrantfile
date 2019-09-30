@@ -200,6 +200,6 @@ Vagrant.configure(2) do |config|
             mount -o bind /var/bindmount/#{bindmount}/ /vagrant/#{bindmount}/
         SCRIPT
 
-        config.vm.provision "shell", inline: script, name: "Bindmount for #{bindmount}"
+        config.vm.provision 'shell', inline: script, name: 'Bindmount for ' + bindmount, run: 'always'
     end
 end
