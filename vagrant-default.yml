@@ -29,6 +29,11 @@ nfsoptions:
     bsd: [alldirs]
     linux: [rw,no_subtree_check,all_squash,async]
 
+# bindmounts: ----------------------------------------------------------------------------------------------------------
+
+bindmounts: []
+#    - /var
+
 # virtualbox: ----------------------------------------------------------------------------------------------------------
 
 virtualbox:
@@ -522,6 +527,3 @@ redis:
         pidfile: /var/run/redis/redis-server.pid
         port: 6379
         unixsocket: /var/run/redis/redis.sock
-
-bindmounts: []
-# - /var
