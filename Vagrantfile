@@ -191,4 +191,15 @@ Vagrant.configure(2) do |config|
         ansible.extra_vars = setupConfig
         ansible.compatibility_mode = '2.0'
     end
+
+    setupConfig['bindmounts'].each do |bindmount|
+        script = <<-SCRIPT
+            mkdir -p /var/bindmount/#{bindmount}/
+            chown -Rf vagrant:vagrant /var/bindmount/#{bindmount}/
+            mkdir -p /vagrant/#{bindmount}/
+            mount -o bind /var/bindmount/#{bindmount}/ /vagrant/#{bindmount}/
+        SCRIPT
+
+        config.vm.provision 'shell', inline: script, name: 'Bindmount for ' + bindmount, run: 'always'
+    end
 end
