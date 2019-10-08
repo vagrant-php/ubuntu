@@ -469,7 +469,7 @@ php:
     modules: []
         # - php7.2-gd
     composer:
-        version: 1.8.3
+        version: 1.9.0
         json:
             require: {}
                 #friendsofphp/php-cs-fixer: '^2.14.0'
