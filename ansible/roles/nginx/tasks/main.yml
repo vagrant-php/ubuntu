@@ -2,9 +2,54 @@
   apt:
     name: nginx-light
 
-- name: generate certificate for {{ item }}
+- name: generate certificates
   command: "{{ role_path }}/files/openssl.sh {{ item }}"
   with_items: "{{ nginx.certificates }}"
+
+- name: stat certification crt
+  stat:
+    path: "/vagrant/vagrant-php/certs-import/{{ item }}.crt"
+  with_items: "{{ nginx.certificates }}"
+  register: nginx_certificates_crt
+
+- name: stat certification key
+  stat:
+    path: "/vagrant/vagrant-php/certs-import/{{ item }}.key"
+  with_items: "{{ nginx.certificates }}"
+  register: nginx_certificates_key
+
+- name: copy certificate crt
+  copy:
+    src: "{{ item.stat.path }}"
+    dest: "/etc/nginx/{{ item.item }}.crt"
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0600'
+  with_items: "{{ nginx_certificates_crt.results }}"
+  when: item.stat.exists
+
+- name: copy certificate crt (to self-signed)
+  copy:
+    src: "{{ item.stat.path }}"
+    dest: "/usr/local/share/ca-certificates/self-signed{{ item.item }}.crt"
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0600'
+  with_items: "{{ nginx_certificates_crt.results }}"
+  when: item.stat.exists
+
+- name: copy certificate key
+  copy:
+    src: "{{ item.stat.path }}"
+    dest: "/etc/nginx/{{ item.item }}.key"
+    remote_src: true
+    owner: root
+    group: root
+    mode: '0600'
+  with_items: "{{ nginx_certificates_key.results }}"
+  when: item.stat.exists
 
 - name: nginx.conf
   template:
