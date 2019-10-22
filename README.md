@@ -132,33 +132,51 @@ vagrant up
 vagrant ssh
 ```
 
-## Install SSL certificates on your machine
+# SSL
+``` 
+There are 2 possibilities:
+ * Generate SSL cert with 'mkcert' and add it to vagrant machine
+ * Let the vagrant machine generate your certificates and import them to your local environment
 ```
+
+## SSL - Vagrant machine generated certificates:
+
 After provisioning run all vhost certificates are generated in vagrant-php/certs
-```
-### MacOS
+##### MacOS
 ```
 * Open your key-chain application and import all certificates in vagrant-php/certs
 * set all certificates to trusted
 * enjoy ssl on your local dev environment
 ```
-### Linux
+##### Linux
 
-#### Add certificate
+###### Add certificate
 ```
 $ sudo apt-get install libnss3-tools
 * for each cert file run:
   $ certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n CERT_FILE -i CERT_FILE
 * enjoy ssl on your local dev environment
 ```
-#### List trusted certificates
+###### List trusted certificates
 ```
 $ certutil -d sql:$HOME/.pki/nssdb -L
 ```
-#### Remove trusted certificates
+###### Remove trusted certificates
 ```
 $ certutil -D -d sql:$HOME/.pki/nssdb -n -.lee.dev
 ```
+
+## SSL - local generated certificates with mkcert:
+
+Before provisioning add your `.crt` and `.key` files to `vagrant-php/certs-import`
+
+e.g. `domain.tld.crt` and `domain.tld.key` - notation matters!
+
+* generate your files to `vagrant-php/certs_import` with:
+
+    `mkcert --cert-file=HOSTNAME.crt --key-file=HOSTNAME.key HOSTNAME`
+* run vagrant provision:
+* Enjoy SSH
 
 [1]: https://www.virtualbox.org/wiki/Downloads
 [2]: https://www.virtualbox.org/wiki/Linux_Downloads

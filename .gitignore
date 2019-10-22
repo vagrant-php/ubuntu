@@ -1,4 +1,5 @@
 /ansible/playbook.retry
 /.vagrant
-/certs
+/certs/
+/certs-import/
 /*-cloudimg-console.log
