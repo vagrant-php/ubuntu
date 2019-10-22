@@ -25,7 +25,7 @@
 {% endmacro %}
 
 {% for config in nginx.server %}
-    {% set template = nginx.templates[config.template] %}
+    {% set template = nginx.templates[config.template].copy() %}
 
     {% set serverNameParts = config.server_name.split(' ') %}
 
