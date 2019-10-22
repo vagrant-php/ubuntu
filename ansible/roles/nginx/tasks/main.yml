@@ -2,10 +2,6 @@
   apt:
     name: nginx-light
 
-- name: generate certificates
-  command: "{{ role_path }}/files/openssl.sh {{ item }}"
-  with_items: "{{ nginx.certificates }}"
-
 - name: stat certification crt
   stat:
     path: "/vagrant/vagrant-php/certs-import/{{ item }}.crt"
@@ -17,6 +13,15 @@
     path: "/vagrant/vagrant-php/certs-import/{{ item }}.key"
   with_items: "{{ nginx.certificates }}"
   register: nginx_certificates_key
+
+- name: copy certificate crt
+  copy:
+    src: "{{ item.stat.path }}"
+    dest: "/vagrant/vagrant-php/certs/{{ item.item }}.crt"
+    remote_src: true
+    mode: '0600'
+  with_items: "{{ nginx_certificates_crt.results }}"
+  when: item.stat.exists
 
 - name: copy certificate crt
   copy:
@@ -51,6 +56,10 @@
   with_items: "{{ nginx_certificates_key.results }}"
   when: item.stat.exists
 
+- name: handle or generate certificates
+  command: "{{ role_path }}/files/openssl.sh {{ item }}"
+  with_items: "{{ nginx.certificates }}"
+
 - name: nginx.conf
   template:
     src: nginx.conf.j2
@@ -58,7 +67,4 @@
   register: configuration
 
 - name: restart nginx
-  systemd:
-    name: nginx
-    state: restarted
-  when: configuration.changed
+  service: name=nginx state=restarted
