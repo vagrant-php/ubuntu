@@ -305,44 +305,34 @@ nginx:
         #     template: default
     snippets:
         php: &nginx_php
-            fastcgi_split_path_info: '^(.+\.php)(.*)$'
-            try_files: '$fastcgi_script_name =404'
-            set: '$wtf $fastcgi_path_info'
+            try_files: '$uri =404'
+            fastcgi_split_path_info: '^(.+\.php)(/.+)$'
+            include: fastcgi_params
             fastcgi_param:
-                - 'PATH_INFO $wtf'
                 - 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-            fastcgi_pass:
-                - unix://var/run/php/default.sock
+                - 'SCRIPT_NAME $fastcgi_script_name'
+            fastcgi_index: index.php
+            fastcgi_pass: 'unix://var/run/php/default.sock'
             fastcgi_read_timeout: 600
-            fastcgi_buffer_size: 128k
-            fastcgi_buffers: 4 256k
-            fastcgi_busy_buffers_size: 256k
-            include:
-                - 'fastcgi_params'
     templates:
         default:
             listen: [80, 443 ssl http2]
             index: index.php
             'location /':
-                try_files:
-                    - '$uri $uri/ /index.php?$query_string'
-            'location ~ ^(.+\.php)(.*)$': *nginx_php
+                try_files: '$uri /index.php$is_args$args'
+            'location ~ \.php': *nginx_php
         bolt3:
             listen: [80, 443 ssl http2]
             index: index.php
             'location /':
-                try_files:
-                    - '$uri $uri/ /index.php?$query_string'
-            'location ~ ^(.+\.php)(.*)$': *nginx_php
+                try_files: '$uri /index.php$is_args$args'
+            'location ~ \.php': *nginx_php
             'location = /bolt':
-                try_files:
-                    - '$uri $uri/ /index.php?$query_string'
+                try_files: '$uri /index.php$is_args$args'
             'location ^~ /bolt/':
-                try_files:
-                    - '$uri $uri/ /index.php?$query_string'
+                try_files: '$uri /index.php$is_args$args'
             'location ^~ /thumbs':
-                try_files:
-                    - '$uri /index.php; #?$query_string'
+                try_files: '$uri /index.php'
                 access_log: off
                 log_not_found: off
                 expires: max
