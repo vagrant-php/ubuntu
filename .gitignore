@@ -1,5 +1,6 @@
-/ansible/playbook.retry
 /.vagrant
-/certs/
-/certs-import/
 /*-cloudimg-console.log
+/*-VBoxSVC-*.log
+/ansible/playbook.retry
+/certs-import/
+/certs/
