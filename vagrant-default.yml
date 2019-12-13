@@ -121,7 +121,7 @@ bash:
             HISTSIZE: 5000
             PATH: '/home/vagrant/.composer/vendor/bin:$PATH'
             PS1: >
-                '\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[3m\]($(git branch 2>/dev/null | grep '^*' | colrm 1 2))\[\e[23m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] '
+                '\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[3m\]($([ -d .git ] && git name-rev --name-only @))\[\e[23m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] '
         shopt:
             checkwinsize: true
             histappend: true
