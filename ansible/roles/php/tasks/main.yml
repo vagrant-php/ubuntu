@@ -34,6 +34,18 @@
     name: "php{{ php.version }}-fpm"
   when: role.nginx
 
+- name: fix php-fpm service definition regarding pid file
+  replace:
+    path: "/etc/systemd/system/multi-user.target.wants/php{{ php.version }}-fpm.service"
+    regexp: '^#?PIDFile\=(.*)'
+    replace: '#PIDFile=\1'
+  when: role.nginx
+
+- name: force systemd to reread configs
+  systemd:
+    daemon_reload: yes
+  when: role.nginx
+
 - name: install modules
   apt:
     name: "{{ php.modules }}"
