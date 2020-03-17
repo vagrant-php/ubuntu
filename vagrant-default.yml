@@ -195,7 +195,9 @@ git:
         core:
             editor: vim
         push:
-            default: current
+            default: simple
+        tag:
+            sort: "version:refname"
 #        user:
 #            name: "'Firstname Lastname'"
 #            email: firstname.lastname@domain.tld
