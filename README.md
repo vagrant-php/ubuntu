@@ -39,6 +39,11 @@ vagrant plugin install vagrant-hostmanager
 vagrant plugin install vagrant-vbguest
 ```
 
+*Needed to use disksize option:*
+```bash
+vagrant plugin install vagrant-disksize
+```
+
 ### Project
 
 #### Add vagrant-php to your project
@@ -141,7 +146,7 @@ There are 2 possibilities:
 
 ## SSL - Vagrant machine generated certificates:
 
-After provisioning run all vhost certificates are generated in vagrant-php/certs
+After provisioning all vhost certificates are generated in vagrant-php/certs
 ##### MacOS
 ```
 * Open your key-chain application and import all certificates in vagrant-php/certs
@@ -172,7 +177,7 @@ Before provisioning add your `.crt` and `.key` files to `vagrant-php/certs-impor
 
 e.g. `domain.tld.crt` and `domain.tld.key` - notation matters!
 
-* generate your files to `vagrant-php/certs_import` with:
+* generate your files to `vagrant-php/certs-import` with:
 
     `mkcert --cert-file=HOSTNAME.crt --key-file=HOSTNAME.key HOSTNAME`
 * run vagrant provision:

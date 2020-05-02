@@ -62,10 +62,17 @@ end
 
 Vagrant.configure(2) do |config|
 
+    # Required Plugins
+    # --------------------------------------------------------------------------
+    config.vagrant.plugins = ["vagrant-hostmanager"]
+
     # Vagrant box
     # --------------------------------------------------------------------------
     config.vm.box = setupConfig['box']
     config.vm.guest = 'ubuntu'
+    if (Vagrant.has_plugin? 'vagrant-disksize')
+        config.disksize.size = setupConfig['disksize']
+    end
 
     # General settings
     # --------------------------------------------------------------------------

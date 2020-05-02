@@ -3,6 +3,7 @@ hostname: projectname.development
 
 cpus: ~
 memory: 1024
+disksize: 10GB # 10GB is vagrant default;   to decrease: vagrant destroy;   to increase: vagrant halt; vagrant up;
 
 box: bento/ubuntu-18.04 # needs to be ubuntu 18.04 based
 
