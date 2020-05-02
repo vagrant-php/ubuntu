@@ -23,35 +23,11 @@
   with_items: "{{ nginx_certificates_crt.results }}"
   when: item.stat.exists
 
-- name: copy certificate crt
-  copy:
-    src: "{{ item.stat.path }}"
-    dest: "/etc/nginx/{{ item.item }}.crt"
-    remote_src: true
-    owner: root
-    group: root
-    mode: '0600'
-  with_items: "{{ nginx_certificates_crt.results }}"
-  when: item.stat.exists
-
-- name: copy certificate crt (to self-signed)
-  copy:
-    src: "{{ item.stat.path }}"
-    dest: "/usr/local/share/ca-certificates/self-signed{{ item.item }}.crt"
-    remote_src: true
-    owner: root
-    group: root
-    mode: '0600'
-  with_items: "{{ nginx_certificates_crt.results }}"
-  when: item.stat.exists
-
 - name: copy certificate key
   copy:
     src: "{{ item.stat.path }}"
-    dest: "/etc/nginx/{{ item.item }}.key"
+    dest: "/vagrant/vagrant-php/certs/{{ item.item }}.key"
     remote_src: true
-    owner: root
-    group: root
     mode: '0600'
   with_items: "{{ nginx_certificates_key.results }}"
   when: item.stat.exists
