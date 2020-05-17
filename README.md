@@ -1,22 +1,22 @@
 # vagrant-php/ubuntu
 
-Based on: Ubuntu 18.04
+Based on: Ubuntu 20.04
 
 ## Features
 
  * blackfire
  * clamav
- * elasticsearch (6)
- * kafka (2.1.0)
- * mariadb (10.1-original, 10.1, 10.2, 10.3)
+ * elasticsearch (7)
+ * kafka (2.5)
+ * mariadb (10.3-original, 10.3)
  * memcached
- * mongodb (4)
+ * mongodb (4.2)
  * nginx
  * nodejs (12)
- * php (7.2-original, 7.2, 7.3)
+ * php (7.4-original, 7.4)
  * postfix
- * postgresql (10-original, 10, 11)
- * rabbitmq (3.7)
+ * postgresql (12-original, 12)
+ * rabbitmq (3.8)
  * redis
 
 ## Installation
@@ -52,7 +52,7 @@ vagrant plugin install vagrant-disksize
 
 ```bash
 cd /path/to/my/project
-git submodule add -b 18.04 https://github.com/vagrant-php/ubuntu.git vagrant-php
+git submodule add -b 20.04 https://github.com/vagrant-php/ubuntu.git vagrant-php
 ```
 
 #### Intialize the submodule
@@ -138,7 +138,7 @@ vagrant ssh
 ```
 
 # SSL
-``` 
+```
 There are 2 possibilities:
  * Generate SSL cert with 'mkcert' and add it to vagrant machine
  * Let the vagrant machine generate your certificates and import them to your local environment

@@ -2,7 +2,7 @@
   apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
 
 - name: add apt repository for nodejs
-  apt_repository: repo='deb https://deb.nodesource.com/node_{{ nodejs.version }}.x bionic main' state=present
+  apt_repository: repo='deb https://deb.nodesource.com/node_{{ nodejs.version }}.x focal main' state=present
 
 - name: add apt key for yarn
   apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg state=present

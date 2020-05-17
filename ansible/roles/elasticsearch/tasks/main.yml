@@ -1,7 +1,7 @@
 - name: change sysctl memory allocation
   sysctl:
     name: vm.max_map_count
-    value: 262144
+    value: '262144'
 
 - name: add apt key
   apt_key:

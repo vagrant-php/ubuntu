@@ -1,12 +1,12 @@
 - name: add apt key
   apt_key:
     url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-  when: postgresql.version != '10-original'
+  when: postgresql.version != '12-original'
 
 - name: add repository
   apt_repository:
-    repo: 'deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main'
-  when: postgresql.version != '10-original'
+    repo: 'deb [ arch=amd64 ] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main'
+  when: postgresql.version != '12-original'
 
 - name: install
   apt:
@@ -14,8 +14,9 @@
   vars:
     packages:
       - "postgresql-{{ postgresql.version|replace('-original', '') }}"
-      - python-psycopg2
+      - python3-psycopg2
       - libpq-dev
+      - acl
   register: installed
 
 - name: install | wait for postgresql

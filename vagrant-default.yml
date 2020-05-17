@@ -5,7 +5,7 @@ cpus: ~
 memory: 1024
 disksize: 10GB # 10GB is vagrant default;   to decrease: vagrant destroy;   to increase: vagrant halt; vagrant up;
 
-box: bento/ubuntu-18.04 # needs to be ubuntu 18.04 based
+box: bento/ubuntu-20.04 # needs to be ubuntu 20.04 based
 
 # network: -------------------------------------------------------------------------------------------------------------
 
@@ -171,14 +171,11 @@ clamav:
 # elasticsearch: -------------------------------------------------------------------------------------------------------
 
 elasticsearch:
-    version: 6
+    version: 7
     config:
         http.port: 9200
-        network.host: 0.0.0.0
-        node.max_local_storage_nodes: 1
         path.data: /var/lib/elasticsearch
         path.logs: /var/log/elasticsearch
-        pidfile: /var/run/elasticsearch/elasticsearch.pid
     kibana:
         config:
             server.host: 0.0.0.0
@@ -206,7 +203,7 @@ git:
 # kafka: ---------------------------------------------------------------------------------------------------------------
 
 kafka:
-    version: 2.1.0
+    version: 2.5.0
     scala: 2.12
     config:
         broker.id: 0
@@ -258,15 +255,15 @@ memcached:
         -d: ''
         logfile: /var/log/memcached.log
         -m: 64
-        -l: 127.0.0.1
         -p: 11211
-        -s: /tmp/memcached.sock
         -u: memcache
+        -l: 127.0.0.1
+        -P: /var/run/memcached/memcached.pid
 
 # mongodb: -------------------------------------------------------------------------------------------------------------
 
 mongodb:
-    version: 4.0
+    version: 4.2
     username: root
     password: root
     config:
@@ -369,12 +366,12 @@ nginx:
 # nodejs: --------------------------------------------------------------------------------------------------------------
 
 nodejs:
-    version: 12
+    version: 14
 
 # php: -----------------------------------------------------------------------------------------------------------------
 
 php:
-    version: 7.2
+    version: 7.4
     config:
         cli:
             php:
@@ -460,7 +457,7 @@ php:
                 request_terminate_timeout: 600
 
     modules: []
-        # - php7.2-gd
+        # - php7.4-gd
     composer:
         version: 1.9.0
         json:
@@ -478,7 +475,7 @@ postfix:
 # postgresql: ----------------------------------------------------------------------------------------------------------
 
 postgresql:
-    version: 11
+    version: 12
     username: root
     password: root
     config:
@@ -500,7 +497,7 @@ postgresql:
 # rabbitmq: ------------------------------------------------------------------------------------------------------------
 
 rabbitmq:
-    version: 3.7
+    version: 3.8
     username: root
     password: root
     config:

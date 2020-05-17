@@ -2,12 +2,12 @@
   apt_key:
     keyserver: keyserver.ubuntu.com
     id: 4F4EA0AAE5267A6C
-  when: php.version != '7.2-original'
+  when: php.version != '7.4-original'
 
 - name: add repository
   apt_repository:
-    repo: 'deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main'
-  when: php.version != '7.2-original'
+    repo: 'deb http://ppa.launchpad.net/ondrej/php/ubuntu focal main'
+  when: php.version != '7.4-original'
 
 - name: install
   apt:
@@ -121,6 +121,20 @@
   notify:
     - restart php-fpm
   when: role.kafka
+
+- name: install redis
+  apt:
+    name: "php-redis"
+  notify:
+    - restart php-fpm
+  when: role.redis
+
+- name: install amqp
+  apt:
+    name: "php-amqp"
+  notify:
+    - restart php-fpm
+  when: role.rabbitmq
 
 - name: configure cli php.ini
   template:
