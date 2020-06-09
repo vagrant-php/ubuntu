@@ -187,3 +187,15 @@ e.g. `domain.tld.crt` and `domain.tld.key` - notation matters!
 [2]: https://www.virtualbox.org/wiki/Linux_Downloads
 [3]: https://www.vagrantup.com/downloads.html
 [4]: vagrant-default.yml
+
+
+# Include external defined ansible roles
+It's possible to include additional ansible roles defined per project.
+
+- Create a folder for your additional roles on PROJECT_ROOT eg. ansible_roles
+- Add as many roles in your vagrant.yml as you want like this:
+
+```yaml
+include_roles:
+    - "ansible_roles/dependencies/main.yml"
+```
