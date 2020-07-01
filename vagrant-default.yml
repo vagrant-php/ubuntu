@@ -517,3 +517,6 @@ redis:
         pidfile: /var/run/redis/redis-server.pid
         port: 6379
         unixsocket: /var/run/redis/redis.sock
+
+# include project specific roles related to PROJECT_ROOT: eg. ansible_roles/dependencies/main.yml ----------------------
+include_roles: []
