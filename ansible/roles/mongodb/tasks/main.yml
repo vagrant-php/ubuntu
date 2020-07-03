@@ -1,6 +1,6 @@
 ---
 - name: add key
-  apt_key: keyserver=keyserver.ubuntu.com id=7F0CEB10 state=present
+  apt_key: keyserver=keyserver.ubuntu.com id=9ECBEC467F0CEB10 state=present
 
 - name: app repository
   apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse' state=present

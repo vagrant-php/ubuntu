@@ -32,9 +32,10 @@
     - { role: nodejs7, when: role.nodejs and nodeversion == 7 }
     - { role: nodejs8, when: role.nodejs and nodeversion == 8 }
     - { role: php55-original, when: phpversion == '5.5-original' }
-    - { role: php56, when: phpversion == 5.6 }
     - { role: php70, when: phpversion == 7.0 }
     - { role: php71, when: phpversion == 7.1 }
+    - { role: php72, when: phpversion == 7.2 }
+    - { role: php73, when: phpversion == 7.3 }
     - php-tools
     - php-application
     - { role: php-application-drupal7, when: "'drupal7' in applications" }

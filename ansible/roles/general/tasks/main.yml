@@ -121,7 +121,7 @@
 
 ### python
 - name: python | add key for ppa python repository
-  apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
+  apt_key: keyserver=keyserver.ubuntu.com id=5BB92C09DB82666C state=present
 
 - name: python | Add ppa python repository
   apt_repository: repo='deb http://ppa.launchpad.net/fkrull/deadsnakes-python2.7/ubuntu trusty main' state=present update_cache=yes

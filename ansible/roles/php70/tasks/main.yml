@@ -3,10 +3,10 @@
   apt_key: keyserver=keyserver.ubuntu.com id=4F4EA0AAE5267A6C state=present
 
 - name: app repository
-  apt_repository: repo='deb http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
+  apt_repository: repo='deb [arch=amd64] http://mirror.cs.uchicago.edu/php/7 trusty main' state=present
 
 - name: app src repository
-  apt_repository: repo='deb-src http://ppa.launchpad.net/ondrej/php/ubuntu trusty main' state=present
+  apt_repository: repo='deb-src [arch=amd64] http://mirror.cs.uchicago.edu/php/7 trusty main' state=present
 
 - name: install core, common, cli, fpm
   apt: name={{ item }} state=present
