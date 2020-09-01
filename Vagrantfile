@@ -64,7 +64,7 @@ Vagrant.configure(2) do |config|
 
     # Required Plugins
     # --------------------------------------------------------------------------
-    config.vagrant.plugins = ["vagrant-hostmanager"]
+    config.vagrant.plugins = ['vagrant-hostmanager']
 
     # Vagrant box
     # --------------------------------------------------------------------------
@@ -172,8 +172,14 @@ Vagrant.configure(2) do |config|
         end
     end
 
+    # for libvirt
+    config.vm.provider 'libvirt' do |l|
+        l.memory = setupConfig['memory']
+        l.cpus = cpus
+    end
+
     # for vmware fusion (osx)
-    config.vm.provider "vmware_fusion" do |v|
+    config.vm.provider 'vmware_fusion' do |v|
         v.vmx['displayname'] = setupConfig['hostname']
         v.vmx['memsize'] = setupConfig['memory']
         v.vmx['numvcpus'] = cpus
@@ -181,7 +187,7 @@ Vagrant.configure(2) do |config|
     end
 
     # for vmware workstation (windows, linux)
-    config.vm.provider "vmware_workstation" do |v|
+    config.vm.provider 'vmware_workstation' do |v|
         v.vmx['displayname'] = setupConfig['hostname']
         v.vmx['memsize'] = setupConfig['memory']
         v.vmx['numvcpus'] = cpus
