@@ -5,7 +5,7 @@ cpus: ~
 memory: 1024
 disksize: 10GB # 10GB is vagrant default;   to decrease: vagrant destroy;   to increase: vagrant halt; vagrant up;
 
-box: bento/ubuntu-20.04 # needs to be ubuntu 20.04 based
+box: generic/ubuntu2004 # needs to be ubuntu 20.04 based
 
 # network: -------------------------------------------------------------------------------------------------------------
 
