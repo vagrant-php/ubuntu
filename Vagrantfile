@@ -197,7 +197,7 @@ Vagrant.configure(2) do |config|
     # Provisioning
     # --------------------------------------------------------------------------
     config.vm.provision 'ansible_local' do |ansible|
-        ansible.playbook = 'vagrant-php/ansible/playbook.yml'
+        ansible.playbook = File.basename(setupPath) + '/ansible/playbook.yml'
         ansible.install_mode = 'pip'
         ansible.pip_install_cmd = 'sudo apt install -y python3-pip && sudo ln -sf /usr/bin/python3 /usr/bin/python && sudo ln -sf /usr/bin/pip3 /usr/bin/pip'
         ansible.version = '2.9.13'
