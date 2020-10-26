@@ -13,7 +13,7 @@ Based on: Ubuntu 20.04
  * mongodb (4.2)
  * nginx
  * nodejs (12)
- * php (7.4-original, 7.4)
+ * php (7.4-original, 7.4, 8.0)
  * postfix
  * postgresql (12-original, 12)
  * rabbitmq (3.8)
