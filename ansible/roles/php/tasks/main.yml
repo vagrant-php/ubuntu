@@ -135,6 +135,25 @@
     - restart php-fpm
   when: role.rabbitmq
 
+- name: pecl upgrade swoole
+  command: pecl upgrade swoole
+  notify:
+    - restart php-fpm
+  when: php.pecl.swoole
+
+- name: create swoole.ini
+  copy:
+    src: swoole.ini
+    dest: "/etc/php/{{ php.version }}/mods-available/swoole.ini"
+  when: php.pecl.swoole
+
+- name: symlink swoole.ini for cli
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/swoole.ini"
+    dest: "/etc/php/{{ php.version }}/cli/conf.d/20-swoole.ini"
+    state: link
+  when: php.pecl.swoole
+
 - name: configure cli php.ini
   template:
     src: cli.php.ini.j2

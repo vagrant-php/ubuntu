@@ -455,10 +455,11 @@ php:
                 pm.max_spare_servers: 4
                 pm.max_requests: 400
                 request_terminate_timeout: 600
-
     modules: []
         # - php7.4-gd
         # - php-xdebug
+    pecl:
+        swoole: false
     composer:
         version: 2.0.0
         json:
