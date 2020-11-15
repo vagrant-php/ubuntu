@@ -27,10 +27,10 @@
       - "php{{ php.version }}-ast"
       - php-pear
 
-- name: install php json module for php != 8.0
+- name: install json for php < 8
   apt:
     name: "php{{ php.version }}-json"
-  when: php.version|string != '8.0'
+  when: php.version < 8
 
 - name: install fpm
   apt:
