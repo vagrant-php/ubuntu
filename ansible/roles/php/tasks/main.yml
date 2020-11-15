@@ -23,14 +23,14 @@
       - "php{{ php.version }}-readline"
       - "php{{ php.version }}-xml"
       - "php{{ php.version }}-zip"
-      - php-apcu
-      - php-ast
+      - "php{{ php.version }}-apcu"
+      - "php{{ php.version }}-ast"
       - php-pear
 
 - name: install php json module for php != 8.0
   apt:
     name: "php{{ php.version }}-json"
-  when: php.version != '8.0'
+  when: php.version|string != '8.0'
 
 - name: install fpm
   apt:
