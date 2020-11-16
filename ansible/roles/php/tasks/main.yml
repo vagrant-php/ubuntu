@@ -30,7 +30,7 @@
 - name: install json for php < 8
   apt:
     name: "php{{ php.version }}-json"
-  when: php.version < 8
+  when: php.version|float < 8
 
 - name: install fpm
   apt:
