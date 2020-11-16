@@ -17,16 +17,20 @@
       - "php{{ php.version }}-cli"
       - "php{{ php.version }}-curl"
       - "php{{ php.version }}-dev"
-      - "php{{ php.version }}-json"
       - "php{{ php.version }}-mbstring"
       - "php{{ php.version }}-opcache"
       - "php{{ php.version }}-phpdbg"
       - "php{{ php.version }}-readline"
       - "php{{ php.version }}-xml"
       - "php{{ php.version }}-zip"
-      - php-apcu
-      - php-ast
+      - "php{{ php.version }}-apcu"
+      - "php{{ php.version }}-ast"
       - php-pear
+
+- name: install json for php < 8
+  apt:
+    name: "php{{ php.version }}-json"
+  when: php.version|float < 8
 
 - name: install fpm
   apt:
