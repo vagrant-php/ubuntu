@@ -458,8 +458,8 @@ php:
     modules: []
         # - php7.4-gd
         # - php-xdebug
-    pecl:
-        swoole: false
+    pecl: []
+        # - swoole
     composer:
         version: 2.0.2
         json:

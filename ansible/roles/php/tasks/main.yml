@@ -139,24 +139,31 @@
     - restart php-fpm
   when: role.rabbitmq
 
-- name: pecl upgrade swoole
-  command: pecl upgrade swoole
+- name: pecl upgrade
+  command: "pecl upgrade {{ item }}"
+  loop: "{{ php.pecl }}"
+
+- name: pecl create ini
+  copy:
+      dest: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+      content: "extension={{ item }}.so"
+  loop: "{{ php.pecl }}"
+
+- name: pecl symlink cli
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+    dest: "/etc/php/{{ php.version }}/cli/conf.d/20-{{ item }}.ini"
+    state: link
+  loop: "{{ php.pecl }}"
+
+- name: pecl symlink fpm
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+    dest: "/etc/php/{{ php.version }}/fpm/conf.d/20-{{ item }}.ini"
+    state: link
+  loop: "{{ php.pecl }}"
   notify:
     - restart php-fpm
-  when: php.pecl.swoole
-
-- name: create swoole.ini
-  copy:
-    src: swoole.ini
-    dest: "/etc/php/{{ php.version }}/mods-available/swoole.ini"
-  when: php.pecl.swoole
-
-- name: symlink swoole.ini for cli
-  file:
-    src: "/etc/php/{{ php.version }}/mods-available/swoole.ini"
-    dest: "/etc/php/{{ php.version }}/cli/conf.d/20-swoole.ini"
-    state: link
-  when: php.pecl.swoole
 
 - name: configure cli php.ini
   template:
