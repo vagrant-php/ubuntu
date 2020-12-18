@@ -466,10 +466,10 @@ php:
     pecl: []
         # - swoole
     composer:
-        version: 2.0.2
+        version: 2.0.8
         json:
             require: {}
-                #friendsofphp/php-cs-fixer: '^2.15.4'
+                #friendsofphp/php-cs-fixer: '^2.27.1'
 
 # postfix: -------------------------------------------------------------------------------------------------------------
 
