@@ -4,16 +4,14 @@
 - name: add apt repository for nodejs
   apt_repository: repo='deb https://deb.nodesource.com/node_{{ nodejs.version }}.x focal main' state=present
 
-- name: add apt key for yarn
-  apt_key: url=https://dl.yarnpkg.com/debian/pubkey.gpg state=present
-
-- name: add apt repository for yarn
-  apt_repository: repo='deb https://dl.yarnpkg.com/debian/ stable main' state=present
-
 - name: install
   apt:
     name: "{{ packages }}"
   vars:
     packages:
       - nodejs
-      - yarn
+
+- name: Install yarn globally
+  npm:
+    name: yarn
+    global: yes
