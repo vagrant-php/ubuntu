@@ -139,31 +139,31 @@
     - restart php-fpm
   when: role.rabbitmq
 
-# - name: pecl upgrade
-#   command: "pecl upgrade {{ item }}"
-#   loop: "{{ php.pecl }}"
+- name: pecl upgrade
+  command: "pecl upgrade {{ item }}"
+  loop: "{{ php.pecl }}"
 
-# - name: pecl create ini
-#   copy:
-#       dest: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
-#       content: "extension={{ item }}.so"
-#   loop: "{{ php.pecl }}"
+- name: pecl create ini
+  copy:
+      dest: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+      content: "extension={{ item }}.so"
+  loop: "{{ php.pecl }}"
 
-# - name: pecl symlink cli
-#   file:
-#     src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
-#     dest: "/etc/php/{{ php.version }}/cli/conf.d/20-{{ item }}.ini"
-#     state: link
-#   loop: "{{ php.pecl }}"
+- name: pecl symlink cli
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+    dest: "/etc/php/{{ php.version }}/cli/conf.d/20-{{ item }}.ini"
+    state: link
+  loop: "{{ php.pecl }}"
 
-# - name: pecl symlink fpm
-#   file:
-#     src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
-#     dest: "/etc/php/{{ php.version }}/fpm/conf.d/20-{{ item }}.ini"
-#     state: link
-#   loop: "{{ php.pecl }}"
-#   notify:
-#     - restart php-fpm
+- name: pecl symlink fpm
+  file:
+    src: "/etc/php/{{ php.version }}/mods-available/{{ item }}.ini"
+    dest: "/etc/php/{{ php.version }}/fpm/conf.d/20-{{ item }}.ini"
+    state: link
+  loop: "{{ php.pecl }}"
+  notify:
+    - restart php-fpm
 
 - name: configure cli php.ini
   template:
