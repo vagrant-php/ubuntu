@@ -1,0 +1,17 @@
+autoload -U colors && colors
+
+{% for setopt, active in zsh.config.setopt.items() %}
+{% if active %}
+setopt {{ setopt }}
+{% endif %}
+{% endfor %}
+
+{% for alias, value in zsh.config.alias.items() %}
+alias {{ alias }}='{{ value }}'
+{% endfor %}
+
+{% for export, value in zsh.config.export.items() %}
+export {{ export }}={{ value }}
+{% endfor %}
+
+cd /vagrant

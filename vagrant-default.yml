@@ -98,6 +98,7 @@ general:
         keyboard:
             layout: ch
             variant: de_nodeadkeys
+        shell: bash # bash or zsh
         timezone: Europe/Zurich
     packages:
         - htop
@@ -110,19 +111,19 @@ general:
 bash:
     config:
         alias:
-            cls: 'printf "\033c"'
-            showdns: 'dig $1 any +nocmd +multiline +noall +answer'
-            whichshell: 'ps -p $$'
+            cls: &cls 'printf "\033c"'
+            showdns: &showdns 'dig $1 any +nocmd +multiline +noall +answer'
+            whichshell: &whichshell 'ps -p $$'
         export:
             CLICOLOR: 1
-            EDITOR: vim
+            EDITOR: &editor vim
             HISTCONTROL: 'ignoreboth:erasedups'
             HISTFILE: ~/.bash_history
-            HISTFILESIZE: 100000
-            HISTSIZE: 5000
+            HISTFILESIZE: &histfilesize 100000
+            HISTSIZE: &histsize 5000
             PATH: '/home/vagrant/.composer/vendor/bin:$PATH'
             PS1: >
-                '\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[3m\]($(git rev-parse --abbrev-ref HEAD 2> /dev/null))\[\e[23m\] \[\e[1;32m\]\u\[\e[0m\] \[\e[1;37m\]\$\[\e[0m\] '
+                '\[\e[1;32m\]\h\[\e[0m\] \[\e[1;37m\]\w\[\e[0m\] \[\e[3m\]($(git rev-parse --abbrev-ref HEAD 2> /dev/null))\[\e[23m\] \[\e[1;32m\]\u\[\e[0m\] '
         shopt:
             checkwinsize: true
             histappend: true
@@ -524,6 +525,27 @@ redis:
         pidfile: /var/run/redis/redis-server.pid
         port: 6379
         unixsocket: /var/run/redis/redis.sock
+
+# zsh: ----------------------------------------------------------------------------------------------------------------
+
+zsh:
+    config:
+        alias:
+            cls: *cls
+            showdns: *showdns
+            whichshell: *whichshell
+        export:
+            EDITOR: *editor
+            HISTFILE: ~/.zsh_history
+            HISTSIZE: *histsize
+            PATH: '/home/vagrant/.composer/vendor/bin:$PATH'
+            PROMPT: >
+                '%{$fg_bold[green]%}%m%{$reset_color%} %{$fg_bold[white]%}%~%{$reset_color%} ($(git symbolic-ref --short HEAD 2> /dev/null)) %{$fg_bold[green]%}%n%{$reset_color%} % '
+            SAVEHIST: *histfilesize
+        setopt:
+            HIST_IGNORE_ALL_DUPS: true
+            PROMPT_SUBST: true
+            SHARE_HISTORY: true
 
 # include project specific roles related to PROJECT_ROOT: eg. ansible_roles/dependencies/main.yml ----------------------
 include_roles: []
