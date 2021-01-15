@@ -12,6 +12,4 @@
       - nodejs
 
 - name: Install yarn globally
-  npm:
-    name: yarn
-    global: yes
+  command: /usr/bin/npm -g install yarn
