@@ -1,0 +1,23 @@
+- name: install zsh
+  apt:
+    name: "zsh"
+
+- name: change default shell to zsh for user vagrant
+  command: /usr/bin/chsh -s /bin/zsh vagrant
+
+- name: change default shell to zsh for user root
+  command: /usr/bin/chsh -s /bin/zsh root
+
+- name: copy .zshrc for user vagrant
+  template:
+    src: zshrc.j2
+    dest: /home/vagrant/.zshrc
+    owner: vagrant
+    group: vagrant
+
+- name: copy .zshrc for user root
+  template:
+    src: zshrc.j2
+    dest: /root/.zshrc
+    owner: root
+    group: root

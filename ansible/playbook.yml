@@ -2,7 +2,7 @@
   become: true
   roles:
     - general
-    - bash
+    - { role: bash, when: general.config.shell == 'bash' }
     - { role: blackfire, when: role.blackfire }
     - { role: clamav, when: role.clamav }
     - { role: elasticsearch, when: role.elasticsearch }
@@ -18,5 +18,6 @@
     - { role: postgresql, when: role.postgresql }
     - { role: rabbitmq, when: role.rabbitmq }
     - { role: redis, when: role.redis }
+    - { role: zsh, when: general.config.shell == 'zsh' }
     - { role: include_roles }
     - cleanup
