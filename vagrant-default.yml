@@ -543,9 +543,11 @@ zsh:
                 '%{$fg_bold[green]%}%m%{$reset_color%} %{$fg_bold[white]%}%~%{$reset_color%} ($(git symbolic-ref --short HEAD 2> /dev/null)) %{$fg_bold[green]%}%n%{$reset_color%} % '
             SAVEHIST: *histfilesize
         setopt:
-            HIST_IGNORE_ALL_DUPS: true
+            HIST_EXPIRE_DUPS_FIRST: true
+            HIST_IGNORE_DUPS: true
+            HIST_IGNORE_SPACE: true
+            INC_APPEND_HISTORY: true
             PROMPT_SUBST: true
-            SHARE_HISTORY: true
 
 # include project specific roles related to PROJECT_ROOT: eg. ansible_roles/dependencies/main.yml ----------------------
 include_roles: []
