@@ -78,6 +78,7 @@ virtualbox:
 role:
     blackfire: false
     clamav: false
+    docker: false
     elasticsearch: false
     kafka: false
     mariadb: false

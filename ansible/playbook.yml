@@ -5,6 +5,7 @@
     - { role: bash, when: general.config.shell == 'bash' }
     - { role: blackfire, when: role.blackfire }
     - { role: clamav, when: role.clamav }
+    - { role: docker, when: role.docker }
     - { role: elasticsearch, when: role.elasticsearch }
     - git
     - { role: kafka, when: role.kafka }

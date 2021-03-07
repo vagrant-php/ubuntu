@@ -1,0 +1,27 @@
+- name: add key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7EA0A9C3F273FCD8
+
+- name: add repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+
+- name: install
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: install docker-compose
+  pip:
+    name: docker-compose
+
+- name: add vagrant user to docker group
+  user:
+    name: vagrant
+    groups: docker
+    append: yes

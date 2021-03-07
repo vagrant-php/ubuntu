@@ -6,6 +6,7 @@ Based on: Ubuntu 20.04
 
  * blackfire
  * clamav
+ * docker
  * elasticsearch (7)
  * kafka (2.5)
  * mariadb (10.3-original, 10.3)
