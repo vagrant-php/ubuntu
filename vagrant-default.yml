@@ -506,7 +506,6 @@ postgresql:
 # rabbitmq: ------------------------------------------------------------------------------------------------------------
 
 rabbitmq:
-    version: 3.8
     username: root
     password: root
     config:

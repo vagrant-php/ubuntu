@@ -1,15 +1,23 @@
-- name: add key
+- name: add key 1
   apt_key:
-    url: https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+    keyserver: keys.openpgp.org
+    id: "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
+
+- name: add key 2
+  apt_key:
+    url: "{{ item }}"
+  with_items:
+    - "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key"
+    - "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key"
 
 - name: add repository
   apt_repository:
-    repo: "deb https://dl.bintray.com/rabbitmq-erlang/debian focal erlang"
-
-- name: add repository
-  apt_repository:
-    # bionic => focal, onces it exist
-    repo: "deb https://dl.bintray.com/rabbitmq/debian bionic rabbitmq-server-v{{ rabbitmq.version }}.x"
+    repo: "{{ item }}"
+  with_items:
+    - "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
+    - "deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
+    - "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
+    - "deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
 
 - name: install
   apt:
