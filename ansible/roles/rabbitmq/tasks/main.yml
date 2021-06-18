@@ -1,3 +1,13 @@
+- name: install pre-requirements
+  apt:
+    name:
+      - curl
+      - gnupg
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+  register: installed
+
 - name: add key 1
   apt_key:
     keyserver: keys.openpgp.org
@@ -5,21 +15,45 @@
 
 - name: add key 2
   apt_key:
-    url: "{{ item }}"
-  with_items:
-    - "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key"
-    - "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key"
+    keyserver: keyserver.ubuntu.com
+    id: "F77F1EDA57EBB1CC"
+
+- name: add key 3
+  apt_key:
+    url: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
 
 - name: add repository
   apt_repository:
     repo: "{{ item }}"
   with_items:
-    - "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
-    - "deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu focal main"
-    - "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
-    - "deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu focal main"
+    - "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
+    - "deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
+    - "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
+    - "deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
 
-- name: install
+- name: install erlang
+  apt:
+    name:
+      - erlang-base
+      - erlang-asn1
+      - erlang-crypto
+      - erlang-eldap
+      - erlang-ftp
+      - erlang-inets
+      - erlang-mnesia
+      - erlang-os-mon
+      - erlang-parsetools
+      - erlang-public-key
+      - erlang-runtime-tools
+      - erlang-snmp
+      - erlang-ssl
+      - erlang-syntax-tools
+      - erlang-tftp
+      - erlang-tools
+      - erlang-xmerl
+  register: installed
+
+- name: install rabbitmq
   apt:
     name: rabbitmq-server
   register: installed
