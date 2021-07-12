@@ -5,7 +5,7 @@
 
 - name: add repository
   apt_repository:
-    repo: 'deb [ arch=amd64 ] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main'
+    repo: 'deb [ arch=arm64 ] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main'
   when: postgresql.version != '12-original'
 
 - name: install

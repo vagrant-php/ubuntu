@@ -6,7 +6,7 @@
 - name: add repository
   apt_repository:
     # bionic => focal, onces it exist
-    repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/{{mongodb.version}} multiverse"
+    repo: "deb [ arch=arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/{{mongodb.version}} multiverse"
 
 - name: install
   apt:

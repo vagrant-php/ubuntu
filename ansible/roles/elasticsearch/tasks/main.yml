@@ -17,7 +17,7 @@
   vars:
     packages:
       - elasticsearch
-      - kibana
+      #- kibana
 
 ### elasticsearch
 
@@ -56,19 +56,19 @@
 
 ### kibana
 
-- name: enable kibana on boot
-  systemd:
-    name: kibana
-    enabled: yes
+# - name: enable kibana on boot
+#   systemd:
+#     name: kibana
+#     enabled: yes
 
-- name: configure kibana.yml
-  template:
-    src: kibana.yml.j2
-    dest: /etc/kibana/kibana.yml
-  notify:
-      - restart kibana
+# - name: configure kibana.yml
+#   template:
+#     src: kibana.yml.j2
+#     dest: /etc/kibana/kibana.yml
+#   notify:
+#       - restart kibana
 
-- name: install kibana plugins
-  kibana_plugin:
-    name: "{{ item }}"
-  with_items: "{{ elasticsearch.kibana.plugins }}"
+# - name: install kibana plugins
+#   kibana_plugin:
+#     name: "{{ item }}"
+#   with_items: "{{ elasticsearch.kibana.plugins }}"
