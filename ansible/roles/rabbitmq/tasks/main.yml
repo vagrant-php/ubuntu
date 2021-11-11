@@ -1,17 +1,59 @@
-- name: add key
+- name: install pre-requirements
+  apt:
+    name:
+      - curl
+      - gnupg
+      - debian-keyring
+      - debian-archive-keyring
+      - apt-transport-https
+  register: installed
+
+- name: add key 1
   apt_key:
-    url: https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
+    keyserver: keys.openpgp.org
+    id: "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
+
+- name: add key 2
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "F77F1EDA57EBB1CC"
+
+- name: add key 3
+  apt_key:
+    url: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
 
 - name: add repository
   apt_repository:
-    repo: "deb https://dl.bintray.com/rabbitmq-erlang/debian focal erlang"
+    repo: "{{ item }}"
+  with_items:
+    - "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
+    - "deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu focal main"
+    - "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
+    - "deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ focal main"
 
-- name: add repository
-  apt_repository:
-    # bionic => focal, onces it exist
-    repo: "deb https://dl.bintray.com/rabbitmq/debian bionic rabbitmq-server-v{{ rabbitmq.version }}.x"
+- name: install erlang
+  apt:
+    name:
+      - erlang-base
+      - erlang-asn1
+      - erlang-crypto
+      - erlang-eldap
+      - erlang-ftp
+      - erlang-inets
+      - erlang-mnesia
+      - erlang-os-mon
+      - erlang-parsetools
+      - erlang-public-key
+      - erlang-runtime-tools
+      - erlang-snmp
+      - erlang-ssl
+      - erlang-syntax-tools
+      - erlang-tftp
+      - erlang-tools
+      - erlang-xmerl
+  register: installed
 
-- name: install
+- name: install rabbitmq
   apt:
     name: rabbitmq-server
   register: installed

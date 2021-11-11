@@ -29,25 +29,25 @@
 - name: fix elasticsearch -Xms
   lineinfile:
     dest: /etc/elasticsearch/jvm.options
-    line: '-Xms128m'
+    line: '-Xms{{ elasticsearch.jvm.options.Xms }}'
     regexp: '^-Xms'
   notify:
-      - restart elasticsearch
+    - restart elasticsearch
 
 - name: fix elasticsearch -Xmx
   lineinfile:
     dest: /etc/elasticsearch/jvm.options
-    line: '-Xmx128m'
+    line: '-Xmx{{ elasticsearch.jvm.options.Xmx }}'
     regexp: '^-Xmx'
   notify:
-      - restart elasticsearch
+    - restart elasticsearch
 
 - name: configure elasticsearch.yml
   template:
     src: elasticsearch.yml.j2
     dest: /etc/elasticsearch/elasticsearch.yml
   notify:
-      - restart elasticsearch
+    - restart elasticsearch
 
 - name: install elasticsearch plugins
   elasticsearch_plugin:
@@ -66,7 +66,7 @@
     src: kibana.yml.j2
     dest: /etc/kibana/kibana.yml
   notify:
-      - restart kibana
+    - restart kibana
 
 - name: install kibana plugins
   kibana_plugin:
