@@ -6,7 +6,7 @@
 
 - name: add repository
   apt_repository:
-    repo: "deb [arch=amd64] http://mirror.netcologne.de/mariadb/repo/{{ mariadb.version }}/ubuntu focal main"
+    repo: "deb [arch=amd64] http://mariadb.mirror.globo.tech/repo/{{ mariadb.version }}/ubuntu focal main"
   when: mariadb.version != '10.3-original'
 
 - name: install
