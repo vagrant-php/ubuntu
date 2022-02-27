@@ -206,6 +206,6 @@
     dest: /usr/local/bin/composer
     mode: 0755
 
-- name: composer self-update for user vagrant
-  command: /usr/local/bin/composer self-update
+- name: composer global update for user vagrant
+  command: /usr/local/bin/composer global update
   become_user: vagrant
