@@ -10,7 +10,7 @@
 
 - name: install
   apt:
-    name: blackfire-agent
+    name: blackfire
 
 - name: update config
   template:
