@@ -136,21 +136,17 @@ blackfire:
         agent:
             ca-cert: ~
             collector: https://blackfire.io
-            http-proxy: ~
-            https-proxy: ~
             log-file: stderr
             log-level: 1
             server-id: ~
             server-token: ~
             socket: unix:///var/run/blackfire/agent.sock
-            spec: ~
+            timeout: 15s
         client:
             ca-cert: ~
             client-id: ~
             client-token: ~
             endpoint: https://blackfire.io
-            http-proxy: ~
-            https-proxy: ~
             timeout: 15s
 
 # clamav: --------------------------------------------------------------------------------------------------------------
