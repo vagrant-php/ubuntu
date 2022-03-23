@@ -176,6 +176,7 @@ Vagrant.configure(2) do |config|
     config.vm.provider 'libvirt' do |l|
         l.memory = setupConfig['memory']
         l.cpus = cpus
+        l.qemu_use_session = false
     end
 
     # for vmware fusion (osx)
