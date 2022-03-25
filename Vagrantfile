@@ -176,6 +176,7 @@ Vagrant.configure(2) do |config|
     config.vm.provider 'libvirt' do |l|
         l.memory = setupConfig['memory']
         l.cpus = cpus
+        l.qemu_use_session = false
     end
 
     # for vmware fusion (osx)
@@ -200,7 +201,7 @@ Vagrant.configure(2) do |config|
         ansible.playbook = File.basename(setupPath) + '/ansible/playbook.yml'
         ansible.install_mode = 'pip'
         ansible.pip_install_cmd = 'sudo apt install -y python3-pip && sudo ln -sf /usr/bin/python3 /usr/bin/python && sudo ln -sf /usr/bin/pip3 /usr/bin/pip'
-        ansible.version = '2.9.13'
+        ansible.version = '2.9.27'
         ansible.extra_vars = setupConfig.deep_merge({ansible_python_interpreter: "/usr/bin/python3"})
         ansible.compatibility_mode = '2.0'
     end
