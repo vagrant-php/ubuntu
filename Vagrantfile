@@ -29,20 +29,20 @@ userDefaultConfigPath = Dir.home + '/.vagrant-default-user.yml'
 projectConfigPath = setupPath + '/../vagrant.yml'
 userProjectConfigPath = setupPath + '/../vagrant-user.yml'
 
-setupConfig = YAML.load_file(defaultConfigPath, aliases: true)
+setupConfig = YAML.load_file(defaultConfigPath)
 
 if File.file?(userDefaultConfigPath)
-    userDefaultConfig = YAML.load_file(userDefaultConfigPath, aliases: true)
+    userDefaultConfig = YAML.load_file(userDefaultConfigPath)
     setupConfig = setupConfig.deep_merge(userDefaultConfig)
 end
 
 if File.file?(projectConfigPath)
-    projectConfig = YAML.load_file(projectConfigPath, aliases: true)
+    projectConfig = YAML.load_file(projectConfigPath)
     setupConfig = setupConfig.deep_merge(projectConfig)
 end
 
 if File.file?(userProjectConfigPath)
-    userConfig = YAML.load_file(userProjectConfigPath, aliases: true)
+    userConfig = YAML.load_file(userProjectConfigPath)
     setupConfig = setupConfig.deep_merge(userConfig)
 end
 
