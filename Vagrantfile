@@ -199,11 +199,7 @@ Vagrant.configure(2) do |config|
     # --------------------------------------------------------------------------
     config.vm.provision 'ansible_local' do |ansible|
         ansible.playbook = File.basename(setupPath) + '/ansible/playbook.yml'
-        ansible.install_mode = 'pip'
-        ansible.pip_install_cmd = 'sudo apt install -y python3-pip && sudo ln -sf /usr/bin/python3 /usr/bin/python && sudo ln -sf /usr/bin/pip3 /usr/bin/pip'
-        ansible.version = '2.9.13'
         ansible.extra_vars = setupConfig.deep_merge({ansible_python_interpreter: "/usr/bin/python3"})
-        ansible.compatibility_mode = '2.0'
     end
 
     setupConfig['bindmounts'].each do |bindmount|

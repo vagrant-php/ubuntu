@@ -1,3 +1,3 @@
 - name: Run included roles
-  include: "../../{{ item }}"
+  include_tasks: "../../{{ item }}"
   with_items: "{{ include_roles }}"
